@@ -1,4 +1,4 @@
-﻿namespace FixLife.Application
+﻿namespace FixLife.ClientApplication
 {
     public partial class App : Application
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FixLife.WebApiInfra.Common
 {
-    public interface IBaseRepository<T>
+    public interface IBaseRepository<T> where T : class
     {
         Task<T> GetByIdAsync(Guid id);
         Task AddAsync(T entity);
