@@ -13,5 +13,6 @@ namespace FixLife.WebApiInfra.Common
         Task DeleteAsync(Guid id);
         Task<IEnumerable<T>> GetAllAsync();
         Task UpdateAsync(T entity);
+        Task SaveChangesAsync();
     }
 }

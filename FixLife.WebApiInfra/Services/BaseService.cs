@@ -1,5 +1,6 @@
 ﻿using FixLife.WebApiInfra.Common;
 using FixLife.WebApiInfra.Contexts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,37 +10,44 @@ using System.Threading.Tasks;
 namespace FixLife.WebApiInfra.Services
 {
     public class BaseService<T> : IBaseRepository<T> where T : class
-    {//TODO:Implement
+    {
         private readonly ApplicationContext _context;
-
+        private DbSet<T> _dbSet;
         public BaseService(ApplicationContext context)
         {
              _context = context;
+            _dbSet = context.Set<T>();
         }
 
-        public Task AddAsync(T entity)
+        public async Task AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _dbSet.AddAsync(entity);
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(await _dbSet.FindAsync(id));
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
         }
 
-        public Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FindAsync(id);
         }
 
-        public Task UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Attach(entity);
         }
+
+        public async Task SaveChangesAsync()
+        {
+             await _context.SaveChangesAsync();
+        }
+
     }
 }

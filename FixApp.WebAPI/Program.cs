@@ -1,4 +1,5 @@
 using FixLife.WebApiInfra;
+using FixLife.WebApiQueries;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -10,7 +11,7 @@ namespace FixApp.WebAPI
     {
         public static void Main(string[] args)
         {
-
+            //TODO:check serilog, add validation pipeline behavior
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
                 .MinimumLevel.Debug()
@@ -43,6 +44,8 @@ namespace FixApp.WebAPI
                     ValidateIssuerSigningKey = true
                 };
             });
+
+            builder.Services.AddQueriesDependecies();
 
             builder.Services.AddControllers();
             builder.Services.AddMvc();
