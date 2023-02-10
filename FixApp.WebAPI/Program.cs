@@ -11,7 +11,7 @@ namespace FixApp.WebAPI
     {
         public static void Main(string[] args)
         {
-            //TODO:check serilog, add validation pipeline behavior
+            //TODO:check serilog, first login endpoint, configure autofac, think about start app layout
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
                 .MinimumLevel.Debug()

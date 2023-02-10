@@ -19,6 +19,9 @@ namespace FixLife.WebApiQueries
             services.AddTransient(typeof(IPipelineBehavior<,>),
             typeof(LoggingBehavior<,>));
 
+            services.AddTransient(typeof(IPipelineBehavior<,>),
+                typeof(ValidationBehaviour<,>));
+
             return services;
         }
     }
