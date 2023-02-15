@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:f="clr-namespace:FixLife.ClientApp.Resources.IconsHelper"
+             x:Class="FixLife.ClientApp.LoginPage"
+             Title="LoginPage">
+    <ContentPage.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FaStyles.xaml" />
+    </ContentPage.Resources>
+    <VerticalStackLayout>
+        <Label 
+            Text="Enter your credentials"
+            VerticalOptions="Start"
+            Margin="0,20,0,0"
+            HorizontalOptions="Center" />
+        <Entry
+            Placeholder="Email or Phone number" />
+        <Entry
+            Placeholder="Password"
+            IsPassword="True"
+            />
+
+        <Button
+            BackgroundColor="Red"
+            Style="{StaticResource Key=FaBrandRegularButton}"
+            MaximumWidthRequest="300"
+            TextColor="White"
+            Text="{x:Static f:FaBrandsRegular.GooglePlus}"/>
+
+        <Button
+            Style="{StaticResource Key=FaBrandRegularButton}"
+            BackgroundColor="SteelBlue"
+            MaximumWidthRequest="300"
+            TextColor="White"
+            Text="{x:Static f:FaBrandsRegular.Facebook}" />
+
+    </VerticalStackLayout>
+</ContentPage>

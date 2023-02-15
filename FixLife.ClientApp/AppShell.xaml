@@ -5,10 +5,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FixLife.ClientApp"
     Shell.FlyoutBehavior="Disabled">
+    
+    <TabBar>
+    <ShellContent
+        Title="Log On"
+        ContentTemplate="{DataTemplate local:LoginPage}"
+        Route="LoginPage" />
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="About app"
+        ContentTemplate="{DataTemplate local:AboutApp}"
+        Route="AboutApp" />
+    </TabBar>
 
 </Shell>
