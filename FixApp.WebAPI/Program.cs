@@ -1,3 +1,5 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using FixLife.WebApiInfra;
 using FixLife.WebApiQueries;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -25,6 +27,12 @@ namespace FixApp.WebAPI
 
             // Add services to the container.
 
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                builder.RegisterModule(new AutoFacModule());
+            });
+
             builder.Services.AddAuthentication(opts =>
             {
                 opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -37,7 +45,7 @@ namespace FixApp.WebAPI
                     ValidIssuer = config["Jwt:Issuer"],
                     ValidAudience = config["Jwt:Audience"],
                     IssuerSigningKey = new SymmetricSecurityKey
-                    (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                    (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"])),
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = false,
@@ -50,7 +58,7 @@ namespace FixApp.WebAPI
             builder.Services.AddControllers();
             builder.Services.AddMvc();
             builder.Services.AddAuthorization();
-
+            builder.Services.AddOptions();
             builder.Services.AddInfrastructureServices(config);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
