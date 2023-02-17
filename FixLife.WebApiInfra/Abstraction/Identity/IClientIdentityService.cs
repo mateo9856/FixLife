@@ -11,5 +11,7 @@ namespace FixLife.WebApiInfra.Abstraction.Identity
     {
         Task<ClientIdentityResponse> LoginAsync(ClientIdentityRequest request);
         Task<ClientIdentityResponse> LogoutAsync();
+        Task<ClientIdentityResponse> RegisterAsync(ClientIdentityRegisterRequest request);
+
     }
 }

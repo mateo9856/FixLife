@@ -1,4 +1,6 @@
-﻿using FixLife.WebApiInfra.Abstraction.Identity;
+﻿using FixLife.WebApiDomain.User;
+using FixLife.WebApiInfra.Abstraction.Identity;
+using FixLife.WebApiInfra.Common;
 using FixLife.WebApiInfra.Contexts;
 using FixLife.WebApiQueries.Account;
 using Microsoft.EntityFrameworkCore;
@@ -87,6 +89,31 @@ namespace FixLife.WebApiInfra.Services.Identity
         public Task<ClientIdentityResponse> LogoutAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ClientIdentityResponse> RegisterAsync(ClientIdentityRegisterRequest request)
+        {
+            var newUser = new ClientUser
+            {
+                Id = Guid.NewGuid(),
+                Email = request.Email,
+                Password = request.Password,
+                PhoneNumber = request.PhoneNumber
+            };
+
+            await _context.ClientUsers.AddAsync(newUser);
+
+            var save = await _context.SaveChangesAsync();
+
+            if(save > 0)
+            {
+                return new ClientIdentityResponse { Status = 200, Details = "User created!" };
+            }
+            else
+            {
+                return new ClientIdentityResponse { Status = 400, Details = "User not created" };
+            }
+
         }
     }
 }
