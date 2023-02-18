@@ -2,7 +2,6 @@
 using FixLife.WebApiInfra.Abstraction.Identity;
 using FixLife.WebApiInfra.Common;
 using FixLife.WebApiInfra.Contexts;
-using FixLife.WebApiQueries.Account;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -26,10 +25,10 @@ namespace FixLife.WebApiInfra.Services.Identity
             _jwtOptions = options.Value;
         }
 
-        public async Task<ClientIdentityResponse> LoginAsync(ClientIdentityRequest clientIdentityRequest)
+        public async Task<ClientIdentityResponse> LoginAsync(ClientUser clientIdentityRequest)
         {
-            var findUser = await _context.ClientUsers.Where(d => (d.Email == clientIdentityRequest.Credentials
-            || d.PhoneNumber == clientIdentityRequest.Credentials) && d.Password == clientIdentityRequest.Password).FirstOrDefaultAsync();
+            var findUser = await _context.ClientUsers.Where(d => (d.Email == clientIdentityRequest.Email
+            || d.PhoneNumber == clientIdentityRequest.PhoneNumber) && d.Password == clientIdentityRequest.Password).FirstOrDefaultAsync();
             try
             {
                 if (findUser != null)
@@ -91,7 +90,7 @@ namespace FixLife.WebApiInfra.Services.Identity
             throw new NotImplementedException();
         }
 
-        public async Task<ClientIdentityResponse> RegisterAsync(ClientIdentityRegisterRequest request)
+        public async Task<ClientIdentityResponse> RegisterAsync(ClientUser request)
         {
             var newUser = new ClientUser
             {

@@ -1,4 +1,5 @@
-﻿using FixLife.WebApiQueries.Account;
+﻿using FixLife.WebApiDomain.User;
+using FixLife.WebApiInfra.Services.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace FixLife.WebApiInfra.Abstraction.Identity
 {
     public interface IClientIdentityService
     {
-        Task<ClientIdentityResponse> LoginAsync(ClientIdentityRequest request);
+        Task<ClientIdentityResponse> LoginAsync(ClientUser request);
         Task<ClientIdentityResponse> LogoutAsync();
-        Task<ClientIdentityResponse> RegisterAsync(ClientIdentityRegisterRequest request);
+        Task<ClientIdentityResponse> RegisterAsync(ClientUser request);
 
     }
 }

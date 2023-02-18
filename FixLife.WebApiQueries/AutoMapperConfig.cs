@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FixLife.WebApiQueries.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace FixLife.WebApiQueries
     {
         public AutoMapperConfig()
         {
-            //Create Map
+            CreateMap<ClientIdentityResponse, FixLife.WebApiInfra.Services.Identity.ClientIdentityResponse>().ReverseMap();
         }
     }
 }

@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FixLife.WebApiDomain\FixLife.WebApiDomain.csproj" />
-    <ProjectReference Include="..\FixLife.WebApiQueries\FixLife.WebApiQueries.csproj" />
   </ItemGroup>
 
 </Project>

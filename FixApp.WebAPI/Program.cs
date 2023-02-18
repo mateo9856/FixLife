@@ -13,7 +13,7 @@ namespace FixApp.WebAPI
     {
         public static void Main(string[] args)
         {
-            //TODO:check serilog, first login endpoint, configure autofac, think about start app layout
+            //TODO:login create in maui and test api connection on ClientApp
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
                 .MinimumLevel.Debug()
