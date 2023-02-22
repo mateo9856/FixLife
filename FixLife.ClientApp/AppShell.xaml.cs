@@ -4,7 +4,14 @@
     {
         public AppShell()
         {
+            RegisterRoutes();
             InitializeComponent();
         }
+
+        private void RegisterRoutes()
+        {
+            Routing.RegisterRoute("MainPage", typeof(Views.MainPage.MainPage));
+        }
+
     }
 }

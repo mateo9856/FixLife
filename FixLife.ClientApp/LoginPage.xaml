@@ -2,11 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:f="clr-namespace:FixLife.ClientApp.Resources.IconsHelper"
+             xmlns:Logon="clr-namespace:FixLife.ClientApp.ViewModels.Logon"
              x:Class="FixLife.ClientApp.LoginPage"
              Title="LoginPage">
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FaStyles.xaml" />
     </ContentPage.Resources>
+	<ContentPage.BindingContext>
+		<Logon:LogonPageViewModel/>
+	</ContentPage.BindingContext>
     <VerticalStackLayout>
         <Label 
             Text="Enter your credentials"
@@ -14,25 +18,43 @@
             Margin="0,20,0,0"
             HorizontalOptions="Center" />
         <Entry
+            Background="White"
+            TextColor="Black"
+            Text="{Binding Credentials}"
+            MaximumWidthRequest="300"
             Placeholder="Email or Phone number" />
         <Entry
             Placeholder="Password"
+            Background="White"
+            TextColor="Black"
+            Text="{Binding Password}"
+            MaximumWidthRequest="300"
             IsPassword="True"
             />
 
         <Button
+            Margin="0,15,0,0"
+            BackgroundColor="MediumPurple"
+            Command="{Binding LogonCommand}"
+            MaximumWidthRequest="300"
+            TextColor="White"
+            Text="Log on!" />
+
+        <Button
             BackgroundColor="Red"
+            Margin="0,15,0,0"
             Style="{StaticResource Key=FaBrandRegularButton}"
             MaximumWidthRequest="300"
             TextColor="White"
-            Text="{x:Static f:FaBrandsRegular.GooglePlus}"/>
+            Text="{Static Member=f:FaBrandsRegular.GooglePlus}"/>
 
         <Button
             Style="{StaticResource Key=FaBrandRegularButton}"
+            Margin="0,15,0,0"
             BackgroundColor="SteelBlue"
             MaximumWidthRequest="300"
             TextColor="White"
-            Text="{x:Static f:FaBrandsRegular.Facebook}" />
+            Text="{Static Member=f:FaBrandsRegular.Facebook}" />
 
     </VerticalStackLayout>
 </ContentPage>
