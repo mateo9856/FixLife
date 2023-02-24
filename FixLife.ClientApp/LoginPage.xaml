@@ -56,5 +56,13 @@
             TextColor="White"
             Text="{Static Member=f:FaBrandsRegular.Facebook}" />
 
+        <Button
+            Margin="0,15,0,0"
+            BackgroundColor="SteelBlue"
+            MaximumWidthRequest="300"
+            TextColor="White"
+            Command="{Binding RegisterCommand}"
+            Text="If you not have account - REGISTER!" />
+
     </VerticalStackLayout>
 </ContentPage>

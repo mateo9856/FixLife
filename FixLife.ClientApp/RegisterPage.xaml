@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Logon="clr-namespace:FixLife.ClientApp.ViewModels.Logon"
+             x:Class="FixLife.ClientApp.RegisterPage"
+             Title="RegisterPage">
+    <ContentPage.BindingContext>
+        <Logon:RegisterPageViewModel/>
+    </ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <Label 
+            Text="Fill the form to Register"
+            VerticalOptions="Start"
+            Margin="0,20,0,0"
+            HorizontalOptions="Center" />
+        <Entry
+            Background="White"
+            TextColor="Black"
+            Text="{Binding Email}"
+            MaximumWidthRequest="300"
+            Placeholder="Email" />
+        <Entry
+            Background="White"
+            TextColor="Black"
+            Text="{Binding PhoneNumber}"
+            MaximumWidthRequest="300"
+            Placeholder="PhoneNumber" />
+        <Entry
+            Placeholder="Password"
+            Background="White"
+            TextColor="Black"
+            Text="{Binding Password}"
+            MaximumWidthRequest="300"
+            IsPassword="True"
+            />
+        <Entry
+            Placeholder="Retype password"
+            Background="White"
+            TextColor="Black"
+            Text="{Binding RetypePassword}"
+            MaximumWidthRequest="300"
+            IsPassword="True"
+            />
+
+        <Button
+            Margin="0,15,0,0"
+            BackgroundColor="MediumPurple"
+            Command="{Binding RegisterCommand}"
+            MaximumWidthRequest="300"
+            TextColor="White"
+            Text="Register account!" />
+    </VerticalStackLayout>
+</ContentPage>

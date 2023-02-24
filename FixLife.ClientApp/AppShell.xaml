@@ -23,6 +23,11 @@
         ContentTemplate="{DataTemplate main:MainPage}"
         IsVisible="False"
         Route="MainPage" />
+    <ShellContent
+        Title="Main page"
+        ContentTemplate="{DataTemplate local:RegisterPage}"
+        IsVisible="False"
+        Route="RegisterPage" />
     </TabBar>
 
 </Shell>

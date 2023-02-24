@@ -11,6 +11,7 @@
         private void RegisterRoutes()
         {
             Routing.RegisterRoute("MainPage", typeof(Views.MainPage.MainPage));
+            Routing.RegisterRoute("RegisterPage", typeof(RegisterPage));
         }
 
     }

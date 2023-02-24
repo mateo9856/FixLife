@@ -29,11 +29,13 @@ namespace FixLife.ClientApp.ViewModels.Logon
 
         public ICommand LogonCommand { get; private set; }
         public ICommand LogOffCommand { get; private set; }
+        public ICommand RegisterCommand { get; private set; }
 
         public LogonPageViewModel()
         {
             LogonCommand = new Command(Logon);
             LogOffCommand = new Command(LogOff);
+            RegisterCommand = new Command(Register);
         }
 
         private void Logon() {
@@ -41,6 +43,11 @@ namespace FixLife.ClientApp.ViewModels.Logon
             var pas = Password;
             //TODO implement logon service
             RedirectToPageAsync("MainPage");
+        }
+
+        private void Register()
+        {
+            RedirectToPageAsync("RegisterPage");
         }
 
         private void LogOff() { 
