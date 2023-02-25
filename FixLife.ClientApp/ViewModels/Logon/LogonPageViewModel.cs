@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FixLife.ClientApp.Common;
+using FixLife.ClientApp.Common.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -39,10 +41,22 @@ namespace FixLife.ClientApp.ViewModels.Logon
         }
 
         private void Logon() {
-            var log = Credentials;
-            var pas = Password;
-            //TODO implement logon service
-            RedirectToPageAsync("MainPage");
+
+            var credentials = new
+            {
+                Credentials = this.Credentials,
+                Password = this.Password,
+                LoginType = LoginTypeEnum.Normal
+            };
+
+            string response = null;
+
+            using (var client = new WebApiClient())
+            {
+                response = client.PostPutAsync(credentials, "Account/Login", true).Result;
+            }
+            if(response != null)
+                RedirectToPageAsync("MainPage");
         }
 
         private void Register()

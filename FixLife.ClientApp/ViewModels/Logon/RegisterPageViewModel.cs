@@ -62,8 +62,16 @@ namespace FixLife.ClientApp.ViewModels.Logon
                 Password = Password,
                 PhoneNumber = PhoneNumber
             };
-            
-            var registerResponse = WebApiClient.CallServiceAsync("Account/Register");
+
+            string response = null;
+
+            using(var client = new WebApiClient())
+            {
+                response = client.PostPutAsync(registerRequest, "Account/Register", true).Result;
+            }
+
+            if(response != null)
+                RedirectToPageAsync("MainPage");
 
         }
 

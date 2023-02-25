@@ -24,7 +24,7 @@ namespace FixApp.WebAPI.Controllers.Account
         [HttpPost("Account/Login")]
         public async Task<IActionResult> Login([FromBody]ClientIdentityRequest request)
         {
-            var tryLogin = await _clientIdentityService.LoginAsync(request);
+            var tryLogin = await _mediator.Send(new LoginUserCommand(request));
 
             if(tryLogin.Status == 200)
             {
