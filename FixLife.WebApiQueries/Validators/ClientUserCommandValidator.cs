@@ -12,9 +12,9 @@ namespace FixLife.WebApiQueries.Validators
     {
         public ClientUserCommandValidator()
         {
-            RuleFor(x => x.Email).EmailAddress();
-            RuleFor(x => x.Password).MinimumLength(8);
-            RuleFor(x => x.PhoneNumber).MinimumLength(9).MaximumLength(15);
+            RuleFor(x => x.request.Email).EmailAddress();
+            RuleFor(x => x.request.Password).MinimumLength(8);
+            RuleFor(x => x.request.PhoneNumber).MinimumLength(9).MaximumLength(15);
         }
     }
 }

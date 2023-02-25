@@ -1,5 +1,6 @@
 ﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Common.Enums;
+using FixLife.ClientApp.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,7 +41,7 @@ namespace FixLife.ClientApp.ViewModels.Logon
             RegisterCommand = new Command(Register);
         }
 
-        private void Logon() {
+        private async void Logon() {
 
             var credentials = new
             {
@@ -49,19 +50,20 @@ namespace FixLife.ClientApp.ViewModels.Logon
                 LoginType = LoginTypeEnum.Normal
             };
 
-            string response = null;
+            AccountResponseResult response = null;
 
-            using (var client = new WebApiClient())
+            using (var client = new WebApiClient<AccountResponseResult>())
             {
-                response = client.PostPutAsync(credentials, "Account/Login", true).Result;
+                response = await client.PostPutAsync(credentials, "Account/Login", true);
             }
-            if(response != null)
-                RedirectToPageAsync("MainPage");
+            if (response != null)
+                await RedirectToPageAsync("MainPage");
+            //TODO:MainPage and keep data in cache/static class
         }
 
-        private void Register()
+        private async void Register()
         {
-            RedirectToPageAsync("RegisterPage");
+            await RedirectToPageAsync("RegisterPage");
         }
 
         private void LogOff() { 

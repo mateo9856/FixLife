@@ -26,7 +26,7 @@ namespace FixApp.WebAPI.Controllers.Account
         {
             var tryLogin = await _mediator.Send(new LoginUserCommand(request));
 
-            if(tryLogin.Status == 200)
+            if(tryLogin.Status == 200 || tryLogin.Status == 404)
             {
                 return Ok(tryLogin);
             }

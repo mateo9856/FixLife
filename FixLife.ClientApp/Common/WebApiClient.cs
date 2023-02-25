@@ -1,58 +1,58 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using ThreadNetwork;
 
 namespace FixLife.ClientApp.Common
 {
-    public class WebApiClient : IDisposable
+    public class WebApiClient<T> : IDisposable
     {
-        public const string ADDRESS = "http://localhost:18347";
+        public const string ADDRESS = "https://localhost:7021";
 
         HttpClient client;
-        JsonSerializerOptions _serializerOptions;
         public WebApiClient()
         {
             client = new HttpClient();
-            _serializerOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
+            client.Timeout = TimeSpan.FromSeconds(30);
         }
 
-        public async Task<string> CallServiceGetAsync(string address)
+        public async Task<T> CallServiceGetAsync(string address)
         {
             Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
             try
             {
-                HttpResponseMessage response = await client.GetAsync(uri);
-                return await response.Content.ReadAsStringAsync();
+                var response = await client.GetAsync(uri);
+                var result = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(result);
 
             } catch(Exception ex)
             {
+                var msg = ex.Message;
                 throw;
             }
             
         }
 
-        public async Task<string> PostPutAsync(object element, string address, bool isPost)
+        public async Task<T> PostPutAsync(object element, string address, bool isPost)
         {
-            Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
+
+            Uri uri = new Uri(string.Format("{0}/{1}", ADDRESS, address));
             try
             {
-                string json = JsonSerializer.Serialize(element, _serializerOptions);
+                HttpMethod method = isPost ? HttpMethod.Post : HttpMethod.Put;
+                HttpRequestMessage request = new HttpRequestMessage(method, uri);
+                string json = JsonConvert.SerializeObject(element);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = null;
-                if (isPost)
-                    response = await client.PostAsync(uri, content);
-                else
-                    response = await client.PutAsync(uri, content);
+                request.Content = content;
+                HttpResponseMessage response = await client.SendAsync(request);
 
-                return await response.Content.ReadAsStringAsync();
+                //response.EnsureSuccessStatusCode();
+                var result = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<T>(result);
 
             } catch(Exception ex)
             {
@@ -67,7 +67,7 @@ namespace FixLife.ClientApp.Common
             Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
             try
             {
-                HttpResponseMessage response = await client.DeleteAsync(uri);
+                var response = await client.DeleteAsync(uri);
                 return await response.Content.ReadAsStringAsync();
             }
             catch (Exception ex)
@@ -79,7 +79,6 @@ namespace FixLife.ClientApp.Common
         public void Dispose()
         {
             client.Dispose();
-            _serializerOptions = null;
         }
     }
 }

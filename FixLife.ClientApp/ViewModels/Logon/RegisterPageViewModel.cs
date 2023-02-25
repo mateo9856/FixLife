@@ -1,4 +1,5 @@
 ﻿using FixLife.ClientApp.Common;
+using FixLife.ClientApp.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,7 @@ namespace FixLife.ClientApp.ViewModels.Logon
             RegisterCommand = new Command(Register);
         }
 
-        private void Register()
+        private async void Register()
         {
             var registerRequest = new
             {
@@ -63,15 +64,15 @@ namespace FixLife.ClientApp.ViewModels.Logon
                 PhoneNumber = PhoneNumber
             };
 
-            string response = null;
+            object response = null;
 
-            using(var client = new WebApiClient())
+            using(var client = new WebApiClient<AccountResponseResult>())
             {
-                response = client.PostPutAsync(registerRequest, "Account/Register", true).Result;
+                response = await client.PostPutAsync(registerRequest, "Account/Register", true);
             }
 
             if(response != null)
-                RedirectToPageAsync("MainPage");
+                await RedirectToPageAsync("MainPage");
 
         }
 
