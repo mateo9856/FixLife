@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FixLife.ClientApp"
     xmlns:main="clr-namespace:FixLife.ClientApp.Views.MainPage"
+    xmlns:firstconfig="clr-namespace:FixLife.ClientApp.Views.FirstConfig"
     Shell.FlyoutBehavior="{OnIdiom Phone=Flyout, Default=Disabled}">
     
     <TabBar>
@@ -23,11 +24,24 @@
         ContentTemplate="{DataTemplate main:MainPage}"
         IsVisible="False"
         Route="MainPage" />
+        
     <ShellContent
         Title="Main page"
         ContentTemplate="{DataTemplate local:RegisterPage}"
         IsVisible="False"
         Route="RegisterPage" />
+
+    <ShellContent
+        Title="FirstPlanPage"
+        ContentTemplate="{DataTemplate firstconfig:FirstConfigPage}"
+        IsVisible="False"
+        Route="FirstPlanPage" />
+    
+    <ShellContent
+        Title="CreatorPage"
+        ContentTemplate="{DataTemplate firstconfig:FirstPlanCreator}"
+        IsVisible="False"
+        Route="CreatorPage" />
     </TabBar>
 
 </Shell>

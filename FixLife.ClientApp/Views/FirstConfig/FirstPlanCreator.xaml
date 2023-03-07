@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FixLife.ClientApp.Views.FirstConfig.FirstPlanCreator"
+             xmlns:plan="clr-namespace:FixLife.ClientApp.Views.FirstConfig.PlanViews"
+             Title="FirstPlanCreator">
+    <VerticalStackLayout>
+
+        <plan:WeeklyWork />
+
+        <plan:FreeTime IsEnabled="False" IsVisible="False" />
+
+        <plan:LearnTime IsEnabled="False" IsVisible="False" />
+
+        <Button VerticalOptions="Center"
+                BackgroundColor="MediumPurple"
+                TextColor="White"
+                Text="Next"
+                Command=""
+                />
+
+    </VerticalStackLayout>
+</ContentPage>

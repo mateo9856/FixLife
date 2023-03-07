@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FixLife.ClientApp.Views.FirstConfig.FirstConfigPage"
+             Title="FirstConfigPage">
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to FixLife"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Label
+            Text="Before you start use app, you need to prepare your day plan."
+            VerticalOptions="Center"
+            HorizontalOptions="Center"/>
+
+        <Label>
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Click, " />
+                    <Span Text="here" TextColor="MediumPurple" TextDecorations="Underline">
+                        <Span.GestureRecognizers>
+                            <TapGestureRecognizer x:Name="onNewPlanClick" Tapped="onNewPlanClick_Tapped" />
+                        </Span.GestureRecognizers>
+                    </Span>
+                    <Span Text=" to start your personal plan." />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+    </VerticalStackLayout>
+</ContentPage>
