@@ -6,9 +6,4 @@ public partial class FirstConfigPage : ContentPage
 	{
 		InitializeComponent();
 	}
-
-    private void onNewPlanClick_Tapped(object sender, TappedEventArgs e)
-    {
-		Shell.Current.GoToAsync("CreatorPage");
-    }
 }

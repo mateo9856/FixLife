@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:f="clr-namespace:FixLife.ClientApp.Resources.IconsHelper"
              x:Class="FixLife.ClientApp.Views.FirstConfig.PlanViews.WeeklyWork">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to Weekly work"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <FlexLayout JustifyContent="SpaceBetween">
+            <Label Text="{Static Member=f:FaFreeSolid.ChevronLeft}}" />
+            <Border WidthRequest="300"
+                    HeightRequest="200"
+                    StrokeThickness="5"
+                    Stroke="#2E3B39">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15,15,15,15" />
+                </Border.StrokeShape>
+                <Image x:Name="imageWork" Source="" WidthRequest="300" HeightRequest="200">
+                </Image>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Opacity="0.7" Offset="0,20"/>
+                </Border.Shadow>
+            </Border>
+            <Label Text="{Static Member=f:FaFreeSolid.ChevronRight}" />
+        </FlexLayout>
+        <StackLayout>
+            
+        </StackLayout>
     </VerticalStackLayout>
 </ContentView>

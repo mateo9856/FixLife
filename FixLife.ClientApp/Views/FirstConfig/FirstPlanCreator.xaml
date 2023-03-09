@@ -12,12 +12,20 @@
 
         <plan:LearnTime IsEnabled="False" IsVisible="False" />
 
-        <Button VerticalOptions="Center"
+        <FlexLayout JustifyContent="SpaceBetween" HorizontalOptions="Center" MaximumWidthRequest="500">
+            <Button VerticalOptions="Center"
+                BackgroundColor="MediumPurple"
+                TextColor="White"
+                IsEnabled="False"
+                Text="Previous"
+                />
+            <Button VerticalOptions="Center"
                 BackgroundColor="MediumPurple"
                 TextColor="White"
                 Text="Next"
-                Command=""
                 />
+        </FlexLayout>
+
 
     </VerticalStackLayout>
 </ContentPage>

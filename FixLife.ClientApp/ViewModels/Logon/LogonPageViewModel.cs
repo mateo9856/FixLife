@@ -57,7 +57,7 @@ namespace FixLife.ClientApp.ViewModels.Logon
                 response = await client.PostPutAsync(credentials, "Account/Login", true);
             }
             if (response != null)
-                await RedirectToPageAsync("MainPage");
+                await RedirectToPageAsync("FirstPlanPage");
             //TODO:MainPage and keep data in cache/static class
         }
 
