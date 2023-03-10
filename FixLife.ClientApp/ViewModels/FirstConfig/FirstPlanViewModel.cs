@@ -1,5 +1,8 @@
-﻿using System;
+﻿using FixLife.ClientApp.Common.Enums;
+using FixLife.ClientApp.Models.FirstPlan;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,11 +14,13 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
     {
         public string ActiveWorkImage { get; set; }
         public string[] WorkImages { get; set; }
+        public WeeklyWorkViewModel WeeklyWorkViewModel { get; set; }
         public ICommand NextCommand { get; private set; }
         public ICommand SetImageCommand { get; private set; }
         public ICommand CreateCommand { get; private set; }
         public FirstPlanViewModel()
         {
+            WeeklyWorkViewModel = new WeeklyWorkViewModel();
             ActiveWorkImage = "test.png";
             WorkImages = new string[] {"test.png", "another.png" };
             NextCommand = new Command(async () =>

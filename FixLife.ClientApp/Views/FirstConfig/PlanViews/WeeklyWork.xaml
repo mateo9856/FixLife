@@ -2,10 +2,14 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:f="clr-namespace:FixLife.ClientApp.Resources.IconsHelper"
+             xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              x:Class="FixLife.ClientApp.Views.FirstConfig.PlanViews.WeeklyWork">
+	<ContentView.BindingContext>
+		<FirstConfig:FirstPlanViewModel/>
+	</ContentView.BindingContext>
     <VerticalStackLayout>
         <FlexLayout JustifyContent="SpaceBetween">
-            <Label Text="{Static Member=f:FaFreeSolid.ChevronLeft}}" />
+            <Label />
             <Border WidthRequest="300"
                     HeightRequest="200"
                     StrokeThickness="5"
@@ -13,16 +17,34 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <Image x:Name="imageWork" Source="" WidthRequest="300" HeightRequest="200">
-                </Image>
                 <Border.Shadow>
                     <Shadow Brush="Black" Opacity="0.7" Offset="0,20"/>
                 </Border.Shadow>
+                <Image x:Name="imageWork" Source="" WidthRequest="300" HeightRequest="200"/>
             </Border>
             <Label Text="{Static Member=f:FaFreeSolid.ChevronRight}" />
         </FlexLayout>
-        <StackLayout>
-            
+        <StackLayout HorizontalOptions="Center">
+            <ListView ItemsSource="{Binding WeeklyWorkViewModel.DayOfWeeks}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <FlexLayout>
+                            <CheckBox BackgroundColor="Silver" HorizontalOptions="Start" MaximumWidthRequest="30" IsChecked="{Binding Selected}" />
+                            <Label HorizontalOptions="Center" FontSize="16" Text="{Binding Day}" />
+                        </FlexLayout>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <FlexLayout Margin="0, 15, 0, 0" JustifyContent="SpaceAround">
+                <HorizontalStackLayout>
+                    <Label Text="From:" HorizontalOptions="Center" />
+                    <TimePicker Time="{Binding WeeklyWorkViewModel.WeeklyWorkStart}"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="To:" HorizontalOptions="Center" />
+                    <TimePicker Time="{Binding WeeklyWorkViewModel.WeeklyWorkEnd}"/>
+                </HorizontalStackLayout>
+            </FlexLayout>
         </StackLayout>
     </VerticalStackLayout>
 </ContentView>
