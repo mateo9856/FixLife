@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FixLife.ClientApp.Views.FirstConfig.FirstPlanCreator"
              xmlns:plan="clr-namespace:FixLife.ClientApp.Views.FirstConfig.PlanViews"
+             xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
+             x:Class="FixLife.ClientApp.Views.FirstConfig.FirstPlanCreator"
              Title="FirstPlanCreator">
+	<ContentPage.BindingContext>
+		<FirstConfig:FirstPlanViewModel/>
+	</ContentPage.BindingContext>
     <VerticalStackLayout>
 
-        <plan:WeeklyWork />
+        <plan:WeeklyWork x:Name="WeeklyWork" />
 
-        <plan:FreeTime IsEnabled="False" IsVisible="False" />
+        <plan:FreeTime x:Name="FreeTime" IsEnabled="False" IsVisible="False" />
 
-        <plan:LearnTime IsEnabled="False" IsVisible="False" />
+        <plan:LearnTime x:Name="LearnTime" IsEnabled="False" IsVisible="False" />
 
         <FlexLayout JustifyContent="SpaceBetween" HorizontalOptions="Center" MaximumWidthRequest="500">
             <Button VerticalOptions="Center"
+                x:Name="btnPrev"
                 BackgroundColor="MediumPurple"
                 TextColor="White"
                 IsEnabled="False"
                 Text="Previous"
+                Clicked="Button_Clicked_Previous"
                 />
             <Button VerticalOptions="Center"
                 BackgroundColor="MediumPurple"
                 TextColor="White"
                 Text="Next"
+                Clicked="Button_Clicked_Next"
                 />
         </FlexLayout>
 

@@ -1,5 +1,6 @@
 ﻿using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Models.FirstPlan;
+using FixLife.ClientApp.Views.FirstConfig.PlanViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,9 +14,13 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
     public class FirstPlanViewModel : BaseViewModel
     {
         public string ActiveWorkImage { get; set; }
+        public FreeTime FreeTime { get; set; }
+        public WeeklyWork WeeklyWork { get; set; }
+        public LearnTime LearnTime { get; set; }
         public string[] WorkImages { get; set; }
         public WeeklyWorkViewModel WeeklyWorkViewModel { get; set; }
         public ICommand NextCommand { get; private set; }
+        public ICommand PreviousCommand { get; private set; }
         public ICommand SetImageCommand { get; private set; }
         public ICommand CreateCommand { get; private set; }
         public FirstPlanViewModel()
@@ -40,6 +45,11 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         private async Task Next()
         {
             //TODO: Prepare set to next view
+        }
+        
+        private async Task Previous()
+        {
+            //TODO: preprare set back view
         }
 
         private async Task SetImage(string direction = null)
