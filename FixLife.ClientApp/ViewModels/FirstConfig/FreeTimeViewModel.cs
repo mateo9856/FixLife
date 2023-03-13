@@ -14,8 +14,18 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             get { return _hobbyText; }
             set { _hobbyText = value; OnPropertyChanged(); }
         }
+        
+        public Action<Button> HobbysList { get; set; }
 
-        //TODO: Think how to change controls data by viewModel
-        //1st think, event handler
+        public FreeTimeViewModel()
+        {
+            HobbysList = ShowHobbysList;
+        }
+
+        private void ShowHobbysList(Button btn)
+        {
+            //TODO: Show List
+        }
+
     }
 }

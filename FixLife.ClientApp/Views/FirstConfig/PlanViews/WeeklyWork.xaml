@@ -7,9 +7,9 @@
 	<ContentView.BindingContext>
 		<FirstConfig:FirstPlanViewModel/>
 	</ContentView.BindingContext>
-    <VerticalStackLayout>
-        <FlexLayout JustifyContent="SpaceBetween">
-            <Label />
+    <FlexLayout>
+        <FlexLayout Background="White">
+            <Label Text="{Static Member=f:FaFreeSolid.ChevronLeft}"/>
             <Border WidthRequest="300"
                     HeightRequest="200"
                     StrokeThickness="5"
@@ -20,11 +20,10 @@
                 <Border.Shadow>
                     <Shadow Brush="Black" Opacity="0.7" Offset="0,20"/>
                 </Border.Shadow>
-                <Image x:Name="imageWork" Source="" WidthRequest="300" HeightRequest="200"/>
             </Border>
             <Label Text="{Static Member=f:FaFreeSolid.ChevronRight}" />
         </FlexLayout>
-        <StackLayout HorizontalOptions="Center">
+        <FlexLayout Direction="Row">
             <ListView ItemsSource="{Binding WeeklyWorkViewModel.DayOfWeeks}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -35,16 +34,16 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <FlexLayout Margin="0, 15, 0, 0" JustifyContent="SpaceAround">
-                <HorizontalStackLayout>
+            <FlexLayout JustifyContent="SpaceAround" Direction="Column">
+                <FlexLayout>
                     <Label Text="From:" HorizontalOptions="Center" />
                     <TimePicker Time="{Binding WeeklyWorkViewModel.WeeklyWorkStart}"/>
-                </HorizontalStackLayout>
-                <HorizontalStackLayout>
+                </FlexLayout>
+                <FlexLayout>
                     <Label Text="To:" HorizontalOptions="Center" />
                     <TimePicker Time="{Binding WeeklyWorkViewModel.WeeklyWorkEnd}"/>
-                </HorizontalStackLayout>
+                </FlexLayout>
             </FlexLayout>
-        </StackLayout>
-    </VerticalStackLayout>
+        </FlexLayout>
+    </FlexLayout>
 </ContentView>

@@ -8,31 +8,30 @@
 	<ContentPage.BindingContext>
 		<FirstConfig:FirstPlanViewModel/>
 	</ContentPage.BindingContext>
-    <VerticalStackLayout>
+    <FlexLayout Direction="Column" Background="White">
+        <plan:WeeklyWork HorizontalOptions="CenterAndExpand"/>
+         <!--TODO: Fix this layout-->
+        <!--<plan:FreeTime x:Name="FreeTime" IsEnabled="False" IsVisible="False" />
 
-        <plan:WeeklyWork x:Name="WeeklyWork" />
-
-        <plan:FreeTime x:Name="FreeTime" IsEnabled="False" IsVisible="False" />
-
-        <plan:LearnTime x:Name="LearnTime" IsEnabled="False" IsVisible="False" />
-
-        <FlexLayout JustifyContent="SpaceBetween" HorizontalOptions="Center" MaximumWidthRequest="500">
-            <Button VerticalOptions="Center"
+        <plan:LearnTime x:Name="LearnTime" IsEnabled="False" IsVisible="False" />-->
+        <FlexLayout VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand">
+            <Button
                 x:Name="btnPrev"
+                MaximumWidthRequest="200"
                 BackgroundColor="MediumPurple"
                 TextColor="White"
                 IsEnabled="False"
                 Text="Previous"
                 Clicked="Button_Clicked_Previous"
                 />
-            <Button VerticalOptions="Center"
+            <Button
+                x:Name="btnNext"
+                MaximumWidthRequest="200"
                 BackgroundColor="MediumPurple"
                 TextColor="White"
                 Text="Next"
                 Clicked="Button_Clicked_Next"
                 />
         </FlexLayout>
-
-
-    </VerticalStackLayout>
+    </FlexLayout>
 </ContentPage>
