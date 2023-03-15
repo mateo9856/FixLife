@@ -5,16 +5,25 @@
              xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              x:Class="FixLife.ClientApp.Views.FirstConfig.FirstPlanCreator"
              Title="FirstPlanCreator">
-	<ContentPage.BindingContext>
-		<FirstConfig:FirstPlanViewModel/>
-	</ContentPage.BindingContext>
-    <FlexLayout Direction="Column" Background="White">
-        <plan:WeeklyWork HorizontalOptions="CenterAndExpand"/>
+    <ContentPage.BindingContext>
+        <FirstConfig:FirstPlanViewModel/>
+    </ContentPage.BindingContext>
+    
          <!--TODO: Fix this layout-->
-        <!--<plan:FreeTime x:Name="FreeTime" IsEnabled="False" IsVisible="False" />
 
-        <plan:LearnTime x:Name="LearnTime" IsEnabled="False" IsVisible="False" />-->
-        <FlexLayout VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <plan:WeeklyWork Grid.Row="0"/>
+        <plan:FreeTime Grid.Row="0" x:Name="FreeTime" IsEnabled="False" IsVisible="False" />
+
+        <plan:LearnTime Grid.Row="0" x:Name="LearnTime" IsEnabled="False" IsVisible="False" />
+        <FlexLayout Grid.Row="1" MaximumHeightRequest="50" VerticalOptions="End" HorizontalOptions="Center">
             <Button
                 x:Name="btnPrev"
                 MaximumWidthRequest="200"
@@ -33,5 +42,5 @@
                 Clicked="Button_Clicked_Next"
                 />
         </FlexLayout>
-    </FlexLayout>
+    </Grid>
 </ContentPage>

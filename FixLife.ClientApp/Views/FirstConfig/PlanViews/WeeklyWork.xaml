@@ -4,27 +4,28 @@
              xmlns:f="clr-namespace:FixLife.ClientApp.Resources.IconsHelper"
              xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              x:Class="FixLife.ClientApp.Views.FirstConfig.PlanViews.WeeklyWork">
-	<ContentView.BindingContext>
-		<FirstConfig:FirstPlanViewModel/>
-	</ContentView.BindingContext>
-    <FlexLayout>
-        <FlexLayout Background="White">
-            <Label Text="{Static Member=f:FaFreeSolid.ChevronLeft}"/>
-            <Border WidthRequest="300"
-                    HeightRequest="200"
+    <ContentView.BindingContext>
+        <FirstConfig:FirstPlanViewModel/>
+    </ContentView.BindingContext>
+    <FlexLayout Direction="Column">
+        <FlexLayout JustifyContent="SpaceAround">
+            <Label Text="{Static Member=f:FaFreeSolid.ChevronLeft}" FontSize="18" TextColor="White"/>
+            <Border MinimumWidthRequest="200"
+                    MinimumHeightRequest="100"
                     StrokeThickness="5"
-                    Stroke="#2E3B39">
+                    BackgroundColor="White"
+                    Stroke="#FFFF">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
                 <Border.Shadow>
-                    <Shadow Brush="Black" Opacity="0.7" Offset="0,20"/>
+                    <Shadow Brush="Red" Opacity="0.7" Offset="0,20"/>
                 </Border.Shadow>
             </Border>
-            <Label Text="{Static Member=f:FaFreeSolid.ChevronRight}" />
+            <Label Text="{Static Member=f:FaFreeSolid.ChevronRight}" FontSize="18" TextColor="White"/>
         </FlexLayout>
-        <FlexLayout Direction="Row">
-            <ListView ItemsSource="{Binding WeeklyWorkViewModel.DayOfWeeks}">
+        <FlexLayout Direction="Column">
+            <ListView HorizontalOptions="Center" ItemsSource="{Binding WeeklyWorkViewModel.DayOfWeeks}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <FlexLayout>
@@ -34,7 +35,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <FlexLayout JustifyContent="SpaceAround" Direction="Column">
+            <FlexLayout JustifyContent="SpaceAround" Direction="Row">
                 <FlexLayout>
                     <Label Text="From:" HorizontalOptions="Center" />
                     <TimePicker Time="{Binding WeeklyWorkViewModel.WeeklyWorkStart}"/>
