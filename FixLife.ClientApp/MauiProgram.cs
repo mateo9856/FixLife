@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace FixLife.ClientApp
 {
@@ -6,6 +7,7 @@ namespace FixLife.ClientApp
     {
         public static MauiApp CreateMauiApp()
         {
+            CultureInfo culture = CultureInfo.CurrentCulture;
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()

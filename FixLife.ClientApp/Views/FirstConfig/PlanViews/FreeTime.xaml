@@ -10,13 +10,29 @@
         <HorizontalStackLayout HorizontalOptions="Center">
             <Entry Text="{Binding HobbyText}"
                    Placeholder="Type your free time..."
-                   MaximumHeightRequest="250" />
-            <Button Grid.Column="1" Text="Select from list"
+                   MaximumHeightRequest="250" WidthRequest="300"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout HorizontalOptions="Center" Margin="0,15, 0, 0">
+            <VerticalStackLayout>
+                <Label Text="From:" HorizontalOptions="Center" />
+                <TimePicker Margin="0,15,0,0" Time="{Binding FreeTimeStart}"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <Label Text="To:" HorizontalOptions="Center" />
+                <TimePicker Margin="0,15,0,0" Time="{Binding FreeTimeEnd}"/>
+            </VerticalStackLayout>
+            <Button Margin="10,0,0,0" Text="Add"
                     Clicked="SelectFromListClicked"
                     MaximumHeightRequest="150"
                     TextColor="White"
                     BackgroundColor="MediumPurple" />
         </HorizontalStackLayout>
-        <!--TODO: Collection View list and time picker-->
+        <CollectionView HorizontalOptions="Center" Margin="0, 15,0 ,0" ItemsSource="{Binding FreeTimeListItems}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding TimeString}" TextColor="White" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </VerticalStackLayout>
 </ContentView>
