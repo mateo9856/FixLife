@@ -8,43 +8,57 @@
         <FirstConfig:FirstPlanViewModel/>
     </ContentView.BindingContext>
     <FlexLayout Direction="Column">
-        <FlexLayout JustifyContent="SpaceAround">
-            <Label Text="{Static Member=f:FaFreeSolid.ChevronLeft}" FontSize="18" TextColor="White"/>
-            <Border MinimumWidthRequest="200"
-                    MinimumHeightRequest="100"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{x:OnPlatform Android=200, WinUI=250, Default=200}"/>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="200" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+            <Label HorizontalOptions="Center" VerticalOptions="Center" Text="{Static Member=f:FaFreeSolid.ChevronLeft}" Grid.Column="0" FontSize="45" TextColor="White"/>
+            <Border Grid.Column="1"
+                    MinimumWidthRequest="{x:OnPlatform Android=150, WinUI=250, Default=250 }"
+                    MinimumHeightRequest="{x:OnPlatform Android=150, WinUI=180, Default=150}"
+                    MaximumWidthRequest="{x:OnPlatform Android=150, WinUI=380, Default=350}"
+                    MaximumHeightRequest="{x:OnPlatform Android=200, WinUI=250, Default=200}"
                     StrokeThickness="5"
                     BackgroundColor="White"
                     Stroke="#FFFF">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <Border.Shadow>
-                    <Shadow Brush="Red" Opacity="0.7" Offset="0,20"/>
-                </Border.Shadow>
             </Border>
-            <Label Text="{Static Member=f:FaFreeSolid.ChevronRight}" FontSize="18" TextColor="White"/>
-        </FlexLayout>
-        <FlexLayout Direction="Column">
-            <ListView HorizontalOptions="Center" ItemsSource="{Binding WeeklyWorkViewModel.DayOfWeeks}">
-                <ListView.ItemTemplate>
+            <Label HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" Text="{Static Member=f:FaFreeSolid.ChevronRight}" FontSize="45" TextColor="White"/>
+
+            <CollectionView Margin="0,15,0,0" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" ItemsSource="{Binding WeeklyWorkViewModel.DayOfWeeks}">
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <FlexLayout>
-                            <CheckBox BackgroundColor="Silver" HorizontalOptions="Start" MaximumWidthRequest="30" IsChecked="{Binding Selected}" />
-                            <Label HorizontalOptions="Center" FontSize="16" Text="{Binding Day}" />
-                        </FlexLayout>
+                        <HorizontalStackLayout>
+                            <CheckBox Color="White" BackgroundColor="Silver" HorizontalOptions="Start" MaximumWidthRequest="30" IsChecked="{Binding Selected, Mode=TwoWay}" />
+                            <Label HorizontalOptions="Center" TextColor="White" VerticalOptions="Center" FontSize="16" Text="{Binding Day, Mode=TwoWay}" />
+                        </HorizontalStackLayout>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <FlexLayout JustifyContent="SpaceAround" Direction="Row">
-                <FlexLayout>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <FlexLayout Margin="0,15, 0, 0" Grid.Row="2" JustifyContent="SpaceBetween" Grid.Column="1">
+                <VerticalStackLayout>
                     <Label Text="From:" HorizontalOptions="Center" />
-                    <TimePicker Time="{Binding WeeklyWorkViewModel.WeeklyWorkStart}"/>
-                </FlexLayout>
-                <FlexLayout>
+                    <TimePicker Margin="0,15,0,0" Time="{Binding WeeklyWorkViewModel.WeeklyWorkStart}"/>
+                </VerticalStackLayout>
+                <VerticalStackLayout>
                     <Label Text="To:" HorizontalOptions="Center" />
-                    <TimePicker Time="{Binding WeeklyWorkViewModel.WeeklyWorkEnd}"/>
-                </FlexLayout>
+                    <TimePicker Margin="0,15,0,0" Time="{Binding WeeklyWorkViewModel.WeeklyWorkEnd}"/>
+                </VerticalStackLayout>
+
             </FlexLayout>
-        </FlexLayout>
+
+        </Grid>
+        <!--<FlexLayout BackgroundColor="Green" Direction="Column">
+        </FlexLayout>-->
     </FlexLayout>
 </ContentView>

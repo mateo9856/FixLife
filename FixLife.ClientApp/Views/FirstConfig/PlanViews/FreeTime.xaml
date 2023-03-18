@@ -7,15 +7,16 @@
 		<FirstConfig:FreeTimeViewModel/>
 	</ContentView.BindingContext>
     <VerticalStackLayout>
-        <FlexLayout HorizontalOptions="Center">
+        <HorizontalStackLayout HorizontalOptions="Center">
             <Entry Text="{Binding HobbyText}"
                    Placeholder="Type your free time..."
                    MaximumHeightRequest="250" />
-            <Button Text="Select from list"
+            <Button Grid.Column="1" Text="Select from list"
                     Clicked="SelectFromListClicked"
                     MaximumHeightRequest="150"
-                    TextColor="AliceBlue"
-                    BackgroundColor="White" />
-        </FlexLayout>
+                    TextColor="White"
+                    BackgroundColor="MediumPurple" />
+        </HorizontalStackLayout>
+        <!--TODO: Collection View list and time picker-->
     </VerticalStackLayout>
 </ContentView>
