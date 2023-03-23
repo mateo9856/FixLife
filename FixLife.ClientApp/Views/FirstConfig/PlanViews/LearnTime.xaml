@@ -1,11 +1,64 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              x:Class="FixLife.ClientApp.Views.FirstConfig.PlanViews.LearnTime">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to Learn time"
+	<ContentView.BindingContext>
+		<FirstConfig:LearnTimeViewModel/>
+	</ContentView.BindingContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="340"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Label Grid.ColumnSpan="2"
+            Text="Let's plan your weekly Learn Time"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1">
+            <RadioButton HorizontalOptions="Center" Content="Weekly" Value="{Binding IsWeekly}" />
+            <RadioButton HorizontalOptions="Center" Content="Yearly" Value="{Binding IsYearly}" />
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="1" Grid.Column="1">
+            <Label
+                HorizontalOptions="Center"
+                Text="For week" />
+            <CollectionView Margin="0,15,0,0" HorizontalOptions="Center" ItemsSource="{Binding DayOfWeeks}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout>
+                            <CheckBox Color="White" BackgroundColor="Silver" HorizontalOptions="Start" MaximumWidthRequest="30" IsChecked="{Binding Selected, Mode=TwoWay}" />
+                            <Label HorizontalOptions="Center" TextColor="White" VerticalOptions="Center" FontSize="16" Text="{Binding Day, Mode=TwoWay}" />
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Label
+                HorizontalOptions="Center"
+                Text="For date" />
+            <DatePicker Date="{Binding SelectedDate}" DateSelected="DatePicker_DateSelected"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="2">
+            <Label Text="Start hour:" HorizontalOptions="Center" />
+            <DatePicker Format="HH:mm" Date="{Binding SelectedStartTime}" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="2" Grid.Column="1">
+            <Label Text="Weekly destination:" HorizontalOptions="Center" />
+            <TimePicker Time="{Binding TimeInterval}" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+        <CollectionView Grid.Row="3" Grid.ColumnSpan="2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding TimeString}" TextColor="White" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentView>

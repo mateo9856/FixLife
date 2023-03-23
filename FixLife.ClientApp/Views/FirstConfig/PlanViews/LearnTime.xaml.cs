@@ -6,4 +6,9 @@ public partial class LearnTime : ContentView
 	{
 		InitializeComponent();
 	}
+
+    private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+    {
+
+    }
 }
