@@ -8,9 +8,6 @@
     <ContentPage.BindingContext>
         <FirstConfig:FirstPlanViewModel/>
     </ContentPage.BindingContext>
-    
-         <!--TODO: Fix this layout-->
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -19,22 +16,22 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <plan:WeeklyWork Grid.Row="0"/>
-        <plan:FreeTime Grid.Row="0" x:Name="FreeTime" IsEnabled="False" IsVisible="False" />
-
+        <plan:WeeklyWork Grid.Row="0" x:Name="WeeklyWork" IsEnabled="True" IsVisible="True"/>
+        <plan:FreeTime Grid.Row="0" IsEnabled="False" IsVisible="False" x:Name="FreeTime" />
         <plan:LearnTime Grid.Row="0" x:Name="LearnTime" IsEnabled="False" IsVisible="False" />
         <FlexLayout Grid.Row="1" MaximumHeightRequest="50" VerticalOptions="End" HorizontalOptions="Center">
             <Button
                 x:Name="btnPrev"
                 MaximumWidthRequest="200"
+                Margin="0,0,5,0"
                 BackgroundColor="MediumPurple"
                 TextColor="White"
-                IsEnabled="False"
                 Text="Previous"
                 Clicked="Button_Clicked_Previous"
                 />
             <Button
                 x:Name="btnNext"
+                Margin="5,0,0,0"
                 MaximumWidthRequest="200"
                 BackgroundColor="MediumPurple"
                 TextColor="White"
