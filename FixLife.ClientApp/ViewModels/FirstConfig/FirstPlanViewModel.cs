@@ -28,31 +28,13 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             WeeklyWorkViewModel = new WeeklyWorkViewModel();
             ActiveWorkImage = "test.png";
             WorkImages = new string[] {"test.png", "another.png" };
-            ClickNext = Next;
-            ClickPrev = Previous;
             CreateCommand = new Command(async (cmd) =>
             {
                 await Shell.Current.GoToAsync("CreatorPage");
             });
-            SetImageCommand = new Command(async (cmd) =>
-            {
-                await SetImage();
-            });
         }
 
-        private void Next(Button btn)
-        {
-            Console.WriteLine();
-            //TODO: Prepare set to next view
-        }
-        
-        private void Previous(Button btn)
-        {
-            Console.WriteLine();
-            //TODO: preprare set back view
-        }
-
-        private async Task SetImage(string direction = null)
+        public void SetImage(string direction, Image element)
         {
             int directionCount = direction == null ? 1 : direction == "Left" ? -1 : 1;
             int currentImage = Array.IndexOf(WorkImages, ActiveWorkImage);
@@ -67,6 +49,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 else
                     ActiveWorkImage = WorkImages.Last();
             }
+            element.Source = ActiveWorkImage;
         }
 
     }
