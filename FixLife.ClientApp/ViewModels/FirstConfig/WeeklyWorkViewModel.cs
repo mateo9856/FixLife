@@ -42,6 +42,11 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             InitDayOfWeeks();
         }
 
+        public void ApplyWorkTime(string type)
+        {
+
+        }
+
         private void InitDayOfWeeks()
         {
             DayOfWeeks = new ObservableCollection<DayOfWeekListItem>()

@@ -35,9 +35,9 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             set { _selectedDate = value; OnPropertyChanged(); }
         }
 
-        private DateTime _selectedStartTime;
+        private TimeSpan _selectedStartTime;
 
-        public DateTime SelectedStartTime
+        public TimeSpan SelectedStartTime
         {
             get { return _selectedStartTime; }
             set { _selectedStartTime = value; OnPropertyChanged(); }
@@ -53,7 +53,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         public string TimeString { get => 
                 string.Format("Start: {0} - Interval: {1}", 
-                    SelectedStartTime.ToShortTimeString(),
+                    SelectedStartTime,
                     TimeInterval.ToString()); }
 
         public ObservableCollection<DayOfWeekListItem> DayOfWeeks { get; set; }

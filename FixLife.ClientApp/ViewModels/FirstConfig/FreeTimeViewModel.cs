@@ -63,9 +63,10 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             //TODO: Show List
         }
 
-        private async Task AddToList(string name = null)
+        private async Task AddToList()
         {
-            //TODO: How send multiple params
+            var element = new FreeTimeListItem {Name = HobbyText, TimeEnd = FreeTimeEnd, TimeStart = FreeTimeStart};
+            FreeTimeListItems.Add(element);
         }
 
     }

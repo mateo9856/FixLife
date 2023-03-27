@@ -7,8 +7,4 @@ public partial class FreeTime : ContentView
 		InitializeComponent();
 	}
 
-    private void SelectFromListClicked(object sender, EventArgs e)
-    {
-
-    }
 }

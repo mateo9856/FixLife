@@ -4,15 +4,20 @@ namespace FixLife.ClientApp.Views.FirstConfig;
 
 public partial class FirstPlanCreator : ContentPage
 {
+    private string ActiveView { get; set; }
 	public FirstPlanCreator()
 	{
 		InitializeComponent();
+        ActiveView = "WeeklyWork";
 	}
 
     private void Button_Clicked_Next(object sender, EventArgs e)
     {
+        var model = (FirstPlanViewModel)BindingContext;
+        model.ApplyPlan(ActiveView);
         if (WeeklyWork.IsEnabled)
         {
+            ActiveView = "FreeTime";
             FreeTime.IsEnabled= true;
             FreeTime.IsVisible= true;
             WeeklyWork.IsEnabled = false;
@@ -21,6 +26,7 @@ public partial class FirstPlanCreator : ContentPage
         }
         else if(FreeTime.IsEnabled)
         {
+            ActiveView = "LearnTime";
             LearnTime.IsEnabled= true;
             LearnTime.IsVisible= true;
             FreeTime.IsEnabled= false;
@@ -36,6 +42,7 @@ public partial class FirstPlanCreator : ContentPage
     {
         if (FreeTime.IsEnabled)
         {
+            ActiveView = "WeeklyWork";
             FreeTime.IsEnabled = false;
             FreeTime.IsVisible= false;
             WeeklyWork.IsEnabled = true;
@@ -43,6 +50,7 @@ public partial class FirstPlanCreator : ContentPage
         }
         else if (LearnTime.IsEnabled)
         {
+            ActiveView = "FreeTime";
             LearnTime.IsEnabled = false;
             LearnTime.IsVisible = false;
             FreeTime.IsEnabled = true;

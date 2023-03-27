@@ -19,7 +19,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         public FreeTime FreeTime { get; set; }
         public WeeklyWork WeeklyWork { get; set; }
         public LearnTime LearnTime { get; set; }
-        public string[] WorkImages { get; set; }
+        public WeeklyWorkImage[] WorkImages { get; set; }
         public WeeklyWorkViewModel WeeklyWorkViewModel { get; set; }
         public ICommand SetImageCommand { get; private set; }
         public ICommand CreateCommand { get; private set; }
@@ -27,29 +27,37 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         {
             WeeklyWorkViewModel = new WeeklyWorkViewModel();
             ActiveWorkImage = "test.png";
-            WorkImages = new string[] {"test.png", "another.png" };
+            WorkImages = new WeeklyWorkImage[] {
+                new WeeklyWorkImage {Source = "work.png", Description = "Daily Work", Name = "Work"},
+                new WeeklyWorkImage {Source = "business.png", Description = "Working with your business", Name = "Company"},
+            };
             CreateCommand = new Command(async (cmd) =>
             {
                 await Shell.Current.GoToAsync("CreatorPage");
             });
         }
 
-        public void SetImage(string direction, Image element)
+        public void SetImage(string direction, ImageButton element)
         {
             int directionCount = direction == null ? 1 : direction == "Left" ? -1 : 1;
             int currentImage = Array.IndexOf(WorkImages, ActiveWorkImage);
             try
             {
-                ActiveWorkImage = WorkImages[currentImage + directionCount];
+                ActiveWorkImage = WorkImages[currentImage + directionCount].Source;
             
             } catch(IndexOutOfRangeException ex)
             {
                 if(directionCount == 1)
-                    ActiveWorkImage = WorkImages.First();
+                    ActiveWorkImage = WorkImages.First().Source;
                 else
-                    ActiveWorkImage = WorkImages.Last();
+                    ActiveWorkImage = WorkImages.Last().Source;
             }
             element.Source = ActiveWorkImage;
+        }
+
+        public void ApplyPlan(string view)
+        {
+
         }
 
     }

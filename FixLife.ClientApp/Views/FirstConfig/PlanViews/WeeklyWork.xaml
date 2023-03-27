@@ -35,7 +35,7 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <Image x:Name="activeWorkMessage" Source="{Binding ActiveWorkImage}" />
+                <ImageButton x:Name="activeWorkMessage" Source="{Binding ActiveWorkImage}"/>
             </Border>
             <Label HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" Text="{Static Member=f:FaFreeSolid.ChevronRight}" FontSize="45" TextColor="White">
                 <Label.GestureRecognizers>

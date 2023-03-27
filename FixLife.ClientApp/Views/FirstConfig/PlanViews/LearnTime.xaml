@@ -16,6 +16,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Label Grid.ColumnSpan="2"
             Text="Let's plan your weekly Learn Time"
@@ -26,7 +27,7 @@
             <RadioButton HorizontalOptions="Center" Content="Weekly" Value="{Binding IsWeekly}" />
             <RadioButton HorizontalOptions="Center" Content="Yearly" Value="{Binding IsYearly}" />
         </VerticalStackLayout>
-        <VerticalStackLayout Grid.Row="1" Grid.Column="1">
+        <VerticalStackLayout Grid.Row="1" Grid.Column="2">
             <Label
                 HorizontalOptions="Center"
                 Text="For week" />
@@ -41,19 +42,18 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <Label
-                HorizontalOptions="Center"
                 Text="For date" />
             <DatePicker Date="{Binding SelectedDate}" DateSelected="DatePicker_DateSelected"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2">
             <Label Text="Start hour:" HorizontalOptions="Center" />
-            <DatePicker Format="HH:mm" Date="{Binding SelectedStartTime}" HorizontalOptions="Center"/>
+            <TimePicker Time="{Binding SelectedStartTime}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2" Grid.Column="1">
             <Label Text="Weekly destination:" HorizontalOptions="Center" />
             <TimePicker Time="{Binding TimeInterval}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
-        <CollectionView Grid.Row="3" Grid.ColumnSpan="2">
+        <CollectionView Grid.Row="2" Grid.ColumnSpan="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Label Text="{Binding TimeString}" TextColor="White" />

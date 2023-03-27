@@ -7,7 +7,7 @@ namespace FixLife.ClientApp
     {
         public static MauiApp CreateMauiApp()
         {
-            CultureInfo culture = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentUICulture = new CultureInfo("pl-PL", false);
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
