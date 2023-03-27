@@ -18,7 +18,7 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Label Grid.ColumnSpan="2"
+        <Label Grid.Column="1"
             Text="Let's plan your weekly Learn Time"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
@@ -41,9 +41,10 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Label
+            <Label Margin="0,15,0,0"
+                   HorizontalOptions="Center"
                 Text="For date" />
-            <DatePicker Date="{Binding SelectedDate}" DateSelected="DatePicker_DateSelected"/>
+            <DatePicker Format="yyyy-MM-dd" Date="{Binding SelectedDate}" HorizontalOptions="Center" DateSelected="DatePicker_DateSelected"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2">
             <Label Text="Start hour:" HorizontalOptions="Center" />
