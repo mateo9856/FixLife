@@ -78,6 +78,9 @@
 	  <MauiXaml Update="Views\FirstConfig\FirstPlanCreator.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\FirstConfig\FirstPlanSummary.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\FirstConfig\PlanViews\FreeTime.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

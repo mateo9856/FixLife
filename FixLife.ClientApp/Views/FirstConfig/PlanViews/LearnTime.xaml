@@ -10,7 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="340"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -44,15 +44,15 @@
             <Label Margin="0,15,0,0"
                    HorizontalOptions="Center"
                 Text="For date" />
-            <DatePicker Format="yyyy-MM-dd" Date="{Binding SelectedDate}" HorizontalOptions="Center" DateSelected="DatePicker_DateSelected"/>
+            <DatePicker Format="yyyy-MM-dd" Date="{Binding SelectedDate}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2">
             <Label Text="Start hour:" HorizontalOptions="Center" />
-            <TimePicker Time="{Binding SelectedStartTime}" HorizontalOptions="Center"/>
+            <TimePicker Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding SelectedStartTime}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2" Grid.Column="1">
             <Label Text="Weekly destination:" HorizontalOptions="Center" />
-            <TimePicker Time="{Binding TimeInterval}" HorizontalOptions="Center"/>
+            <TimePicker Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding TimeInterval}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
         <CollectionView Grid.Row="2" Grid.ColumnSpan="2">
             <CollectionView.ItemTemplate>

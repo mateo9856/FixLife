@@ -16,6 +16,7 @@ namespace FixLife.ClientApp
             Routing.RegisterRoute("RegisterPage", typeof(RegisterPage));
             Routing.RegisterRoute("FirstPlanPage", typeof(FirstConfigPage));
             Routing.RegisterRoute("CreatorPage", typeof(FirstPlanCreator));
+            Routing.RegisterRoute("FirstPlanSummaryPage", typeof(FirstPlanSummary));
         }
 
     }

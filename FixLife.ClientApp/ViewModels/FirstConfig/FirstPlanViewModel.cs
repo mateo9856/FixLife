@@ -21,16 +21,20 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         public LearnTime LearnTime { get; set; }
         public WeeklyWorkImage[] WorkImages { get; set; }
         public WeeklyWorkViewModel WeeklyWorkViewModel { get; set; }
+        public FreeTimeViewModel FreeTimeViewModel { get; set; }
+        public LearnTimeViewModel LearnTimeViewModel { get; set; }
         public ICommand SetImageCommand { get; private set; }
         public ICommand CreateCommand { get; private set; }
         public FirstPlanViewModel()
         {
             WeeklyWorkViewModel = new WeeklyWorkViewModel();
-            ActiveWorkImage = "test.png";
+            FreeTimeViewModel = new FreeTimeViewModel();
+            LearnTimeViewModel = new LearnTimeViewModel();
             WorkImages = new WeeklyWorkImage[] {
                 new WeeklyWorkImage {Source = "work.png", Description = "Daily Work", Name = "Work"},
                 new WeeklyWorkImage {Source = "business.png", Description = "Working with your business", Name = "Company"},
             };
+            ActiveWorkImage = WorkImages.First().Source;
             CreateCommand = new Command(async (cmd) =>
             {
                 await Shell.Current.GoToAsync("CreatorPage");
@@ -55,7 +59,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             element.Source = ActiveWorkImage;
         }
 
-        public void ApplyPlan(string view)
+        public void SummaryPlan()
         {
 
         }

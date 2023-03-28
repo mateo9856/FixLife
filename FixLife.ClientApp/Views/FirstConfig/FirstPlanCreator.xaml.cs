@@ -11,10 +11,8 @@ public partial class FirstPlanCreator : ContentPage
         ActiveView = "WeeklyWork";
 	}
 
-    private void Button_Clicked_Next(object sender, EventArgs e)
+    private async void Button_Clicked_Next(object sender, EventArgs e)
     {
-        var model = (FirstPlanViewModel)BindingContext;
-        model.ApplyPlan(ActiveView);
         if (WeeklyWork.IsEnabled)
         {
             ActiveView = "FreeTime";
@@ -34,7 +32,7 @@ public partial class FirstPlanCreator : ContentPage
         }
         else if(LearnTime.IsEnabled)
         {
-            //TODO: Redirect to summary
+            await Shell.Current.GoToAsync("FirstPlanSummaryPage");
         }
     }
 
