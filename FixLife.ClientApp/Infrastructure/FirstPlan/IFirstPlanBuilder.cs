@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FixLife.ClientApp.Models.AppPlan;
+using FixLife.ClientApp.ViewModels.FirstConfig;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +10,10 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
 {
     public interface IFirstPlanBuilder
     {
+        AppPlan Plan { get; set; }
         void ClearPlan();
-        void SetWeeklyWork();
-        void SetFreeTime();
-        void SetLearnTime();
+        void SetWeeklyWork(WeeklyWorkViewModel model);
+        void SetFreeTime(FreeTimeViewModel model);
+        void SetLearnTime(LearnTimeViewModel model);
     }
 }

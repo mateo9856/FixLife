@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FixLife.ClientApp.Models.AppPlan;
+using FixLife.ClientApp.ViewModels.FirstConfig;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +10,29 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
 {
     public class FirstPlanBuilder : IFirstPlanBuilder
     {
+        public AppPlan Plan { get; set; }
+
+        public FirstPlanBuilder()
+        {
+            Plan = new AppPlan();
+        }
+
         public void ClearPlan()
         {
-            throw new NotImplementedException();
+            Plan = new AppPlan();
         }
 
-        public void SetFreeTime()
+        public void SetFreeTime(FreeTimeViewModel model)
         {
             throw new NotImplementedException();
         }
 
-        public void SetLearnTime()
+        public void SetLearnTime(LearnTimeViewModel model)
         {
             throw new NotImplementedException();
         }
 
-        public void SetWeeklyWork()
+        public void SetWeeklyWork(WeeklyWorkViewModel model)
         {
             throw new NotImplementedException();
         }
