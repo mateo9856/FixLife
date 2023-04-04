@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FixLife.ClientApp.Models.FirstPlan;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace FixLife.ClientApp.Models.AppPlan
 {
     public class WeeklyWork
     {
+        public TimeSpan TimeStart { get; set; }
+        public TimeSpan TimeEnd { get; set; }
+        public List<DayOfWeekListItem> DayOfWeeks { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using FixLife.ClientApp.Models.AppPlan;
+﻿using AutoMapper;
+using FixLife.ClientApp.Common;
+using FixLife.ClientApp.Models.AppPlan;
 using FixLife.ClientApp.ViewModels.FirstConfig;
 using System;
 using System.Collections.Generic;
@@ -10,31 +12,40 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
 {
     public class FirstPlanBuilder : IFirstPlanBuilder
     {
+        private readonly Mapper _mapper;
+
         public AppPlan Plan { get; set; }
 
         public FirstPlanBuilder()
         {
+            _mapper = new Mapper(AutoMapperConfig.mapConfig);
             Plan = new AppPlan();
+            Plan.FreeTime = new List<FreeTime>();
         }
 
         public void ClearPlan()
         {
             Plan = new AppPlan();
+            Plan.FreeTime = new List<FreeTime>();
         }
 
         public void SetFreeTime(FreeTimeViewModel model)
         {
-            throw new NotImplementedException();
+            var mapModel = _mapper.Map<FreeTime>(model);
+            if(!Plan.FreeTime.Any(d => d.Text == mapModel.Text))
+                Plan.FreeTime.Add(mapModel);
         }
 
         public void SetLearnTime(LearnTimeViewModel model)
         {
-            throw new NotImplementedException();
+            var mapModel = _mapper.Map<LearnTime>(model);
+            Plan.LearnTime = mapModel;
         }
 
         public void SetWeeklyWork(WeeklyWorkViewModel model)
         {
-            throw new NotImplementedException();
+            var mapModel = _mapper.Map<WeeklyWork>(model);
+            Plan.WeeklyWork = mapModel;
         }
     }
 }

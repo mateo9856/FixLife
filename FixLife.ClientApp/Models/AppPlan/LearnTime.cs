@@ -8,5 +8,9 @@ namespace FixLife.ClientApp.Models.AppPlan
 {
     public class LearnTime
     {
+        public bool IsYearly { get; set; }
+        public bool IsWeekly { get; set; }
+        public TimeSpan TimeInterval { get; set; }
+        public DateTime StartTime { get; set; }
     }
 }

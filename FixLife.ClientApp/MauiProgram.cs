@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using FixLife.ClientApp.Common;
+using Microsoft.Extensions.Logging;
 using System.Globalization;
 
 namespace FixLife.ClientApp
@@ -23,7 +25,6 @@ namespace FixLife.ClientApp
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-
             return builder.Build();
         }
     }
