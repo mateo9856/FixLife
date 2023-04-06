@@ -6,4 +6,9 @@ public partial class FirstPlanSummary : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private void CorrectData(object sender, EventArgs e)
+    {
+		Shell.Current.GoToAsync("CreatorPage");
+    }
 }
