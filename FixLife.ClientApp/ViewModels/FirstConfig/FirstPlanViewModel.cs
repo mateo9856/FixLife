@@ -1,4 +1,5 @@
 ﻿using FixLife.ClientApp.Common.Enums;
+using FixLife.ClientApp.Infrastructure.FirstPlan;
 using FixLife.ClientApp.Models.FirstPlan;
 using FixLife.ClientApp.Views.FirstConfig.PlanViews;
 using System;
@@ -15,6 +16,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
     {
         public Action<Button> ClickNext { get; set; }
         public Action<Button> ClickPrev { get; set; }
+        private IFirstPlanBuilder _firstPlanBuilder;
         public string ActiveWorkImage { get; set; }
         public FreeTime FreeTime { get; set; }
         public WeeklyWork WeeklyWork { get; set; }
@@ -27,6 +29,8 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         public ICommand CreateCommand { get; private set; }
         public FirstPlanViewModel()
         {
+            _firstPlanBuilder = new FirstPlanBuilder();
+            _firstPlanBuilder.ClearPlan();
             WeeklyWorkViewModel = new WeeklyWorkViewModel();
             FreeTimeViewModel = new FreeTimeViewModel();
             LearnTimeViewModel = new LearnTimeViewModel();
@@ -61,7 +65,10 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         public void SummaryPlan()
         {
-
+            _firstPlanBuilder.SetWeeklyWork(WeeklyWorkViewModel);
+            _firstPlanBuilder.SetFreeTime(FreeTimeViewModel);
+            _firstPlanBuilder.SetLearnTime(LearnTimeViewModel);
+            _firstPlanBuilder.ApplyPlan();
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using FixLife.ClientApp.ViewModels.FirstConfig;
+﻿using FixLife.ClientApp.Models.AppPlan;
+using FixLife.ClientApp.ViewModels.FirstConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,7 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
     {
         private static FirstPlanSession _instance;
         private FirstPlanSession() { }
-        
-        //TODO: Prepare session persister to summary
+        public AppPlan SummaryPlan { get; set; }
 
         public static FirstPlanSession Instance()
         {
@@ -21,5 +21,7 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
             return _instance;
         }
         
+        public void Dispose() => _instance = null;
+
     }
 }

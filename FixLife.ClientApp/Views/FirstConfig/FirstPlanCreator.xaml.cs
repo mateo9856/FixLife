@@ -32,6 +32,8 @@ public partial class FirstPlanCreator : ContentPage
         }
         else if(LearnTime.IsEnabled)
         {
+            var context = BindingContext as FirstPlanViewModel;
+            context.SummaryPlan();
             await Shell.Current.GoToAsync("FirstPlanSummaryPage");
         }
     }

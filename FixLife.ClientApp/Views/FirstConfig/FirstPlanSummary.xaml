@@ -17,14 +17,20 @@
             <RowDefinition />
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <HorizontalStackLayout Grid.Row="0">
-            <Label Text="{Binding SummaryPlan.WeeklyWork.TextView}" />
+        <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="0">
+            <Label Text="{Binding WeeklyWorkTextView}" />
         </HorizontalStackLayout>
-        <HorizontalStackLayout Grid.Row="1">
-            <!--TODO:FreeTimeImplementation-->
+        <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="1">
+            <CollectionView ItemsSource="{Binding FreeTimeSummaryTextView}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </HorizontalStackLayout>
-        <HorizontalStackLayout Grid.Row="2">
-            <Label Text="{Binding SummaryPlan.LearnTime.TextView}" />
+        <HorizontalStackLayout HorizontalOptions="Center" Grid.Row="2">
+            <Label Text="{Binding LearnTimeSummaryTextView}" />
         </HorizontalStackLayout>
         <FlexLayout Grid.Row="3" MaximumHeightRequest="50" VerticalOptions="End" HorizontalOptions="Center">
             <Button

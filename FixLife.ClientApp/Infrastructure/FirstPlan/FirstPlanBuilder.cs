@@ -23,6 +23,9 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
             Plan.FreeTime = new List<FreeTime>();
         }
 
+        public void ApplyPlan() =>
+            FirstPlanSession.Instance().SummaryPlan = Plan;
+
         public void ClearPlan()
         {
             Plan = new AppPlan();

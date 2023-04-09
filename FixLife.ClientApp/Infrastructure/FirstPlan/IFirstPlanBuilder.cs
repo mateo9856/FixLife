@@ -15,5 +15,6 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
         void SetWeeklyWork(WeeklyWorkViewModel model);
         void SetFreeTime(FreeTimeViewModel model);
         void SetLearnTime(LearnTimeViewModel model);
+        void ApplyPlan();
     }
 }

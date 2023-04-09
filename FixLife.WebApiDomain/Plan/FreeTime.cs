@@ -1,12 +1,13 @@
-﻿using System;
+﻿using FixLife.WebApiDomain.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FixLife.ClientApp.Models.AppPlan
+namespace FixLife.WebApiDomain.Plan
 {
-    public class FreeTime
+    public class FreeTime : BaseBusinessEntity
     {
         public TimeSpan TimeStart { get; set; }
         public TimeSpan TimeEnd { get; set; }
