@@ -12,5 +12,11 @@ namespace FixLife.WebApiDomain.Common
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
+
+        public BaseBusinessEntity()
+        {
+            Id = Guid.NewGuid();
+        }
+
     }
 }

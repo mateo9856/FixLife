@@ -23,7 +23,7 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
         public async Task<CreatePlanResponse> Handle(AddPlanCommand request, CancellationToken cancellationToken)
         {
             var mapPlan = _mapper.Map<Plan>(request.request);
-
+            mapPlan.CreatedDate = DateTime.Now;
             var serviceResult = await _planService.CreatePlanAsync(mapPlan, true);
 
             return new CreatePlanResponse { Status = serviceResult.Item1, Message = serviceResult.Item2 };
