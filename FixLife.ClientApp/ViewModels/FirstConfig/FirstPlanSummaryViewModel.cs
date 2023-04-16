@@ -32,10 +32,34 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         private async Task Create()
         {
+            //Request builder - Json does not support TimeSpan
+            var requestBuilder = new
+            {
+                WeeklyWork = new
+                {
+                    TimeStart = SummaryPlan.WeeklyWork.TimeStart.ToString(),
+                    TimeEnd = SummaryPlan.WeeklyWork.TimeEnd.ToString(),
+                    DayOfWeeks = SummaryPlan.WeeklyWork.DayOfWeeks
+                },
+                FreeTime = SummaryPlan.FreeTime.Select(c => new
+                {
+                    TimeStart = c.TimeStart.ToString(),
+                    TimeEnd = c.TimeEnd.ToString(),
+                    Text = c.Text
+                }),
+                LearnTime = new
+                {
+                    IsYearly = SummaryPlan.LearnTime.IsYearly,
+                    IsWeekly = SummaryPlan.LearnTime.IsWeekly,
+                    TimeInterval = SummaryPlan.LearnTime.TimeInterval.ToString(),
+                    StartTime = SummaryPlan.LearnTime.StartTime.ToString(),
+                }
+            };
+      
             object response;
             using(var client = new WebApiClient<object>())
             {
-                response = await client.PostPutAsync(SummaryPlan, "FirstPlan/createFirstPlan", true);
+                response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true);
             }
         }
 

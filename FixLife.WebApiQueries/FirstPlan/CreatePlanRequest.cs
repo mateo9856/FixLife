@@ -9,8 +9,8 @@ namespace FixLife.WebApiQueries.FirstPlan
 {
     public class CreatePlanRequest
     {
-        public WeeklyWork WeeklyWork { get; set; }
-        public List<FreeTime> FreeTime { get; set; }
-        public LearnTime LearnTime { get; set; }
+        public WeeklyWorkDTO WeeklyWork { get; set; }
+        public List<FreeTimeDTO> FreeTime { get; set; }
+        public LearnTimeDTO LearnTime { get; set; }
     }
 }
