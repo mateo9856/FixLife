@@ -11,7 +11,7 @@ namespace FixLife.WebApiInfra.Services
 {
     public class BaseService<T> : IBaseRepository<T> where T : class
     {
-        private readonly ApplicationContext _context;
+        protected readonly ApplicationContext _context;
         private DbSet<T> _dbSet;
         public BaseService(ApplicationContext context)
         {

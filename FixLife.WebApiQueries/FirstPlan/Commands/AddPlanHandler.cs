@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using FixLife.WebApiDomain.Plan;
+using FixLife.WebApiInfra.Abstraction;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +12,21 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
 {
     public class AddPlanHandler : IRequestHandler<AddPlanCommand, CreatePlanResponse>
     {
-        public Task<CreatePlanResponse> Handle(AddPlanCommand request, CancellationToken cancellationToken)
-        {//TODO: Implement
-            throw new NotImplementedException();
+        private readonly IMapper _mapper;
+        private readonly IPlanService _planService;
+        public AddPlanHandler(IMapper mapper, IPlanService planService)
+        {
+            _mapper = mapper;
+            _planService = planService;
+        }
+
+        public async Task<CreatePlanResponse> Handle(AddPlanCommand request, CancellationToken cancellationToken)
+        {
+            var mapPlan = _mapper.Map<Plan>(request.request);
+
+            var serviceResult = await _planService.CreatePlanAsync(mapPlan, true);
+
+            return new CreatePlanResponse { Status = serviceResult.Item1, Message = serviceResult.Item2 };
         }
     }
 }

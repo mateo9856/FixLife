@@ -35,7 +35,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             object response;
             using(var client = new WebApiClient<object>())
             {
-                response = await client.PostPutAsync(SummaryPlan, "createFirstPlan", true);
+                response = await client.PostPutAsync(SummaryPlan, "FirstPlan/createFirstPlan", true);
             }
         }
 

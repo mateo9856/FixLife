@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FixLife.WebApiDomain.Plan;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,8 @@ namespace FixLife.WebApiQueries.FirstPlan
 {
     public class CreatePlanRequest
     {
-        public object WeeklyWork { get; set; }
-        public object FreeTime { get; set; }
-        public object LearnTime { get; set; }
+        public WeeklyWork WeeklyWork { get; set; }
+        public List<FreeTime> FreeTime { get; set; }
+        public LearnTime LearnTime { get; set; }
     }
 }
