@@ -1,6 +1,7 @@
 ﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Infrastructure.FirstPlan;
 using FixLife.ClientApp.Models.AppPlan;
+using FixLife.ClientApp.Models.FirstPlan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,11 +57,16 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 }
             };
       
-            object response;
-            using(var client = new WebApiClient<object>())
+            PlanCreateResponse response = null;
+            using(var client = new WebApiClient<PlanCreateResponse>())
             {
                 response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true);
             }
+            if(response.Status == 201)
+            {
+                await Shell.Current.GoToAsync("DashboardPage");
+            }
+            //TODO: Create Popup by code
         }
 
     }

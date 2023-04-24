@@ -1,4 +1,5 @@
 ﻿using FixLife.ClientApp.Views.FirstConfig;
+using FixLife.ClientApp.Views.MainPage;
 
 namespace FixLife.ClientApp
 {
@@ -17,6 +18,7 @@ namespace FixLife.ClientApp
             Routing.RegisterRoute("FirstPlanPage", typeof(FirstConfigPage));
             Routing.RegisterRoute("CreatorPage", typeof(FirstPlanCreator));
             Routing.RegisterRoute("FirstPlanSummaryPage", typeof(FirstPlanSummary));
+            Routing.RegisterRoute("DashboardPage", typeof(Dashboard));
         }
 
     }

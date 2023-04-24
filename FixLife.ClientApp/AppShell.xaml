@@ -48,6 +48,11 @@
         ContentTemplate="{DataTemplate firstconfig:FirstPlanSummary}"
         IsVisible="False"
         Route="FirstPlanSummaryPage" />
+    <ShellContent
+        Title="Dashboard Page"
+        ContentTemplate="{DataTemplate main:Dashboard}"
+        IsVisible="False"
+        Route="DashboardPage" />
     </TabBar>
 
 </Shell>
