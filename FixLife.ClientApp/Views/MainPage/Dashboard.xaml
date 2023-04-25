@@ -13,5 +13,8 @@
         <StackLayout>
             <Label Text="LEARN TIME" />
         </StackLayout>
+        <StackLayout MaximumHeightRequest="80">
+            <Button Text="Edit plan" BackgroundColor="Purple" TextColor="White" Command=""/>
+        </StackLayout>
     </VerticalStackLayout>
 </ContentPage>
