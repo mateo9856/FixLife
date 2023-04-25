@@ -4,9 +4,14 @@
              x:Class="FixLife.ClientApp.Views.MainPage.Dashboard"
              Title="Dashboard">
     <VerticalStackLayout>
-        <Label 
-            Text="App DASHBOARD!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <StackLayout>
+            <Label Text="WEEKLY WORK" />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="FREE TIME" />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="LEARN TIME" />
+        </StackLayout>
     </VerticalStackLayout>
 </ContentPage>
