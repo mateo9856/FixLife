@@ -8,28 +8,37 @@
 	<ContentPage.BindingContext>
 		<FirstConfig:FirstPlanViewModel/>
 	</ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
+    </ContentPage.Resources>
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to FixLife"
-            VerticalOptions="Center" 
+        <StackLayout>
+            <Label 
+            Text="Hello! Welcome to FixLife!"
+            VerticalOptions="Center"
+            FontSize="22"
             HorizontalOptions="Center" />
 
-        <Label
+            <Label
             Text="Before you start use app, you need to prepare your day plan."
             VerticalOptions="Center"
             HorizontalOptions="Center"/>
-        <Label 
+        </StackLayout>
+        <StackLayout HeightRequest="100">
+        </StackLayout>
+        <StackLayout VerticalOptions="End">
+            <Label Style="{StaticResource Key=PadPurpleLabel}"
         Text="Click here to start!"
-        TextDecorations="Underline"
-        TextColor="MediumPurple"
+        Padding="40, 20"
         Margin="0, 20, 0, 0"
-        VerticalOptions="Center" 
+        VerticalOptions="End" 
         HorizontalOptions="Center">
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding CreateCommand}"
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CreateCommand}"
                                       CommandParameter="create" />
-            </Label.GestureRecognizers>
-        </Label>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
     </VerticalStackLayout>
     
 </ContentPage>

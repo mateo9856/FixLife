@@ -8,6 +8,9 @@
     <ContentPage.BindingContext>
         <FirstConfig:FirstPlanViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
+    </ContentPage.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -22,19 +25,15 @@
         <FlexLayout Grid.Row="1" MaximumHeightRequest="50" VerticalOptions="End" HorizontalOptions="Center">
             <Button
                 x:Name="btnPrev"
-                MaximumWidthRequest="200"
                 Margin="0,0,5,0"
-                BackgroundColor="MediumPurple"
-                TextColor="White"
+                Style="{StaticResource Key=PadPurpleLabel}"
                 Text="Previous"
                 Clicked="Button_Clicked_Previous"
                 />
             <Button
                 x:Name="btnNext"
                 Margin="5,0,0,0"
-                MaximumWidthRequest="200"
-                BackgroundColor="MediumPurple"
-                TextColor="White"
+                Style="{StaticResource Key=PadPurpleLabel}"
                 Text="Next"
                 Clicked="Button_Clicked_Next"
                 />
