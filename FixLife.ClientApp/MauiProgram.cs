@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CommunityToolkit.Maui;
 using FixLife.ClientApp.Common;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
@@ -13,6 +14,7 @@ namespace FixLife.ClientApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
