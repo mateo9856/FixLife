@@ -17,7 +17,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         public Action<Button> ClickNext { get; set; }
         public Action<Button> ClickPrev { get; set; }
         private IFirstPlanBuilder _firstPlanBuilder;
-        public string ActiveWorkImage { get; set; }
+        public WeeklyWorkImage ActiveWorkImage { get; set; }
         public FreeTime FreeTime { get; set; }
         public WeeklyWork WeeklyWork { get; set; }
         public LearnTime LearnTime { get; set; }
@@ -38,7 +38,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 new WeeklyWorkImage {Source = "work.png", Description = "Daily Work", Name = "Work"},
                 new WeeklyWorkImage {Source = "business.png", Description = "Working with your business", Name = "Company"},
             };
-            ActiveWorkImage = WorkImages.First().Source;
+            ActiveWorkImage = WorkImages.First();
             CreateCommand = new Command(async (cmd) =>
             {
                 await Shell.Current.GoToAsync("CreatorPage");
@@ -51,16 +51,16 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             int currentImage = Array.IndexOf(WorkImages, ActiveWorkImage);
             try
             {
-                ActiveWorkImage = WorkImages[currentImage + directionCount].Source;
+                ActiveWorkImage = WorkImages[currentImage + directionCount];
             
             } catch(IndexOutOfRangeException ex)
             {
                 if(directionCount == 1)
-                    ActiveWorkImage = WorkImages.First().Source;
+                    ActiveWorkImage = WorkImages.First();
                 else
-                    ActiveWorkImage = WorkImages.Last().Source;
+                    ActiveWorkImage = WorkImages.Last();
             }
-            element.Source = ActiveWorkImage;
+            element.Source = ActiveWorkImage.Source;
         }
 
         public void SummaryPlan()

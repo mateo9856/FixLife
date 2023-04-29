@@ -7,10 +7,12 @@
     <ContentView.BindingContext>
         <FirstConfig:FirstPlanViewModel/>
     </ContentView.BindingContext>
-    <FlexLayout Direction="Column">
-        <Grid>
+    <ContentView.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
+    </ContentView.Resources>
+    <Grid VerticalOptions="FillAndExpand">
             <Grid.RowDefinitions>
-                <RowDefinition Height="{x:OnPlatform Android=200, WinUI=250, Default=200}"/>
+                <RowDefinition Height="{x:OnPlatform Android=200, WinUI=200, Default=200}"/>
                 <RowDefinition Height="1*" />
                 <RowDefinition Height="200" />
             </Grid.RowDefinitions>
@@ -24,7 +26,9 @@
                     <TapGestureRecognizer Tapped="SetPreviousImage" />
                 </Label.GestureRecognizers>
             </Label>
+            <Label Text="Select your work Type" HorizontalTextAlignment="Center" Grid.Column="1" />
             <Border Grid.Column="1"
+                    Margin="0,30,0,0"
                     MinimumWidthRequest="{x:OnPlatform Android=150, WinUI=250, Default=250 }"
                     MinimumHeightRequest="{x:OnPlatform Android=150, WinUI=180, Default=150}"
                     MaximumWidthRequest="{x:OnPlatform Android=150, WinUI=380, Default=350}"
@@ -35,7 +39,7 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <ImageButton x:Name="activeWorkMessage" Source="{Binding ActiveWorkImage}"/>
+                <ImageButton x:Name="activeWorkMessage" Source="{Binding ActiveWorkImage.Source}"/>
             </Border>
             <Label HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" Text="{Static Member=f:FaFreeSolid.ChevronRight}" FontSize="45" TextColor="White">
                 <Label.GestureRecognizers>
@@ -54,20 +58,17 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <FlexLayout Margin="0,15, 0, 0" Grid.Row="2" JustifyContent="SpaceBetween" Grid.Column="1">
+            <FlexLayout Margin="0,15, 0, 0" Grid.Row="2" JustifyContent="SpaceAround" Grid.Column="1">
                 <VerticalStackLayout>
                     <Label Text="From:" HorizontalOptions="Center" />
-                    <TimePicker Margin="0,15,0,0" Time="{Binding WeeklyWorkViewModel.WeeklyWorkStart}"/>
+                    <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding WeeklyWorkViewModel.WeeklyWorkStart}"/>
                 </VerticalStackLayout>
                 <VerticalStackLayout>
                     <Label Text="To:" HorizontalOptions="Center" />
-                    <TimePicker Margin="0,15,0,0" Time="{Binding WeeklyWorkViewModel.WeeklyWorkEnd}"/>
+                    <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding WeeklyWorkViewModel.WeeklyWorkEnd}" FlowDirection="MatchParent"/>
                 </VerticalStackLayout>
 
             </FlexLayout>
-            
+
         </Grid>
-        <!--<FlexLayout BackgroundColor="Green" Direction="Column">
-        </FlexLayout>-->
-    </FlexLayout>
 </ContentView>

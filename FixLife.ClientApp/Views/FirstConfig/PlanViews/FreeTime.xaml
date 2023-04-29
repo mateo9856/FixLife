@@ -6,6 +6,9 @@
 	<ContentView.BindingContext>
 		<FirstConfig:FreeTimeViewModel/>
 	</ContentView.BindingContext>
+    <ContentView.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
+    </ContentView.Resources>
     <VerticalStackLayout>
         <HorizontalStackLayout HorizontalOptions="Center">
             <Entry Text="{Binding HobbyText}"
@@ -15,11 +18,11 @@
         <HorizontalStackLayout HorizontalOptions="Center" Margin="0,15, 0, 0">
             <VerticalStackLayout>
                 <Label Text="From:" HorizontalOptions="Center" />
-                <TimePicker Margin="0,15,0,0" Time="{Binding FreeTimeStart}"/>
+                <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding FreeTimeStart}"/>
             </VerticalStackLayout>
             <VerticalStackLayout>
                 <Label Text="To:" HorizontalOptions="Center" />
-                <TimePicker Margin="0,15,0,0" Time="{Binding FreeTimeEnd}"/>
+                <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding FreeTimeEnd}"/>
             </VerticalStackLayout>
             <Button Margin="10,0,0,0" Text="Add"
                     Command="{Binding AddToListCommand}"

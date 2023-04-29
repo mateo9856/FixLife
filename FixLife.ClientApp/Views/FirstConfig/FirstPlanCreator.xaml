@@ -11,7 +11,8 @@
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
-    <Grid>
+    <ScrollView>
+    <Grid VerticalOptions="FillAndExpand">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -39,4 +40,5 @@
                 />
         </FlexLayout>
     </Grid>
+    </ScrollView>
 </ContentPage>

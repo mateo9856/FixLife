@@ -6,6 +6,9 @@
 	<ContentView.BindingContext>
 		<FirstConfig:LearnTimeViewModel/>
 	</ContentView.BindingContext>
+    <ContentView.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
+    </ContentView.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -48,11 +51,11 @@
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2">
             <Label Text="Start hour:" HorizontalOptions="Center" />
-            <TimePicker Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding SelectedStartTime}" HorizontalOptions="Center"/>
+            <TimePicker Style="{StaticResource Key=WhiteTime}" Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding SelectedStartTime}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2" Grid.Column="1">
             <Label Text="Weekly destination:" HorizontalOptions="Center" />
-            <TimePicker Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding TimeInterval}" HorizontalOptions="Center"/>
+            <TimePicker Style="{StaticResource Key=WhiteTime}" Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding TimeInterval}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
         <CollectionView Grid.Row="2" Grid.ColumnSpan="2">
             <CollectionView.ItemTemplate>

@@ -11,6 +11,12 @@
     <Style TargetType="Button" x:Key="PurpButton">
         <Setter Property="MaximumWidthRequest" Value="200" />
         <Setter Property="BackgroundColor" Value="Purple" />
-        <Setter Property="Text" Value="White" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+
+    <Style TargetType="TimePicker" x:Key="WhiteTime">
+        <Setter Property="BackgroundColor" Value="White" />
+        <Setter Property="TextColor" Value="Black" />
+        <Setter Property="Format" Value="HH:mm" />
     </Style>
 </ResourceDictionary>
