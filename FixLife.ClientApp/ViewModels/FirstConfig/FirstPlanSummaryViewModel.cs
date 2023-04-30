@@ -1,4 +1,5 @@
-﻿using FixLife.ClientApp.Common;
+﻿using CommunityToolkit.Maui.Views;
+using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Infrastructure.FirstPlan;
 using FixLife.ClientApp.Models.AppPlan;
 using FixLife.ClientApp.Models.FirstPlan;
@@ -21,7 +22,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             string.Format("Days: {0} Start: {1} End: {2}", string.Join(", ", SummaryPlan.WeeklyWork.DayOfWeeks.Where(d => d.Selected).Select(d => d.Day)),
                 SummaryPlan.WeeklyWork.TimeStart, SummaryPlan.WeeklyWork.TimeEnd);
         public string LearnTimeSummaryTextView =>
-            string.Format("{0} Start: {1} Interval: {2}", (SummaryPlan.LearnTime.IsWeekly ? "Weekly plan" : "Yearly plan"),
+            string.Format("{0} Start: {1} Interval: {2}", (SummaryPlan.LearnTime.IsWeekly ? "WEEKLY PLAN" : "YEARLY PLAN"),
                 SummaryPlan.LearnTime.StartTime, SummaryPlan.LearnTime.TimeInterval);
         public string LearnTimeTextView { get; }
         public ICommand CreateCommand { get; private set; }
@@ -66,7 +67,10 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             {
                 await Shell.Current.GoToAsync("DashboardPage");
             }
-            //TODO: Create Popup by code
+            else
+            {
+                
+            }
         }
 
     }

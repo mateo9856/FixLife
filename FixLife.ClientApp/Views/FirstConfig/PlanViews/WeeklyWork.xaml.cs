@@ -13,11 +13,11 @@ public partial class WeeklyWork : ContentView
 
     private void SetPreviousImage(object sender, TappedEventArgs e)
     {
-        viewModel.SetImage("Left", activeWorkMessage);
+        viewModel.SetImage("Left", activeWorkMessage, SetterText);
     }
 
     private void SetNextImage(object sender, TappedEventArgs e)
     {
-        viewModel.SetImage("Right", activeWorkMessage);
+        viewModel.SetImage("Right", activeWorkMessage, SetterText);
     }
 }

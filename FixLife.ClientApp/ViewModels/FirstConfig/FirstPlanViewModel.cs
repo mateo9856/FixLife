@@ -45,7 +45,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             });
         }
 
-        public void SetImage(string direction, ImageButton element)
+        public void SetImage(string direction, ImageButton element, Label label)
         {
             int directionCount = direction == null ? 1 : direction == "Left" ? -1 : 1;
             int currentImage = Array.IndexOf(WorkImages, ActiveWorkImage);
@@ -61,6 +61,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                     ActiveWorkImage = WorkImages.Last();
             }
             element.Source = ActiveWorkImage.Source;
+            label.Text = ActiveWorkImage.Description;
         }
 
         public void SummaryPlan()
