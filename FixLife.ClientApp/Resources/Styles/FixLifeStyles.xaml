@@ -14,6 +14,13 @@
         <Setter Property="TextColor" Value="White" />
     </Style>
 
+    <Style TargetType="Border" x:Key="DashboardBorder">
+        <Setter Property="MinimumHeightRequest" Value="100" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+    </Style>
+    
     <Style TargetType="TimePicker" x:Key="WhiteTime">
         <Setter Property="BackgroundColor" Value="White" />
         <Setter Property="TextColor" Value="Black" />

@@ -7,15 +7,42 @@
 	<ContentPage.BindingContext>
 		<Main:DashboardViewModel/>
 	</ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
+    </ContentPage.Resources>
     <VerticalStackLayout>
         <StackLayout>
-            <Label Text="WEEKLY WORK" />
+            <Border Style="{StaticResource Key=DashboardBorder}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15,15,15,15" />
+                </Border.StrokeShape>
+                <StackLayout>
+                    <Label Text="WEEKLY WORK" TextColor="Black" />
+                    <Label HorizontalTextAlignment="End" Text="{Binding WorkStatus}" />
+                    <Label HorizontalTextAlignment="End" IsVisible="{Binding TimesLeftVisible}" Text="Times left:" />
+                    <Label HorizontalTextAlignment="End" IsVisible="{Binding TimeToWorkVisible}" Text="Time to work: " />
+                </StackLayout>
+            </Border>
         </StackLayout>
         <StackLayout>
-            <Label Text="FREE TIME" />
+            <Border Style="{StaticResource Key=DashboardBorder}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15,15,15,15" />
+                </Border.StrokeShape>
+                <StackLayout>
+                    <Label FontSize="24" Text="FREE TIME" TextColor="Black"/>
+                </StackLayout>
+            </Border>
         </StackLayout>
         <StackLayout>
-            <Label Text="LEARN TIME" />
+            <Border Style="{StaticResource Key=DashboardBorder}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15,15,15,15" />
+                </Border.StrokeShape>
+                <StackLayout>
+                    <Label Text="LEARN TIME" TextColor="Black"/>
+                </StackLayout>
+            </Border>
         </StackLayout>
         <StackLayout MaximumHeightRequest="80">
             <Button Text="Edit plan" BackgroundColor="Purple" TextColor="White" Command="{Binding EditPlanCommand}"/>

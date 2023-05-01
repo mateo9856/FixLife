@@ -51,7 +51,7 @@
     <ShellContent
         Title="Dashboard Page"
         ContentTemplate="{DataTemplate main:Dashboard}"
-        IsVisible="False"
+        IsVisible="True"
         Route="DashboardPage" />
     </TabBar>
 
