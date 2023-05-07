@@ -32,7 +32,7 @@ namespace FixLife.ClientApp.ViewModels.Main
 
         private bool InWorkState()
         {
-            if(ActualPlan == null) return false;
+            if(ActualPlan == null || ActualPlan.WeeklyWork == null) return false;
             var nowDate = DateTime.Parse(DateTime.Now.ToString());
             var startDate = DateTime.Parse(ActualPlan.WeeklyWork.TimeStart.ToString());
             var endDate = DateTime.Parse(ActualPlan.WeeklyWork.TimeEnd.ToString());

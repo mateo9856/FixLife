@@ -6,53 +6,63 @@
     xmlns:local="clr-namespace:FixLife.ClientApp"
     xmlns:main="clr-namespace:FixLife.ClientApp.Views.MainPage"
     xmlns:firstconfig="clr-namespace:FixLife.ClientApp.Views.FirstConfig"
-    Shell.FlyoutBehavior="{OnIdiom Phone=Flyout, Default=Disabled}">
-    
-    <TabBar>
-    <ShellContent
-        IsEnabled="False"
+    Shell.FlyoutBehavior="Flyout">
+
+    <FlyoutItem Title="Login/Register">
+        <Tab>
+        <ShellContent
         Title="Log On"
         ContentTemplate="{DataTemplate local:LoginPage}"
         Route="LoginPage" />
 
-    <ShellContent
-        Title="About app"
-        ContentTemplate="{DataTemplate local:AboutApp}"
-        Route="AboutApp" />
-    
-    <ShellContent
-        Title="Main page"
-        ContentTemplate="{DataTemplate main:MainPage}"
-        IsVisible="False"
-        Route="MainPage" />
-        
-    <ShellContent
+        <ShellContent
         Title="Register Page"
         ContentTemplate="{DataTemplate local:RegisterPage}"
-        IsVisible="False"
         Route="RegisterPage" />
+        </Tab>
+    </FlyoutItem>
 
-    <ShellContent
-        Title="FirstPlanPage"
-        ContentTemplate="{DataTemplate firstconfig:FirstConfigPage}"
-        IsVisible="True"
-        Route="FirstPlanPage" />
-    
-    <ShellContent
-        Title="CreatorPage"
-        ContentTemplate="{DataTemplate firstconfig:FirstPlanCreator}"
-        IsVisible="False"
-        Route="CreatorPage" />
-    <ShellContent
-        Title="FirstPlanSummaryPage"
-        ContentTemplate="{DataTemplate firstconfig:FirstPlanSummary}"
-        IsVisible="False"
-        Route="FirstPlanSummaryPage" />
-    <ShellContent
+    <FlyoutItem Title="Dashboard">
+        <ShellContent
         Title="Dashboard Page"
         ContentTemplate="{DataTemplate main:Dashboard}"
         IsVisible="True"
         Route="DashboardPage" />
-    </TabBar>
+    </FlyoutItem>
+    
+    <FlyoutItem Title="Create plan!">
+        <ShellContent
+        Title="FirstPlanPage"
+        ContentTemplate="{DataTemplate firstconfig:FirstConfigPage}"
+        IsVisible="True"
+        Route="FirstPlanPage" />
+
+        <ShellContent
+        Title="CreatorPage"
+        ContentTemplate="{DataTemplate firstconfig:FirstPlanCreator}"
+        IsVisible="False"
+        Route="CreatorPage" />
+        
+        <ShellContent
+        Title="FirstPlanSummaryPage"
+        ContentTemplate="{DataTemplate firstconfig:FirstPlanSummary}"
+        IsVisible="False"
+        Route="FirstPlanSummaryPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="About app!">
+        <Tab>
+        <ShellContent
+        Title="About app"
+        ContentTemplate="{DataTemplate local:AboutApp}"
+        Route="AboutApp" />
+
+        <ShellContent
+        Title="Main page"
+        ContentTemplate="{DataTemplate main:MainPage}"
+        IsVisible="False"
+        Route="MainPage" />
+        </Tab>
+    </FlyoutItem>
 
 </Shell>
