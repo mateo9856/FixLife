@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FixLife.ClientApp.Models.AppPlan
+namespace FixLife.ClientApp.Models
 {
     public class AppPlan
     {

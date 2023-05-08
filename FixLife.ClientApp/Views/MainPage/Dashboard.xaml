@@ -11,7 +11,7 @@
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
     <VerticalStackLayout>
-        <StackLayout>
+        <StackLayout VerticalOptions="Start">
             <Border Style="{StaticResource Key=DashboardBorder}">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
@@ -24,7 +24,7 @@
                 </StackLayout>
             </Border>
         </StackLayout>
-        <StackLayout>
+        <StackLayout VerticalOptions="Center">
             <Border Style="{StaticResource Key=DashboardBorder}">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
@@ -34,7 +34,7 @@
                 </StackLayout>
             </Border>
         </StackLayout>
-        <StackLayout>
+        <StackLayout VerticalOptions="End">
             <Border Style="{StaticResource Key=DashboardBorder}">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
@@ -44,8 +44,8 @@
                 </StackLayout>
             </Border>
         </StackLayout>
-        <StackLayout MaximumHeightRequest="80">
-            <Button Text="Edit plan" BackgroundColor="Purple" TextColor="White" Command="{Binding EditPlanCommand}"/>
+        <StackLayout VerticalOptions="End" MaximumHeightRequest="80">
+            <Button MaximumWidthRequest="300" Text="Edit plan" BackgroundColor="Purple" TextColor="White" Command="{Binding EditPlanCommand}"/>
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

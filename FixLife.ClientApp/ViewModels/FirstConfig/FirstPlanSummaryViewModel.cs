@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
 using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Infrastructure.FirstPlan;
-using FixLife.ClientApp.Models.AppPlan;
+using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.FirstPlan;
 using System;
 using System.Collections.Generic;

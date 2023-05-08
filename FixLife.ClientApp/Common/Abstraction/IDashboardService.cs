@@ -1,4 +1,4 @@
-﻿using FixLife.ClientApp.Models.AppPlan;
+﻿using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.Main;
 using System;
 using System.Collections.Generic;

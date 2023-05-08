@@ -19,11 +19,17 @@ namespace FixLife.ClientApp.Common
             client.Timeout = TimeSpan.FromSeconds(30);
         }
 
-        public async Task<T> CallServiceGetAsync(string address)
+        public async Task<T> CallServiceGetAsync(string address, object element = null)
         {
             Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
             try
             {
+                var message = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = uri,
+                    Content = element != null ? new StringContent(JsonConvert.SerializeObject(element), Encoding.UTF8) : null
+                };
                 var response = await client.GetAsync(uri);
                 var result = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<T>(result);

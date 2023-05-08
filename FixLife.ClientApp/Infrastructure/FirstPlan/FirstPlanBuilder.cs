@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FixLife.ClientApp.Common;
-using FixLife.ClientApp.Models.AppPlan;
+using FixLife.ClientApp.Models;
 using FixLife.ClientApp.ViewModels.FirstConfig;
 using System;
 using System.Collections.Generic;

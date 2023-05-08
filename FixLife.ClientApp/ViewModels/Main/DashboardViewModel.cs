@@ -1,4 +1,6 @@
-﻿using FixLife.ClientApp.Models.AppPlan;
+﻿using FixLife.ClientApp.Common;
+using FixLife.ClientApp.Models;
+using FixLife.ClientApp.Models.Dashboard;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,7 @@ namespace FixLife.ClientApp.ViewModels.Main
         public DashboardViewModel()
         {
             ActualPlan = new AppPlan();//TODO: Get Data from Api
+            GetPlanData();
             EditPlanCommand = new Command(async e => await EditPlan());
         }
 
@@ -39,9 +42,17 @@ namespace FixLife.ClientApp.ViewModels.Main
             return nowDate > startDate && nowDate < endDate;        
         }
 
+        private async void GetPlanData()
+        {
+            using(var client = new WebApiClient<DashboardData>())
+            {
+                var res = await client.CallServiceGetAsync("getdashboarddata");
+            }
+        }
+
         private async Task EditPlan()
         {
-            
+            await Shell.Current.GoToAsync("FirstConfigPage");
         }
 
     }
