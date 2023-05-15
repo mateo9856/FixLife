@@ -1,5 +1,7 @@
 ﻿using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction.Dashboard;
+using FixLife.WebApiInfra.Contexts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +10,23 @@ using System.Threading.Tasks;
 
 namespace FixLife.WebApiInfra.Services.Dashboard
 {
-    public class DashboardService : IDashboardService
+    public class DashboardService : BaseService<UserPlan>, IDashboardService
     {
-        public Task<IEnumerable<Plan>> GetDashboardData(string user)
+        private readonly IdentityContext _identityContext;
+        public DashboardService(ApplicationContext context, IdentityContext identityContext) : base(context)
         {
+            _identityContext = identityContext;
+        }
+
+        public async Task<Plan> GetDashboardData(string user)
+        {
+            var GetPlan = await _context.UserPlan.FirstOrDefaultAsync(d => d.Users.Id == Guid.Parse(user));
+
+            if(GetPlan != null)
+            {
+                return GetPlan.Plans;
+            }
+
             throw new NotImplementedException();
         }
     }

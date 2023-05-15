@@ -16,6 +16,7 @@ namespace FixLife.WebApiInfra.Contexts
         public DbSet<FreeTime> FreeTimes { get; set; }
         public DbSet<LearnTime> LearnTimes { get; set; }
         public DbSet<WeeklyWork> WeeklyWorks { get; set; }
+        public DbSet<UserPlan> UserPlan { get; set; }
         public DbSet<Plan> Plans { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
