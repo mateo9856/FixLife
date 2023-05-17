@@ -9,6 +9,6 @@ namespace FixLife.WebApiInfra.Abstraction.Dashboard
 {
     public interface IDashboardService
     {
-        Task<Plan> GetDashboardData(string user);
+        Task<(short, Plan)> GetDashboardData(string user);
     }
 }

@@ -18,16 +18,16 @@ namespace FixLife.WebApiInfra.Services.Dashboard
             _identityContext = identityContext;
         }
 
-        public async Task<Plan> GetDashboardData(string user)
+        public async Task<(short, Plan)> GetDashboardData(string user)
         {
             var GetPlan = await _context.UserPlan.FirstOrDefaultAsync(d => d.Users.Id == Guid.Parse(user));
 
             if(GetPlan != null)
             {
-                return GetPlan.Plans;
+                return (200,GetPlan.Plans);
             }
 
-            throw new NotImplementedException();
+            return (404, null);
         }
     }
 }

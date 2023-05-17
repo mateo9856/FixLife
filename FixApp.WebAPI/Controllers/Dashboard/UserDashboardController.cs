@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FixLife.WebApiQueries.Dashboard.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +19,10 @@ namespace FixApp.WebAPI.Controllers.Dashboard
         [HttpGet("getdashboarddata")]
         public async Task<ActionResult> GetDashboardData()
         {
-            //TODO: Create CQRS
-            return Ok();
+            //TODO: Get Claims Principals
+            var query = new GetDashboardDataQuery();
+            var response = await _mediator.Send(query);
+            return Ok(response);
         }
 
     }

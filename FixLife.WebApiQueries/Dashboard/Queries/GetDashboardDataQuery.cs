@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace FixLife.WebApiQueries.Dashboard.Queries
 {
-    public class GetDashboardDataQuery : IRequest<IEnumerable<Plan>>
+    public class GetDashboardDataQuery : IRequest<(short, Plan)>
     {
+        public string UserId { get; set; }
     }
 }

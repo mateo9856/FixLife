@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FixLife.WebApiQueries.Dashboard.Queries
 {
-    public class GetDashboardDataQueryHandler : IRequestHandler<GetDashboardDataQuery, IEnumerable<Plan>>
+    public class GetDashboardDataQueryHandler : IRequestHandler<GetDashboardDataQuery, (short, Plan)>
     {
 
         private readonly IDashboardService _dashboardService;
@@ -18,9 +18,10 @@ namespace FixLife.WebApiQueries.Dashboard.Queries
             _dashboardService= dashboard;
         }
 
-        public Task<IEnumerable<Plan>> Handle(GetDashboardDataQuery request, CancellationToken cancellationToken)
+        public async Task<(short, Plan)> Handle(GetDashboardDataQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var ResponseData = await _dashboardService.GetDashboardData(request.UserId);
+            return ResponseData;
         }
     }
 }
