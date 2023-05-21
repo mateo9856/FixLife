@@ -8,8 +8,8 @@ namespace FixLife.WebApiInfra.Services.Identity
 {
     public class ClientIdentityResponse
     {
-        public int Status { get; set; }
-        public string Token { get; set; }
-        public string Details { get; set; }
+        public int? Status { get; set; }
+        public string? Token { get; set; }
+        public string? Details { get; set; }
     }
 }
