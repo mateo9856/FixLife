@@ -17,6 +17,7 @@ namespace FixLife.WebApiQueries.Account.Commands
 
         public AddClientUserHandler(IClientIdentityService clientIdentityService, IMapper mapper)
         {
+            _mapper = mapper;
             _clientIdentityService = clientIdentityService;
         }
 
@@ -32,7 +33,7 @@ namespace FixLife.WebApiQueries.Account.Commands
             };
 
             var register = await _clientIdentityService.RegisterAsync(user);
-
+            
             return _mapper.Map<ClientIdentityResponse>(register);
         }
     }

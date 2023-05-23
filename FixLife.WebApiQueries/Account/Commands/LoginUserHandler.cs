@@ -30,6 +30,8 @@ namespace FixLife.WebApiQueries.Account.Commands
             if (elementRequest.Credentials.Contains("@")) user.Email = elementRequest.Credentials;
             else user.PhoneNumber = elementRequest.Credentials;
 
+            user.Password = elementRequest.Password;
+
             var response = await _clientIdentityService.LoginAsync(user);
 
             return _mapper.Map<ClientIdentityResponse>(response);
