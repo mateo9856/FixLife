@@ -11,6 +11,6 @@ namespace FixLife.ClientApp.Common.Abstraction
     public interface IDashboardService
     {
         Task SaveBasicDataToFile();
-        Task<BasicPlan> GetAppPlanData();
+        Task<AppPlan> GetAppPlanData();
     }
 }

@@ -22,6 +22,7 @@ namespace FixApp.WebAPI.Controllers.Dashboard
             var userId = User.Claims.FirstOrDefault(d => d.Type == "Id")?.Value;
             //TODO: send with this Id and return data
             var query = new GetDashboardDataQuery();
+            query.UserId = userId;
             var response = await _mediator.Send(query);
             return Ok(response);
         }

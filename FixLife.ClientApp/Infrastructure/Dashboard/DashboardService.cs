@@ -1,4 +1,7 @@
-﻿using FixLife.ClientApp.Common.Abstraction;
+﻿using FixLife.ClientApp.Common;
+using FixLife.ClientApp.Common.Abstraction;
+using FixLife.ClientApp.Models;
+using FixLife.ClientApp.Models.Dashboard;
 using FixLife.ClientApp.Models.Main;
 using System;
 using System.Collections.Generic;
@@ -10,9 +13,17 @@ namespace FixLife.ClientApp.Infrastructure.Dashboard
 {
     public class DashboardService : IDashboardService
     {
-        public Task<BasicPlan> GetAppPlanData()
+        public async Task<AppPlan> GetAppPlanData()
         {
-            throw new NotImplementedException();
+            AppPlan plan;
+            using (var client = new WebApiClient<DashboardData>())
+            {
+                var res = await client.CallServiceGetAsync("getdashboarddata");
+                plan = res.Plan;
+            }
+
+            return plan;
+
         }
 
         public Task SaveBasicDataToFile()

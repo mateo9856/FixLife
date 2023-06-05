@@ -11,5 +11,6 @@ namespace FixLife.WebApiQueries.Dashboard.Queries
     public class GetDashboardDataQuery : IRequest<(short, Plan)>
     {
         public string UserId { get; set; }
+    
     }
 }

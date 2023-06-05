@@ -8,8 +8,8 @@ namespace FixLife.ClientApp.Models.Main
 {
     public class BasicPlan
     {
-        public string WeeklyWordDesc { get; set; }
-        public List<string> FreeTimes { get; set; }
+        public string WeeklyWorkDesc { get; set; }
+        public IEnumerable<string> FreeTimes { get; set; }
         public string LearnTime { get; set; }
     }
 }

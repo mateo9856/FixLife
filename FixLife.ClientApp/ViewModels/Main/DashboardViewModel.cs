@@ -1,4 +1,5 @@
 ﻿using FixLife.ClientApp.Common;
+using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.Dashboard;
 using System;
@@ -14,7 +15,7 @@ namespace FixLife.ClientApp.ViewModels.Main
     {
         public ICommand EditPlanCommand { get; private set; }
         public AppPlan ActualPlan { get; set; }
-        
+        private readonly IDashboardService _dashboardService;
         public string WorkStatus { 
             get 
             {
@@ -26,8 +27,9 @@ namespace FixLife.ClientApp.ViewModels.Main
         public bool TimesLeftVisible { get => InWorkState(); }
         public bool TimeToWorkVisible { get => !InWorkState(); }
 
-        public DashboardViewModel()
+        public DashboardViewModel(IDashboardService dashboardService)
         {
+            _dashboardService = dashboardService;
             ActualPlan = new AppPlan();//TODO: Get Data from Api
             GetPlanData();
             EditPlanCommand = new Command(async e => await EditPlan());
@@ -44,10 +46,7 @@ namespace FixLife.ClientApp.ViewModels.Main
 
         private async void GetPlanData()
         {
-            using(var client = new WebApiClient<DashboardData>())
-            {
-                var res = await client.CallServiceGetAsync("getdashboarddata");
-            }
+            ActualPlan = await _dashboardService.GetAppPlanData();
         }
 
         private async Task EditPlan()
