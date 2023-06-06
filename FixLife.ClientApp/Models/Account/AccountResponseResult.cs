@@ -15,5 +15,8 @@ namespace FixLife.ClientApp.Models.Account
         public string Token { get; set; }
         [JsonProperty(PropertyName = "details")]
         public string Details { get; set; }
+        [JsonProperty(PropertyName = "email")]
+        public string Email { get; set; }
+
     }
 }

@@ -62,7 +62,8 @@ namespace FixLife.WebApiInfra.Services.Identity
                     {
                         Status = 200,
                         Details = "User logged!",
-                        Token = stringToken
+                        Token = stringToken,
+                        Email = findUser.Email
                     };
 
                 }

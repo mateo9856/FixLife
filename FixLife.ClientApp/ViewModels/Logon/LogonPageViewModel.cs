@@ -1,6 +1,7 @@
 ﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Models.Account;
+using FixLife.ClientApp.Sessions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -57,8 +58,12 @@ namespace FixLife.ClientApp.ViewModels.Logon
                 response = await client.PostPutAsync(credentials, "Account/Login", true);
             }
             if (response != null)
+            {
+                UserSession.Token = response.Token;
+                UserSession.Email = response.Email;
                 await RedirectToPageAsync("FirstPlanPage");
-            //TODO:MainPage and keep data in cache/static class
+            }
+            
         }
 
         private async void Register()

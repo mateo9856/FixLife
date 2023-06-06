@@ -11,5 +11,6 @@ namespace FixLife.WebApiQueries.Account
         public int? Status { get; set; }
         public string? Token { get; set; }
         public string? Details { get; set; }
+        public string? Email { get; set; }
     }
 }
