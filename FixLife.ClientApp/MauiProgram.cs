@@ -15,6 +15,8 @@ namespace FixLife.ClientApp
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
+                .RegisterServices()
+                .RegisterViewModels()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

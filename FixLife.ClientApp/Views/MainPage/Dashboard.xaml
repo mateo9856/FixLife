@@ -4,9 +4,7 @@
              xmlns:Main="clr-namespace:FixLife.ClientApp.ViewModels.Main"
              x:Class="FixLife.ClientApp.Views.MainPage.Dashboard"
              Title="Dashboard">
-	<ContentPage.BindingContext>
-		<Main:DashboardViewModel/>
-	</ContentPage.BindingContext>
+
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
