@@ -59,11 +59,15 @@ namespace FixLife.ClientApp.ViewModels.Logon
                 {
                     UserSession.Token = response.Token;
                     UserSession.Email = response.Email;
-                    await RedirectToPageAsync("FirstPlanPage");
+                    if (!response.HasPlans.HasValue)
+                        throw new Exception("Value HasPlans is null!");
+                    if(response.HasPlans.HasValue && !response.HasPlans.Value)
+                        await RedirectToPageAsync("FirstPlanPage");
+                    await RedirectToPageAsync("DashboardPage");
                 }
             } catch(Exception ex)
             {
-                var errorPopup = new ErrorPopup("Undefined Error" , ex.Message);
+                var errorPopup = new ErrorPopup("Undefined Error", ex.Message);
                 await ShowPopup(errorPopup);
             }
             

@@ -18,10 +18,12 @@ namespace FixLife.WebApiInfra.Services.Identity
     public class ClientIdentityService : IClientIdentityService
     {
         private readonly IdentityContext _context;
+        private readonly ApplicationContext _applicationContext;
         private JwtOptions _jwtOptions;
-        public ClientIdentityService(IdentityContext context, IOptions<JwtOptions> options)
+        public ClientIdentityService(IdentityContext context, ApplicationContext appContext, IOptions<JwtOptions> options)
         {
             _context = context;
+            _applicationContext = appContext;
             _jwtOptions = options.Value;
         }
 
@@ -58,12 +60,17 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var jwtToken = tokenHandler.WriteToken(token);
                     var stringToken = tokenHandler.WriteToken(token);
 
+                    //Find if has Plans
+                    //var plans = _applicationContext.UserPlan; TODO DependAccountsEnum cast to int
+                    var hasPlans = _applicationContext.UserPlan.Any(d => d.Users == findUser);
+
                     return new ClientIdentityResponse()
                     {
                         Status = 200,
                         Details = "User logged!",
                         Token = stringToken,
-                        Email = findUser.Email
+                        Email = findUser.Email,
+                        HasPlans = hasPlans
                     };
 
                 }

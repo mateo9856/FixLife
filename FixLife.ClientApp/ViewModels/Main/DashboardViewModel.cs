@@ -30,7 +30,7 @@ namespace FixLife.ClientApp.ViewModels.Main
         public DashboardViewModel(IDashboardService dashboardService)
         {
             _dashboardService = dashboardService;
-            ActualPlan = new AppPlan();//TODO: Get Data from Api
+            ActualPlan = new AppPlan();
             GetPlanData();
             EditPlanCommand = new Command(async e => await EditPlan());
         }

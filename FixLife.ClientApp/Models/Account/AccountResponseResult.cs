@@ -17,6 +17,8 @@ namespace FixLife.ClientApp.Models.Account
         public string Details { get; set; }
         [JsonProperty(PropertyName = "email")]
         public string Email { get; set; }
+        [JsonProperty(PropertyName = "hasplans")]
+        public bool? HasPlans { get; set; }
 
     }
 }

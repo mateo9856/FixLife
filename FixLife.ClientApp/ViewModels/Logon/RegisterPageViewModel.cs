@@ -72,7 +72,7 @@ namespace FixLife.ClientApp.ViewModels.Logon
             }
 
             if(response != null)
-                await RedirectToPageAsync("FirstPlanPage");
+                await RedirectToPageAsync("LoginPage");
 
         }
 

@@ -3,6 +3,7 @@ using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Infrastructure.FirstPlan;
 using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.FirstPlan;
+using FixLife.ClientApp.Views.Popups;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace FixLife.ClientApp.ViewModels.FirstConfig
 {
-    public class FirstPlanSummaryViewModel
+    public class FirstPlanSummaryViewModel : BaseViewModel
     {
         public AppPlan SummaryPlan { get; set; }
         public List<string> FreeTimeSummaryTextView =>
@@ -34,7 +35,6 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         private async Task Create()
         {
-            //Request builder - Json does not support TimeSpan
             var requestBuilder = new
             {
                 WeeklyWork = new
@@ -57,19 +57,27 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                     StartTime = SummaryPlan.LearnTime.StartTime.ToString(),
                 }
             };
-      
-            PlanCreateResponse response = null;
-            using(var client = new WebApiClient<PlanCreateResponse>())
+
+            try
             {
-                response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true);
-            }
-            if(response.Status == 201)
+                PlanCreateResponse response = null;
+                using (var client = new WebApiClient<PlanCreateResponse>())
+                {
+                    response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true);
+                }
+                if (response.Status == 201)
+                {
+                    await Shell.Current.GoToAsync("DashboardPage");
+                }
+                else
+                {
+                    var popup = new ErrorPopup(response.Status.ToString(), response.Message);
+                    await ShowPopup(popup);
+                }
+            } catch (Exception ex)
             {
-                await Shell.Current.GoToAsync("DashboardPage");
-            }
-            else
-            {
-                
+                var popup = new ErrorPopup("Unexpected Error", ex.Message);
+                await ShowPopup(popup);
             }
         }
 
