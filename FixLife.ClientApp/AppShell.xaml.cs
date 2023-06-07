@@ -13,6 +13,7 @@ namespace FixLife.ClientApp
 
         private void RegisterRoutes()
         {
+            Routing.RegisterRoute("LoginPage", typeof(LoginPage));
             Routing.RegisterRoute("MainPage", typeof(Views.MainPage.MainPage));
             Routing.RegisterRoute("RegisterPage", typeof(RegisterPage));
             Routing.RegisterRoute("FirstPlanPage", typeof(FirstConfigPage));

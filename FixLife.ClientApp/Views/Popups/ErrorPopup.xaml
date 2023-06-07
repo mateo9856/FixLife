@@ -4,18 +4,32 @@
                xmlns:bind="clr-namespace:FixLife.ClientApp.Views.Popups"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="FixLife.ClientApp.Views.Popups.ErrorPopup">
-    <VerticalStackLayout>
-        <Label 
-            Text="Error!"
+    <VerticalStackLayout BackgroundColor="White">
+        <StackLayout>
+            <Label 
+            Text="Error: "
             TextColor="Red"
+            FontSize="18"
+            FontAttributes="Bold"
             HorizontalOptions="Center" />
-        <Label 
+            <Label 
             Text="{Binding Id}"
             TextColor="Red"
+            FontSize="18"
             HorizontalOptions="Center" />
+        </StackLayout>
         <Label 
             Text="{Binding Message}"
+            TextColor="Black"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
+        <Button
+            Text="Close"
+            VerticalOptions="EndAndExpand"
+            BackgroundColor="Purple"
+            MaximumWidthRequest="200"
+            TextColor="White"
+            FontSize="24"
+            Clicked="Button_Close" />
     </VerticalStackLayout>
 </toolkit:Popup>

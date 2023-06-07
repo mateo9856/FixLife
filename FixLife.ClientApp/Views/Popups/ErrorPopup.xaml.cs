@@ -13,4 +13,6 @@ public partial class ErrorPopup : Popup
 		Message = message;
 		InitializeComponent();
 	}
+
+    private void Button_Close(object sender, EventArgs e) => Close();
 }

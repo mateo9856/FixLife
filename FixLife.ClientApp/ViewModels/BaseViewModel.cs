@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Maui.Views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,6 +20,13 @@ namespace FixLife.ClientApp.ViewModels
 
         public async Task RedirectToPageAsync(string page) { 
             await Shell.Current.GoToAsync(page);
+        }
+
+        protected async Task ShowPopup(Popup popup)
+        {
+            var page = Application.Current?.MainPage;
+            if (page != null)
+                await page.ShowPopupAsync(popup);
         }
 
     }

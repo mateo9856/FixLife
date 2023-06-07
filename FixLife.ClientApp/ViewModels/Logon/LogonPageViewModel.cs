@@ -1,13 +1,9 @@
-﻿using FixLife.ClientApp.Common;
+﻿using CommunityToolkit.Maui.Views;
+using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Models.Account;
 using FixLife.ClientApp.Sessions;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FixLife.ClientApp.Views.Popups;
 using System.Windows.Input;
 
 namespace FixLife.ClientApp.ViewModels.Logon
@@ -53,15 +49,22 @@ namespace FixLife.ClientApp.ViewModels.Logon
 
             AccountResponseResult response = null;
 
-            using (var client = new WebApiClient<AccountResponseResult>())
+            try
             {
-                response = await client.PostPutAsync(credentials, "Account/Login", true);
-            }
-            if (response != null)
+                using (var client = new WebApiClient<AccountResponseResult>())
+                {
+                    response = await client.PostPutAsync(credentials, "Account/Login", true);
+                }
+                if (response != null)
+                {
+                    UserSession.Token = response.Token;
+                    UserSession.Email = response.Email;
+                    await RedirectToPageAsync("FirstPlanPage");
+                }
+            } catch(Exception ex)
             {
-                UserSession.Token = response.Token;
-                UserSession.Email = response.Email;
-                await RedirectToPageAsync("FirstPlanPage");
+                var errorPopup = new ErrorPopup("Undefined Error" , ex.Message);
+                await ShowPopup(errorPopup);
             }
             
         }
