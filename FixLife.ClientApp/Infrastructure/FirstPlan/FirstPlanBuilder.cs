@@ -49,6 +49,7 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
         {
             var mapModel = _mapper.Map<WeeklyWork>(model);
             Plan.WeeklyWork = mapModel;
+            //TODO: FIX First plan View Models
         }
     }
 }

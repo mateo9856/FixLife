@@ -61,6 +61,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         public LearnTimeViewModel()
         {
             InitDayOfWeeks();
+            SelectedDate = DateTime.Now;
         }
         private void InitDayOfWeeks()
         {
