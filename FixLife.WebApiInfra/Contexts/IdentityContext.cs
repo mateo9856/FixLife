@@ -21,7 +21,6 @@ namespace FixLife.WebApiInfra.Contexts
         {
             modelBuilder.Entity<AdminUser>().HasKey(x => x.Id);
             modelBuilder.Entity<ClientUser>().HasKey(x => x.Id);
-            modelBuilder.Entity<ClientUser>().Ignore(x => x.DependAccounts);
             base.OnModelCreating(modelBuilder);
         }
 

@@ -63,7 +63,8 @@ namespace FixLife.ClientApp.ViewModels.Logon
                         throw new Exception("Value HasPlans is null!");
                     if(response.HasPlans.HasValue && !response.HasPlans.Value)
                         await RedirectToPageAsync("FirstPlanPage");
-                    await RedirectToPageAsync("DashboardPage");
+                    else
+                        await RedirectToPageAsync("DashboardPage");
                 }
             } catch(Exception ex)
             {

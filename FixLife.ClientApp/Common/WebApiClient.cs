@@ -52,7 +52,7 @@ namespace FixLife.ClientApp.Common
 
         public async Task<T> PostPutAsync(object element, string address, bool isPost, string token = null)
         {
-            Uri uri = new Uri(string.Format("{0}/{1}", ADDRESS, address));
+            Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
             try
             {
                 HttpMethod method = isPost ? HttpMethod.Post : HttpMethod.Put;

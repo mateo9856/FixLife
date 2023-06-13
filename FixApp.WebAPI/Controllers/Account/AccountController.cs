@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FixApp.WebAPI.Controllers.Account
 {
-
+    [Route("api/[controller]")]
     [AllowAnonymous]
     [ApiController]
     public class AccountController : ControllerBase
@@ -21,7 +21,7 @@ namespace FixApp.WebAPI.Controllers.Account
             _mediator= mediator;
         }
 
-        [HttpPost("Account/Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody]ClientIdentityRequest request)
         {
             var tryLogin = await _mediator.Send(new LoginUserCommand(request));
@@ -34,7 +34,7 @@ namespace FixApp.WebAPI.Controllers.Account
             return BadRequest(tryLogin);
         }
 
-        [HttpPost("Account/Register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody]ClientIdentityRegisterRequest request)
         {
             var tryRequest = await _mediator.Send(new AddClientUserCommand(request));
@@ -48,7 +48,7 @@ namespace FixApp.WebAPI.Controllers.Account
 
         }
         
-        [HttpGet("Account/Logout")]
+        [HttpGet("Logout")]
         public IActionResult Logout()
         {
             return Ok();

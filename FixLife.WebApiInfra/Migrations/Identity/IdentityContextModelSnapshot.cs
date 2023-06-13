@@ -52,7 +52,7 @@ namespace FixLife.WebApiInfra.Migrations.Identity
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdminUsers");
+                    b.ToTable("AdminUsers", (string)null);
                 });
 
             modelBuilder.Entity("FixLife.WebApiDomain.User.ClientUser", b =>
@@ -75,7 +75,7 @@ namespace FixLife.WebApiInfra.Migrations.Identity
 
                     b.HasKey("Id");
 
-                    b.ToTable("ClientUsers");
+                    b.ToTable("ClientUsers", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FixLife.WebApiDomain.Enums
 {
-    public enum DependAccountsEnum
+    public enum DependAccountsEnum : byte
     {
         Google = 1,
         FaceBook = 2,
