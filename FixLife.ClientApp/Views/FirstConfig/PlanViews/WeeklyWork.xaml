@@ -5,7 +5,7 @@
              xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              x:Class="FixLife.ClientApp.Views.FirstConfig.PlanViews.WeeklyWork">
     <ContentView.BindingContext>
-        <FirstConfig:FirstPlanViewModel/>
+        <FirstConfig:WeeklyWorkViewModel />
     </ContentView.BindingContext>
     <ContentView.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
@@ -48,7 +48,7 @@
                 </Label.GestureRecognizers>
             </Label>
             
-            <CollectionView Margin="0,50,0,0" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" ItemsSource="{Binding WeeklyWorkViewModel.DayOfWeeks}">
+            <CollectionView Margin="0,50,0,0" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" ItemsSource="{Binding DayOfWeeks}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <HorizontalStackLayout>
@@ -62,11 +62,11 @@
             <FlexLayout Margin="0,15, 0, 0" Grid.Row="2" JustifyContent="SpaceAround" Grid.Column="1">
                 <VerticalStackLayout>
                     <Label Text="From:" HorizontalOptions="Center" />
-                    <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding WeeklyWorkViewModel.WeeklyWorkStart}"/>
+                    <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding WeeklyWorkStart}"/>
                 </VerticalStackLayout>
                 <VerticalStackLayout>
                     <Label Text="To:" HorizontalOptions="Center" />
-                    <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding WeeklyWorkViewModel.WeeklyWorkEnd}" FlowDirection="MatchParent"/>
+                    <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding WeeklyWorkEnd}" FlowDirection="MatchParent"/>
                 </VerticalStackLayout>
 
             </FlexLayout>

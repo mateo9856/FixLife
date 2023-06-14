@@ -4,11 +4,11 @@ namespace FixLife.ClientApp.Views.FirstConfig.PlanViews;
 
 public partial class WeeklyWork : ContentView
 {
-    private FirstPlanViewModel viewModel { get; set; }
+    private WeeklyWorkViewModel viewModel { get; set; }
 	public WeeklyWork()
 	{
 		InitializeComponent();
-        viewModel = (FirstPlanViewModel)BindingContext;
+        viewModel = (WeeklyWorkViewModel)BindingContext;
 	}
 
     private void SetPreviousImage(object sender, TappedEventArgs e)

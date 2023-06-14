@@ -39,12 +39,39 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         public WeeklyWorkViewModel()
         {
+            WorkImages = new WeeklyWorkImage[] {
+                new WeeklyWorkImage {Source = "work.png", Description = "Daily Work", Name = "Work"},
+                new WeeklyWorkImage {Source = "business.png", Description = "Working with your business", Name = "Company"},
+            };
+            ActiveWorkImage = WorkImages.First();
             InitDayOfWeeks();
         }
+        public WeeklyWorkImage ActiveWorkImage { get; set; }
+        public WeeklyWorkImage[] WorkImages { get; set; }
 
         public void ApplyWorkTime(string type)
         {
 
+        }
+
+        public void SetImage(string direction, ImageButton element, Label label)
+        {
+            int directionCount = direction == null ? 1 : direction == "Left" ? -1 : 1;
+            int currentImage = Array.IndexOf(WorkImages, ActiveWorkImage);
+            try
+            {
+                ActiveWorkImage = WorkImages[currentImage + directionCount];
+
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                if (directionCount == 1)
+                    ActiveWorkImage = WorkImages.First();
+                else
+                    ActiveWorkImage = WorkImages.Last();
+            }
+            element.Source = ActiveWorkImage.Source;
+            label.Text = ActiveWorkImage.Description;
         }
 
         private void InitDayOfWeeks()

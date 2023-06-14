@@ -41,14 +41,14 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 {
                     TimeStart = SummaryPlan.WeeklyWork.TimeStart.ToString(),
                     TimeEnd = SummaryPlan.WeeklyWork.TimeEnd.ToString(),
-                    DayOfWeeks = SummaryPlan.WeeklyWork.DayOfWeeks
+                    DayOfWeeks = SummaryPlan.WeeklyWork.DayOfWeeks.Where(d => d.Selected).Select(e => e.Day).ToList()
                 },
                 FreeTime = SummaryPlan.FreeTime.Select(c => new
                 {
                     TimeStart = c.TimeStart.ToString(),
                     TimeEnd = c.TimeEnd.ToString(),
                     Text = c.Text
-                }),
+                }).ToList(),
                 LearnTime = new
                 {
                     IsYearly = SummaryPlan.LearnTime.IsYearly,
