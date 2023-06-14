@@ -27,8 +27,8 @@
             HorizontalOptions="Center" />
 
         <VerticalStackLayout Grid.Row="1">
-            <RadioButton HorizontalOptions="Center" Content="Weekly" Value="{Binding IsWeekly}" />
-            <RadioButton HorizontalOptions="Center" Content="Yearly" Value="{Binding IsYearly}" />
+            <RadioButton HorizontalOptions="Center" Content="Weekly" IsChecked="{Binding IsWeekly}" />
+            <RadioButton HorizontalOptions="Center" Content="Yearly" IsChecked="{Binding IsYearly}" />
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="1" Grid.Column="2">
             <Label
