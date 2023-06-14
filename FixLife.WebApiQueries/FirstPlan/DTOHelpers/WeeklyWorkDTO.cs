@@ -11,6 +11,6 @@ namespace FixLife.WebApiQueries.FirstPlan
     {
         public string TimeStart { get; set; }
         public string TimeEnd { get; set; }
-        public DayOfWeeks DayOfWeeks { get; set; }
+        public List<DayOfWeeks> DayOfWeeks { get; set; }
     }
 }
