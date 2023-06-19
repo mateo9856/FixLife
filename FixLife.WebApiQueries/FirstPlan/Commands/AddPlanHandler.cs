@@ -23,6 +23,16 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
         public async Task<CreatePlanResponse> Handle(AddPlanCommand request, CancellationToken cancellationToken)
         {
             var mapPlan = _mapper.Map<Plan>(request.request);
+
+            if(mapPlan != null)
+            {
+                mapPlan.WeeklyWork.DayOfWeeks = request.request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
+                {
+                    Day = d,
+                    CreatedDate= DateTime.Now
+                }).ToList();
+            }
+
             mapPlan.CreatedDate = DateTime.Now;
             var serviceResult = await _planService.CreatePlanAsync(mapPlan, true);
 

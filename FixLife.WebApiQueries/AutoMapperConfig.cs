@@ -16,19 +16,20 @@ namespace FixLife.WebApiQueries
         {
             CreateMap<ClientIdentityResponse, FixLife.WebApiInfra.Services.Identity.ClientIdentityResponse>().ReverseMap();
 
-            CreateMap<FreeTime, FreeTimeDTO>()
-                .ForMember(d => d.TimeEnd, opt => opt.MapFrom(e => e.TimeEnd.ToString()))
-                .ForMember(d => d.TimeStart, opt => opt.MapFrom(e => e.TimeStart.ToString()))
+            CreateMap<FreeTimeDTO, FreeTime>()
+                .ForMember(d => d.TimeEnd, opt => opt.MapFrom(e => TimeSpan.Parse(e.TimeEnd)))
+                .ForMember(d => d.TimeStart, opt => opt.MapFrom(e => TimeSpan.Parse(e.TimeStart)))
                 .ReverseMap();
 
-            CreateMap<WeeklyWork, WeeklyWorkDTO>()
-                .ForMember(d => d.TimeStart, opt => opt.MapFrom(e => e.TimeStart.ToString()))
-                .ForMember(d => d.TimeEnd, opt => opt.MapFrom(e => e.TimeEnd.ToString()))
+            CreateMap<WeeklyWorkDTO, WeeklyWork>()
+                .ForMember(d => d.DayOfWeeks, opt => opt.Ignore())
+                .ForMember(d => d.TimeStart, opt => opt.MapFrom(e => TimeSpan.Parse(e.TimeStart)))
+                .ForMember(d => d.TimeEnd, opt => opt.MapFrom(e => TimeSpan.Parse(e.TimeEnd)))
                 .ReverseMap();
 
-            CreateMap<LearnTime, LearnTimeDTO>()
-                .ForMember(d => d.StartTime, opt => opt.MapFrom(e => e.StartTime.ToString()))
-                .ForMember(d => d.TimeInterval, opt => opt.MapFrom(e => e.TimeInterval.ToString()))
+            CreateMap<LearnTimeDTO, LearnTime>()
+                .ForMember(d => d.StartTime, opt => opt.MapFrom(e => TimeSpan.Parse(e.StartTime)))
+                .ForMember(d => d.TimeInterval, opt => opt.MapFrom(e => TimeSpan.Parse(e.TimeInterval)))
                 .ReverseMap();
 
             CreateMap<CreatePlanRequest, Plan>()
