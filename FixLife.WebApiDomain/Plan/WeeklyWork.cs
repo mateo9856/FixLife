@@ -12,6 +12,6 @@ namespace FixLife.WebApiDomain.Plan
     {
         public TimeSpan TimeStart { get; set; }
         public TimeSpan TimeEnd { get; set; }
-        public DayOfWeeks DayOfWeeks { get; set; }
+        public ICollection<Common.DayOfWeek> DayOfWeeks { get; set; }
     }
 }
