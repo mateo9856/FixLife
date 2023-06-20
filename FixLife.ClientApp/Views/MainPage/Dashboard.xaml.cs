@@ -1,12 +1,12 @@
-using FixLife.ClientApp.ViewModels.Main;
+using FixLife.ClientApp.ViewModels;
 
 namespace FixLife.ClientApp.Views.MainPage;
 
 public partial class Dashboard : ContentPage
 {
-	public Dashboard(DashboardViewModel viewModel)
+	public Dashboard(DashboardViewModel vm)
 	{
-		BindingContext = viewModel;
+		BindingContext = vm;
 		InitializeComponent();
 	}
 }

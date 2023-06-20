@@ -67,7 +67,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 }
                 if (response.Status == 201)
                 {
-                    await Shell.Current.GoToAsync("DashboardPage");
+                    await RedirectToPageAsync("DashboardPage");
                 }
                 else
                 {

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FixLife.ClientApp.ViewModels.Main
+namespace FixLife.ClientApp.ViewModels
 {
     public class DashboardViewModel : BaseViewModel
     {
