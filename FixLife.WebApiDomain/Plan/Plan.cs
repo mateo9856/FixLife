@@ -12,5 +12,6 @@ namespace FixLife.WebApiDomain.Plan
         public ICollection<FreeTime> FreeTime { get; set; }
         public LearnTime LearnTime { get; set; }
         public WeeklyWork WeeklyWork { get; set; }
+        public Guid UserId { get; set; }
     }
 }

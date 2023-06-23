@@ -13,10 +13,16 @@ namespace FixLife.WebApiInfra.Services
     {
         public PlanService(ApplicationContext context) : base(context) { }
 
-        public async Task<(short, string)> CreatePlanAsync(Plan plan, bool isFirst)
+        public async Task<(short, string)> CreatePlanAsync(Plan plan, bool isFirst, string userId)
         {
             try
             {
+                Guid User;
+                if(string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out User))
+                {
+                    return (400, "User is not recognized!");
+                }
+                plan.UserId = User;
                 await _context.WeeklyWorks.AddAsync(plan.WeeklyWork);
                 await _context.LearnTimes.AddAsync(plan.LearnTime);
                 foreach(var freeTime in plan.FreeTime)

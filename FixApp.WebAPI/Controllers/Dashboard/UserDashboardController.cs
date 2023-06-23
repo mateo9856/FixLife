@@ -19,8 +19,7 @@ namespace FixApp.WebAPI.Controllers.Dashboard
         [HttpGet("getdashboarddata")]
         public async Task<ActionResult> GetDashboardData()
         {
-            var userId = User.Claims.FirstOrDefault(d => d.Type == "Id")?.Value;
-            //TODO: send with this Id and return data
+            var userId = User.Claims.FirstOrDefault(d => d.Type == "UserId")?.Value;
             var query = new GetDashboardDataQuery();
             query.UserId = userId;
             var response = await _mediator.Send(query);

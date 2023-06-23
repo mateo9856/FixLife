@@ -2,6 +2,7 @@
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,11 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
 
         public async Task<CreatePlanResponse> Handle(AddPlanCommand request, CancellationToken cancellationToken)
         {
-            var mapPlan = _mapper.Map<Plan>(request.request);
-
+            var mapPlan = _mapper.Map<Plan>(request.Request);
+            
             if(mapPlan != null)
             {
-                mapPlan.WeeklyWork.DayOfWeeks = request.request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
+                mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
                 {
                     Day = d,
                     CreatedDate= DateTime.Now
@@ -34,7 +35,7 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
             }
 
             mapPlan.CreatedDate = DateTime.Now;
-            var serviceResult = await _planService.CreatePlanAsync(mapPlan, true);
+            var serviceResult = await _planService.CreatePlanAsync(mapPlan, true, request.UserId);
 
             return new CreatePlanResponse { Status = serviceResult.Item1, Message = serviceResult.Item2 };
         }

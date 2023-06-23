@@ -27,6 +27,8 @@ namespace FixLife.WebApiInfra.Services.Identity
             _jwtOptions = options.Value;
         }
 
+        public Guid UserId { get; private set; }
+
         public async Task<ClientIdentityResponse> LoginAsync(ClientUser clientIdentityRequest)
         {
             var findUser = await _context.ClientUsers.Where(d => (d.Email == clientIdentityRequest.Email
@@ -39,12 +41,13 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var audience = _jwtOptions.Audience;
                     var key = Encoding.ASCII.GetBytes
                     (_jwtOptions.Secret);
-
+                    UserId = findUser.Id;
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
                         Subject = new System.Security.Claims.ClaimsIdentity(new[]
                         {
                             new Claim("Id", Guid.NewGuid().ToString()),
+                            new Claim("UserId", findUser.Id.ToString()),
                             new Claim(JwtRegisteredClaimNames.Sub, findUser.PhoneNumber),
                             new Claim(JwtRegisteredClaimNames.Email, findUser.Email),
                             new Claim(JwtRegisteredClaimNames.Jti,
@@ -60,8 +63,6 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var jwtToken = tokenHandler.WriteToken(token);
                     var stringToken = tokenHandler.WriteToken(token);
 
-                    //Find if has Plans
-                    //var plans = _applicationContext.UserPlan; TODO DependAccountsEnum cast to int
                     var hasPlans = _applicationContext.UserPlan.Any(d => d.Users == findUser);
 
                     return new ClientIdentityResponse()

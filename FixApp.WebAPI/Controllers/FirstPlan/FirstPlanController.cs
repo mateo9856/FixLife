@@ -1,6 +1,7 @@
 ﻿using FixLife.WebApiQueries.FirstPlan;
 using FixLife.WebApiQueries.FirstPlan.Commands;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -18,11 +19,14 @@ namespace FixApp.WebAPI.Controllers.FirstPlan
             _mediator = mediator;
         }
 
+        [Authorize]
         [HttpPost("createFirstPlan")]
         public async Task<ActionResult> CreateFirstPlan([FromBody]CreatePlanRequest request)
         {
-            var response = await _mediator.Send(new AddPlanCommand(request));
-            if(response != null)
+            var userId = User.Claims.FirstOrDefault(d => d.Type == "UserId")?.Value;
+
+            var response = await _mediator.Send(new AddPlanCommand(request, userId));
+            if (response != null)
             {
                 return StatusCode(response.Status, response);
             }

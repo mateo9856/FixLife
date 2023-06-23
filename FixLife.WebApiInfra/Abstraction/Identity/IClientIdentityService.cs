@@ -10,6 +10,7 @@ namespace FixLife.WebApiInfra.Abstraction.Identity
 {
     public interface IClientIdentityService
     {
+        Guid UserId { get; }
         Task<ClientIdentityResponse> LoginAsync(ClientUser request);
         Task<ClientIdentityResponse> LogoutAsync();
         Task<ClientIdentityResponse> RegisterAsync(ClientUser request);
