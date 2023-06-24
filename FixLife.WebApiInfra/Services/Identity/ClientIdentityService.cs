@@ -29,6 +29,11 @@ namespace FixLife.WebApiInfra.Services.Identity
 
         public Guid UserId { get; private set; }
 
+        public async Task<ClientUser> GetClientUser(string userId)
+        {
+            return await _context.ClientUsers.SingleOrDefaultAsync(a => a.Id == Guid.Parse(userId));
+        }
+
         public async Task<ClientIdentityResponse> LoginAsync(ClientUser clientIdentityRequest)
         {
             var findUser = await _context.ClientUsers.Where(d => (d.Email == clientIdentityRequest.Email
