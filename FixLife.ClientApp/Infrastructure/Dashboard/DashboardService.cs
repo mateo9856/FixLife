@@ -3,6 +3,7 @@ using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.Dashboard;
 using FixLife.ClientApp.Models.Main;
+using FixLife.ClientApp.Sessions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace FixLife.ClientApp.Infrastructure.Dashboard
             AppPlan plan;
             using (var client = new WebApiClient<DashboardData>())
             {
-                var res = await client.CallServiceGetAsync("getdashboarddata");
+                var res = await client.CallServiceGetAsync("getdashboarddata", token: UserSession.Token);
                 plan = res.Plan;
             }
 

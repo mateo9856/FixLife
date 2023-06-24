@@ -3,6 +3,7 @@ using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Infrastructure.FirstPlan;
 using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.FirstPlan;
+using FixLife.ClientApp.Sessions;
 using FixLife.ClientApp.Views.Popups;
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 PlanCreateResponse response = null;
                 using (var client = new WebApiClient<PlanCreateResponse>())
                 {
-                    response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true);
+                    response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true, UserSession.Token);
                 }
                 if (response.Status == 201)
                 {
