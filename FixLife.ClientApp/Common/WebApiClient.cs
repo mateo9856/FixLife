@@ -35,7 +35,7 @@ namespace FixLife.ClientApp.Common
 
                 if (!string.IsNullOrEmpty(token))
                 {
-                    message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 }
 
                 var response = await client.GetAsync(uri);

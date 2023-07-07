@@ -25,12 +25,7 @@ namespace FixLife.WebApiInfra.Services
                 throw new UserNotFoundException("User not found cannot add plan!");
             }
             
-            var userPlan = new UserPlan
-            {
-                Users = user,
-                Plans = plan
-            };
-            await _context.UserPlan.AddAsync(userPlan);
+            plan.UserId = user.Id;
         }
 
         public async Task<(short, string)> CreatePlanAsync(Plan plan, bool isFirst, string userId)

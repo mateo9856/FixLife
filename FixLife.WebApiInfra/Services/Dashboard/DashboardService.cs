@@ -20,11 +20,11 @@ namespace FixLife.WebApiInfra.Services.Dashboard
 
         public async Task<(short, Plan)> GetDashboardData(string user)
         {
-            var GetPlan = await _context.UserPlan.FirstOrDefaultAsync(d => d.Users.Id == Guid.Parse(user));
+            var GetPlan = await _context.Plans.FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
 
             if(GetPlan != null)
             {
-                return (200,GetPlan.Plans);
+                return (200,GetPlan);
             }
 
             return (404, null);

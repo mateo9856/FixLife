@@ -10,7 +10,9 @@ namespace FixLife.WebApiDomain.Plan
 {
     public class UserPlan : BaseBusinessEntity
     {
-        public ClientUser Users { get; set; }
-        public Plan Plans { get; set; }
+        public Guid UserId { get; set; }
+        public Guid PlanId { get; set; }
+        public ClientUser User { get; set; }
+        public Plan Plan { get; set; }
     }
 }

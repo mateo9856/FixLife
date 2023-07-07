@@ -72,7 +72,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 }
                 else
                 {
-                    var popup = new ErrorPopup(response.Status.ToString(), response.Message);
+                    var popup = new ErrorPopup(string.Format("Error {0}", response.Status), response.Message);
                     await ShowPopup(popup);
                 }
             } catch (Exception ex)

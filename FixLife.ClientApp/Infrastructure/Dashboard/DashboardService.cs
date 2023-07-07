@@ -19,7 +19,7 @@ namespace FixLife.ClientApp.Infrastructure.Dashboard
             AppPlan plan;
             using (var client = new WebApiClient<DashboardData>())
             {
-                var res = await client.CallServiceGetAsync("getdashboarddata", token: UserSession.Token);
+                var res = await client.CallServiceGetAsync("UserDashboard/getdashboarddata", token: UserSession.Token);
                 plan = res.Plan;
             }
 

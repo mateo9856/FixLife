@@ -23,6 +23,7 @@ namespace FixApp.WebAPI.Controllers.Dashboard
             var query = new GetDashboardDataQuery();
             query.UserId = userId;
             var response = await _mediator.Send(query);
+            //TODO: Returned plan without works, try use include() or another realtionship option
             return Ok(response);
         }
 

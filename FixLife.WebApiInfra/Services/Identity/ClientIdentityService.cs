@@ -67,8 +67,7 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var token = tokenHandler.CreateToken(tokenDescriptor);
                     var jwtToken = tokenHandler.WriteToken(token);
                     var stringToken = tokenHandler.WriteToken(token);
-
-                    var hasPlans = _applicationContext.UserPlan.Any(d => d.Users == findUser);
+                    var hasPlans = _applicationContext.Plans.Any(d => d.UserId == findUser.Id);
 
                     return new ClientIdentityResponse()
                     {

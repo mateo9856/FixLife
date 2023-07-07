@@ -4,6 +4,7 @@ using FixLife.WebApiInfra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FixLife.WebApiInfra.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230707184807_UpdateUserPlan")]
+    partial class UpdateUserPlan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,6 +153,36 @@ namespace FixLife.WebApiInfra.Migrations
                     b.ToTable("Plans");
                 });
 
+            modelBuilder.Entity("FixLife.WebApiDomain.Plan.UserPlan", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PlanId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPlan");
+                });
+
             modelBuilder.Entity("FixLife.WebApiDomain.Plan.WeeklyWork", b =>
                 {
                     b.Property<Guid>("Id")
@@ -174,6 +207,29 @@ namespace FixLife.WebApiInfra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WeeklyWorks");
+                });
+
+            modelBuilder.Entity("FixLife.WebApiDomain.User.ClientUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientUser");
                 });
 
             modelBuilder.Entity("FixLife.WebApiDomain.Common.DayOfWeek", b =>
@@ -207,6 +263,25 @@ namespace FixLife.WebApiInfra.Migrations
                     b.Navigation("LearnTime");
 
                     b.Navigation("WeeklyWork");
+                });
+
+            modelBuilder.Entity("FixLife.WebApiDomain.Plan.UserPlan", b =>
+                {
+                    b.HasOne("FixLife.WebApiDomain.Plan.Plan", "Plan")
+                        .WithMany()
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FixLife.WebApiDomain.User.ClientUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FixLife.WebApiDomain.Plan.Plan", b =>
