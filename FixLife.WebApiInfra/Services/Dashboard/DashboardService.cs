@@ -20,7 +20,11 @@ namespace FixLife.WebApiInfra.Services.Dashboard
 
         public async Task<(short, Plan)> GetDashboardData(string user)
         {
-            var GetPlan = await _context.Plans.FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
+            var GetPlan = await _context.Plans
+                .Include(d => d.WeeklyWork)
+                .Include(e => e.LearnTime)
+                .Include(f => f.FreeTime)
+                .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
 
             if(GetPlan != null)
             {

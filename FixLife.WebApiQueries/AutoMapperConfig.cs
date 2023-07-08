@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiQueries.Account;
+using FixLife.WebApiQueries.Dashboard.Queries;
 using FixLife.WebApiQueries.FirstPlan;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,8 @@ namespace FixLife.WebApiQueries
                 .ReverseMap();
 
             CreateMap<CreatePlanRequest, Plan>()
+                .ReverseMap();
+            CreateMap<Plan, GetDashboardQueryResponse>()
                 .ReverseMap();
         }
     }

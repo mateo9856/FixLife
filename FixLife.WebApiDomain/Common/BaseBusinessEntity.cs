@@ -16,6 +16,7 @@ namespace FixLife.WebApiDomain.Common
         public BaseBusinessEntity()
         {
             Id = Guid.NewGuid();
+            CreatedDate = DateTime.Now;
         }
 
     }

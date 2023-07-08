@@ -1,4 +1,5 @@
-﻿using FixLife.WebApiQueries.Dashboard.Queries;
+﻿using AutoMapper;
+using FixLife.WebApiQueries.Dashboard.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,8 +12,10 @@ namespace FixApp.WebAPI.Controllers.Dashboard
     public class UserDashboardController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public UserDashboardController(IMediator mediator) {
-            _mediator= mediator;
+        private readonly IMapper _mapper;
+        public UserDashboardController(IMediator mediator, IMapper mapper) {
+            _mediator = mediator;
+            _mapper = mapper;
         }
 
         [Authorize]
@@ -23,8 +26,9 @@ namespace FixApp.WebAPI.Controllers.Dashboard
             var query = new GetDashboardDataQuery();
             query.UserId = userId;
             var response = await _mediator.Send(query);
-            //TODO: Returned plan without works, try use include() or another realtionship option
-            return Ok(response);
+            if (response.Item1 == 200)
+                return Ok(_mapper.Map<GetDashboardQueryResponse>(response.Item2));
+            return BadRequest();
         }
 
     }
