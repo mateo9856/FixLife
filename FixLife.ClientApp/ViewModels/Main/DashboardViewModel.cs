@@ -30,9 +30,14 @@ namespace FixLife.ClientApp.ViewModels
         public DashboardViewModel(IDashboardService dashboardService)
         {
             _dashboardService = dashboardService;
-            ActualPlan = new AppPlan();
-            GetPlanData();
-            EditPlanCommand = new Command(async e => await EditPlan());
+            Task t = new Task(async () =>
+            {
+                ActualPlan = await _dashboardService.GetAppPlanData();
+            });
+            t.Start();
+            Task.WaitAll(t);
+
+            EditPlanCommand = new Command(EditPlan);
         }
 
         private bool InWorkState()
@@ -44,14 +49,9 @@ namespace FixLife.ClientApp.ViewModels
             return nowDate > startDate && nowDate < endDate;        
         }
 
-        private async void GetPlanData()
+        private void EditPlan()
         {
-            ActualPlan = await _dashboardService.GetAppPlanData();
-        }
-
-        private async Task EditPlan()
-        {
-            await Shell.Current.GoToAsync("FirstConfigPage");
+            Shell.Current.GoToAsync("FirstConfigPage");
         }
 
     }

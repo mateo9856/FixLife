@@ -15,9 +15,10 @@
     </Style>
 
     <Style TargetType="Border" x:Key="DashboardBorder">
-        <Setter Property="MinimumHeightRequest" Value="100" />
+        <Setter Property="MinimumHeightRequest" Value="150" />
+        <Setter Property="MinimumWidthRequest" Value="350" />
         <Setter Property="StrokeThickness" Value="1" />
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Stroke" Value="White" />
         <Setter Property="HorizontalOptions" Value="Center" />
     </Style>
     

@@ -17,10 +17,10 @@ namespace FixLife.ClientApp.Infrastructure.Dashboard
         public async Task<AppPlan> GetAppPlanData()
         {
             AppPlan plan;
-            using (var client = new WebApiClient<DashboardData>())
+            using (var client = new WebApiClient<AppPlan>())
             {
-                var res = await client.CallServiceGetAsync("UserDashboard/getdashboarddata", token: UserSession.Token);
-                plan = res.Plan;
+                var res = client.CallServiceGetAsync("UserDashboard/getdashboarddata", token: UserSession.Token);
+                plan = res.Result;
             }
 
             return plan;
