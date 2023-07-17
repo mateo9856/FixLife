@@ -16,9 +16,9 @@
                 </Border.StrokeShape>
                 <StackLayout>
                     <Label Text="WEEKLY WORK" TextColor="White" />
-                    <Label HorizontalTextAlignment="End" Text="{Binding WorkStatus}" />
-                    <Label HorizontalTextAlignment="End" IsVisible="{Binding TimesLeftVisible}" Text="Times left:" />
-                    <Label HorizontalTextAlignment="End" IsVisible="{Binding TimeToWorkVisible}" Text="Time to work: " />
+                    <Label HorizontalTextAlignment="Start" Text="{Binding WorkStatus}" />
+                    <Label HorizontalTextAlignment="Start" IsVisible="{Binding TimesLeftVisible}" Text="{Binding TimeToEndWork}" />
+                    <Label HorizontalTextAlignment="Start" IsVisible="{Binding TimeToWorkVisible}" Text="{Binding TimeToStartWork}" />
                 </StackLayout>
             </Border>
         </StackLayout>
@@ -28,7 +28,9 @@
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
                 <StackLayout>
-                    <Label FontSize="24" Text="FREE TIME" TextColor="White"/>
+                    <Label Text="FREE TIME" TextColor="White"/>
+                    <Label Text="{Binding ActualFreeTime}" TextColor="White" />
+                    <Label Text="{Binding NextFreeTime}" TextColor="White" />
                 </StackLayout>
             </Border>
         </StackLayout>
@@ -39,6 +41,7 @@
                 </Border.StrokeShape>
                 <StackLayout>
                     <Label Text="LEARN TIME" TextColor="White"/>
+                    <Label Text="{Binding TimeToLearn}" TextColor="White" />
                 </StackLayout>
             </Border>
         </StackLayout>
