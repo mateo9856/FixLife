@@ -10,7 +10,7 @@ namespace FixLife.ClientApp.Resources.Helpers
     {
         public static TimeSpan ParseToTimeSpan(this DateTime date)
         {
-            return new TimeSpan(date.Day,date.Hour,date.Minute,date.Second);
+            return new TimeSpan(0, date.Hour,date.Minute,date.Second);
         }
     }
 }

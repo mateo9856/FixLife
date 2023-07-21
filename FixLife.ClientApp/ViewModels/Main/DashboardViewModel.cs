@@ -39,8 +39,7 @@ namespace FixLife.ClientApp.ViewModels
         public string TimeToEndWork { 
             get
             {
-                //TODO: Values return negative values: try repair this
-                var timeLeft = ActualPlan.WeeklyWork.TimeEnd.Subtract(DateTime.Now.ParseToTimeSpan());
+                var timeLeft = ActualPlan.WeeklyWork.TimeEnd.Add(new TimeSpan(1, 0, 0, 0)).Subtract(DateTime.Now.ParseToTimeSpan());
                 return $"Time to left: {timeLeft.ToString()}";
             } 
         }
@@ -49,7 +48,7 @@ namespace FixLife.ClientApp.ViewModels
         {
             get
             {
-                var timeLeft = ActualPlan.WeeklyWork.TimeStart.Subtract(DateTime.Now.ParseToTimeSpan());
+                var timeLeft = ActualPlan.WeeklyWork.TimeStart.Add(new TimeSpan(1, 0, 0, 0)).Subtract(DateTime.Now.ParseToTimeSpan());
                 return $"Time to work: {timeLeft.ToString()}";
             }
         }
@@ -58,7 +57,7 @@ namespace FixLife.ClientApp.ViewModels
         {
             get
             {
-                var learnTime = ActualPlan.LearnTime.StartTime.Subtract(DateTime.Now.ParseToTimeSpan());
+                var learnTime = ActualPlan.LearnTime.StartTime.Add(new TimeSpan(1, 0, 0, 0)).Subtract(DateTime.Now.ParseToTimeSpan());
                 return $"Time to learn: {learnTime.ToString()}";
             }
         }
