@@ -77,6 +77,9 @@
 	  <MauiXaml Update="Resources\Styles\FixLifeStyles.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\AppSettings\AppSettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\FirstConfig\FirstConfigPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

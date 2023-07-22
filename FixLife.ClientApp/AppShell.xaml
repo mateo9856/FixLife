@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:FixLife.ClientApp"
     xmlns:main="clr-namespace:FixLife.ClientApp.Views.MainPage"
     xmlns:firstconfig="clr-namespace:FixLife.ClientApp.Views.FirstConfig"
+    xmlns:appSettings="clr-namespace:FixLife.ClientApp.Views.AppSettings"
     Shell.FlyoutBehavior="Flyout">
 
     <FlyoutItem Title="Login/Register">
@@ -28,6 +29,16 @@
         ContentTemplate="{DataTemplate main:Dashboard}"
         IsVisible="True"
         Route="DashboardPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="App Settings">
+        <ShellContent
+            x:Name="shellApp"
+            Title="App Settings"
+            ContentTemplate="{DataTemplate appSettings:AppSettingsPage}"
+            IsVisible="False"
+            Route="AppSettingsPage"
+            />
     </FlyoutItem>
     
     <FlyoutItem Title="Create plan!">

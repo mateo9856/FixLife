@@ -1,14 +1,24 @@
-﻿using FixLife.ClientApp.Views.FirstConfig;
+﻿using FixLife.ClientApp.Sessions;
+using FixLife.ClientApp.Views.AppSettings;
+using FixLife.ClientApp.Views.FirstConfig;
 using FixLife.ClientApp.Views.MainPage;
 
 namespace FixLife.ClientApp
 {
     public partial class AppShell : Shell
     {
+        public bool IsLogged { get => !string.IsNullOrEmpty(UserSession.Token); }
         public AppShell()
         {
+            BindingContext = this;
             RegisterRoutes();
             InitializeComponent();
+        }
+
+        protected override void OnNavigating(ShellNavigatingEventArgs args)
+        {
+            base.OnNavigating(args);
+            AppSettingsSetter();
         }
 
         private void RegisterRoutes()
@@ -20,6 +30,18 @@ namespace FixLife.ClientApp
             Routing.RegisterRoute("CreatorPage", typeof(FirstPlanCreator));
             Routing.RegisterRoute("FirstPlanSummaryPage", typeof(FirstPlanSummary));
             Routing.RegisterRoute("DashboardPage", typeof(Dashboard));
+            Routing.RegisterRoute("AppSettingsPage", typeof(AppSettingsPage));
+        }
+
+        private void AppSettingsSetter()
+        {
+            if (shellApp != null)//TODO: method multiply items, learn xaml setter and change
+            {
+                if (IsLogged && !shellApp.IsVisible)
+                    shellApp.IsVisible = true;
+                else if (!IsLogged && shellApp.IsVisible)
+                    shellApp.IsVisible = false;
+            }
         }
 
     }
