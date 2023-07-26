@@ -22,7 +22,7 @@
         </Tab>
     </FlyoutItem>
 
-    <FlyoutItem Title="Dashboard" Route="dash">
+    <FlyoutItem Title="Dashboard" Route="dash" IsEnabled="{Binding IsLogged}">
         <ShellContent
         Title="Dashboard Page"
         Route="DashboardPage"
@@ -30,7 +30,7 @@
         IsVisible="True" />
     </FlyoutItem>
 
-    <FlyoutItem Title="App Settings" Route="settings">
+    <FlyoutItem Title="App Settings" Route="settings" IsEnabled="{Binding IsLogged}">
         <ShellContent
             Title="App Settings"
             ContentTemplate="{DataTemplate appSettings:AppSettingsPage}"
@@ -39,7 +39,7 @@
             />
     </FlyoutItem>
     
-    <FlyoutItem Title="Create plan!" Route="plan" IsVisible="{Binding IsLogged}">
+    <FlyoutItem Title="Create plan!" Route="plan" IsEnabled="{Binding IsLogged}">
         <Tab>
         <ShellContent
         Title="FirstPlanPage"

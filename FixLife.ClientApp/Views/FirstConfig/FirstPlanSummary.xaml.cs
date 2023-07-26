@@ -7,8 +7,8 @@ public partial class FirstPlanSummary : ContentPage
 		InitializeComponent();
 	}
 
-    private async Task CorrectData(object sender, EventArgs e)
+    private void CorrectData(object sender, EventArgs e)
     {
-		await Shell.Current.GoToAsync("//plan/CreatorPage");
+		Shell.Current.GoToAsync("//plan/CreatorPage");
     }
 }
