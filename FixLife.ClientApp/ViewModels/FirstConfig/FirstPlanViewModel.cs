@@ -29,7 +29,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             _firstPlanBuilder.ClearPlan();
             CreateCommand = new Command(async (cmd) =>
             {
-                await Shell.Current.GoToAsync("CreatorPage");
+                await Shell.Current.GoToAsync("//plan/CreatorPage");
             });
         }
 

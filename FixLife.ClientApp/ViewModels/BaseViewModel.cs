@@ -18,7 +18,7 @@ namespace FixLife.ClientApp.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public async Task RedirectToPageAsync(string page) { 
+        public async Task RedirectToPageAsync(string page) {
             await Shell.Current.GoToAsync(page);
         }
 

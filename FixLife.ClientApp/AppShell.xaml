@@ -22,15 +22,15 @@
         </Tab>
     </FlyoutItem>
 
-    <FlyoutItem Title="Dashboard" Route="dash" IsVisible="{Binding IsLogged}">
+    <FlyoutItem Title="Dashboard" Route="dash">
         <ShellContent
         Title="Dashboard Page"
+        Route="DashboardPage"
         ContentTemplate="{DataTemplate main:Dashboard}"
-        IsVisible="True"
-        Route="DashboardPage" />
+        IsVisible="True" />
     </FlyoutItem>
 
-    <FlyoutItem Title="App Settings" Route="settings" IsVisible="{Binding IsLogged}">
+    <FlyoutItem Title="App Settings" Route="settings">
         <ShellContent
             Title="App Settings"
             ContentTemplate="{DataTemplate appSettings:AppSettingsPage}"

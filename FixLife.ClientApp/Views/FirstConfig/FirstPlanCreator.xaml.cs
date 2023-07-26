@@ -38,7 +38,7 @@ public partial class FirstPlanCreator : ContentPage
         {
             context.SetModel(LearnTime.BindingContext);
             context.SummaryPlan();
-            await Shell.Current.GoToAsync("FirstPlanSummaryPage");
+            await Shell.Current.GoToAsync("//plan/FirstPlanSummaryPage");
         }
     }
 

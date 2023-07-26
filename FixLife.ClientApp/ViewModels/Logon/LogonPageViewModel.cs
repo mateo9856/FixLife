@@ -62,9 +62,9 @@ namespace FixLife.ClientApp.ViewModels.Logon
                     if (!response.HasPlans.HasValue)
                         throw new Exception("Value HasPlans is null!");
                     if(response.HasPlans.HasValue && !response.HasPlans.Value)
-                        await RedirectToPageAsync("FirstPlanPage");
+                        await RedirectToPageAsync("//plan/FirstPlanPage");
                     else
-                        await RedirectToPageAsync("DashboardPage");
+                        await RedirectToPageAsync("//dash/DashboardPage");
                 }
             } catch(Exception ex)
             {
@@ -76,11 +76,13 @@ namespace FixLife.ClientApp.ViewModels.Logon
 
         private async void Register()
         {
-            await RedirectToPageAsync("RegisterPage");
+            await RedirectToPageAsync("//login/RegisterPage");
         }
 
-        private void LogOff() { 
-        
+        private async void LogOff() { 
+            UserSession.Token = null;
+            UserSession.Email = null;
+            await RedirectToPageAsync("//login/LoginPage");
         }
 
     }

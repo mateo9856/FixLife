@@ -91,7 +91,7 @@ namespace FixLife.ClientApp.ViewModels
             t.Start();
             Task.WaitAll(t);
 
-            EditPlanCommand = new Command(EditPlan);
+            EditPlanCommand = new Command(async () => await EditPlan());
         }
 
         private bool InWorkState()
@@ -103,9 +103,9 @@ namespace FixLife.ClientApp.ViewModels
             return nowDate > startDate && nowDate < endDate;        
         }
 
-        private void EditPlan()
+        private async Task EditPlan()
         {
-            Shell.Current.GoToAsync("FirstConfigPage");
+           await Shell.Current.GoToAsync("//plan/FirstConfigPage");
         }
 
     }
