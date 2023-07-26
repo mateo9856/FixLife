@@ -6,10 +6,9 @@
     xmlns:local="clr-namespace:FixLife.ClientApp"
     xmlns:main="clr-namespace:FixLife.ClientApp.Views.MainPage"
     xmlns:firstconfig="clr-namespace:FixLife.ClientApp.Views.FirstConfig"
-    xmlns:appSettings="clr-namespace:FixLife.ClientApp.Views.AppSettings"
-    Shell.FlyoutBehavior="Flyout">
+    xmlns:appSettings="clr-namespace:FixLife.ClientApp.Views.AppSettings">
 
-    <FlyoutItem Title="Login/Register">
+    <FlyoutItem Route="login" Title="Login/Register">
         <Tab>
         <ShellContent
         Title="Log On"
@@ -23,7 +22,7 @@
         </Tab>
     </FlyoutItem>
 
-    <FlyoutItem Title="Dashboard">
+    <FlyoutItem Title="Dashboard" Route="dash" IsVisible="{Binding IsLogged}">
         <ShellContent
         Title="Dashboard Page"
         ContentTemplate="{DataTemplate main:Dashboard}"
@@ -31,17 +30,17 @@
         Route="DashboardPage" />
     </FlyoutItem>
 
-    <FlyoutItem Title="App Settings">
+    <FlyoutItem Title="App Settings" Route="settings" IsVisible="{Binding IsLogged}">
         <ShellContent
-            x:Name="shellApp"
             Title="App Settings"
             ContentTemplate="{DataTemplate appSettings:AppSettingsPage}"
-            IsVisible="False"
+            IsVisible="True"
             Route="AppSettingsPage"
             />
     </FlyoutItem>
     
-    <FlyoutItem Title="Create plan!">
+    <FlyoutItem Title="Create plan!" Route="plan" IsVisible="{Binding IsLogged}">
+        <Tab>
         <ShellContent
         Title="FirstPlanPage"
         ContentTemplate="{DataTemplate firstconfig:FirstConfigPage}"
@@ -59,9 +58,10 @@
         ContentTemplate="{DataTemplate firstconfig:FirstPlanSummary}"
         IsVisible="False"
         Route="FirstPlanSummaryPage" />
+        </Tab>
     </FlyoutItem>
 
-    <FlyoutItem Title="About app!">
+    <FlyoutItem Route="about" Title="About app!">
         <Tab>
         <ShellContent
         Title="About app"

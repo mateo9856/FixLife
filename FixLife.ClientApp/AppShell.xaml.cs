@@ -18,7 +18,11 @@ namespace FixLife.ClientApp
         protected override void OnNavigating(ShellNavigatingEventArgs args)
         {
             base.OnNavigating(args);
-            AppSettingsSetter();
+            var orString = args.Target.Location.OriginalString;
+            if (!IsLogged && (orString.Contains("DashboardPage") || orString.Contains("FirstPlanPage")))
+            {
+                args.Cancel();
+            }
         }
 
         private void RegisterRoutes()
@@ -31,17 +35,6 @@ namespace FixLife.ClientApp
             Routing.RegisterRoute("FirstPlanSummaryPage", typeof(FirstPlanSummary));
             Routing.RegisterRoute("DashboardPage", typeof(Dashboard));
             Routing.RegisterRoute("AppSettingsPage", typeof(AppSettingsPage));
-        }
-
-        private void AppSettingsSetter()
-        {
-            if (shellApp != null)//TODO: method multiply items, learn xaml setter and change
-            {
-                if (IsLogged && !shellApp.IsVisible)
-                    shellApp.IsVisible = true;
-                else if (!IsLogged && shellApp.IsVisible)
-                    shellApp.IsVisible = false;
-            }
         }
 
     }
