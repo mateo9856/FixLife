@@ -6,31 +6,32 @@
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
-    <VerticalStackLayout>
+    <VerticalStackLayout HorizontalOptions="Center">
         <Label 
             Text="SETTINGS"
             FontSize="Large"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
-
-        <StackLayout>
-            <CheckBox IsChecked="{Binding NotificationEnabled}" />
-            <Entry Text="Enable Notifications" />
-        </StackLayout>
-        <StackLayout>
-            <CheckBox IsChecked="{Binding OldPlansToFileEnabled}" />
-            <Entry Text="Save old plans to file" />
-        </StackLayout>
-        <StackLayout>
-            <Switch OnColor="{AppThemeBinding Dark=White, Light=Black}" ThumbColor="Purple" IsToggled="{Binding AppTheme}"/>
-            <Entry Text="App theme" />
-        </StackLayout>
-        <StackLayout>
-            <CheckBox IsChecked="{Binding ShareEnabled}" />
-            <Entry Text="Permit application to share your Weekly data" />
-        </StackLayout>
-        <StackLayout>
-            <Button Text="Save" Style="{StaticResource Key=PurpButton}" Command="{Binding SaveCommand}" />
+        <StackLayout Margin="0, 15, 0,0">
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding NotificationEnabled}" />
+                <Label Style="{StaticResource Key=AppMargin}" Text="Enable Notifications" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding OldPlansToFileEnabled}" />
+                <Label Style="{StaticResource Key=AppMargin}" Text="Save old plans to file" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Switch OnColor="{AppThemeBinding Dark=White, Light=Black}" ThumbColor="Purple" IsToggled="{Binding AppTheme}"/>
+                <Label Style="{StaticResource Key=AppMargin}" Text="App theme" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding ShareEnabled}" />
+                <Label Style="{StaticResource Key=AppMargin}" Text="Permit application to share your Weekly data" />
+            </StackLayout>
+            <StackLayout>
+                <Button Text="Save" Style="{StaticResource Key=PurpButton}" Command="{Binding SaveCommand}" />
+            </StackLayout>
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

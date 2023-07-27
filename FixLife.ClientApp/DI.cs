@@ -1,6 +1,8 @@
 ﻿using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Infrastructure.Dashboard;
 using FixLife.ClientApp.ViewModels;
+using FixLife.ClientApp.ViewModels.AppSettings;
+using FixLife.ClientApp.Views.AppSettings;
 using FixLife.ClientApp.Views.MainPage;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,8 @@ namespace FixLife.ClientApp
         {
             appBuilder.Services.AddSingleton<Dashboard>();
             appBuilder.Services.AddSingleton<DashboardViewModel>();
+            appBuilder.Services.AddTransient<AppSettingsPage>();
+            appBuilder.Services.AddTransient<AppSettingsViewModel>();
             return appBuilder;
         }
 

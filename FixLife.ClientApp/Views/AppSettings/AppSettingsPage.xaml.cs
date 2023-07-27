@@ -4,9 +4,10 @@ namespace FixLife.ClientApp.Views.AppSettings;
 
 public partial class AppSettingsPage : ContentPage
 {
-	public AppSettingsPage()
+	AppSettingsViewModel viewModel;
+	public AppSettingsPage(AppSettingsViewModel model)
 	{
-		BindingContext = new AppSettingsViewModel();
+		BindingContext = (AppSettingsViewModel)model;
 		InitializeComponent();
 	}
 

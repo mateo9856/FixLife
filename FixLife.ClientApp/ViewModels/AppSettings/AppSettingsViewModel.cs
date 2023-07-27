@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace FixLife.ClientApp.ViewModels.AppSettings
 {
     public class AppSettingsViewModel : BaseViewModel
     {
+        private readonly IConfiguration _configuration;
         private bool _notificationEnabled;
         public bool NotificationEnabled
         {
@@ -52,8 +54,9 @@ namespace FixLife.ClientApp.ViewModels.AppSettings
 
         public ICommand SaveCommand { get; private set; }
 
-        public AppSettingsViewModel()
+        public AppSettingsViewModel(IConfiguration configuration)
         {
+            _configuration = configuration;
             NotificationEnabled = false;
             OldPlansToFileEnabled = false;
             AppTheme = false;
@@ -63,7 +66,7 @@ namespace FixLife.ClientApp.ViewModels.AppSettings
 
         private async Task SaveData()
         {
-
+            
         }
     }
 }

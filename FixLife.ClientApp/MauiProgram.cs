@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using CommunityToolkit.Maui;
 using FixLife.ClientApp.Common;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
+using System.Reflection;
 
 namespace FixLife.ClientApp
 {
@@ -11,7 +13,12 @@ namespace FixLife.ClientApp
         public static MauiApp CreateMauiApp()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("pl-PL", false);
+            using var settings = Assembly.GetExecutingAssembly().GetManifestResourceStream("FixLife.ClientApp.appsettings.json");
+            var jsonBuilder = new ConfigurationBuilder()
+                .AddJsonStream(settings)
+                .Build();
             var builder = MauiApp.CreateBuilder();
+            builder.Configuration.AddConfiguration(jsonBuilder);
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
