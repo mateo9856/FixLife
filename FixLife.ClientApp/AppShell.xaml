@@ -7,15 +7,17 @@
     xmlns:main="clr-namespace:FixLife.ClientApp.Views.MainPage"
     xmlns:firstconfig="clr-namespace:FixLife.ClientApp.Views.FirstConfig"
     xmlns:appSettings="clr-namespace:FixLife.ClientApp.Views.AppSettings">
-
+    <Shell.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
+    </Shell.Resources>
     <FlyoutItem Route="login" Title="Login/Register">
         <Tab>
-        <ShellContent
+            <ShellContent
         Title="Log On"
         ContentTemplate="{DataTemplate local:LoginPage}"
         Route="LoginPage" />
 
-        <ShellContent
+            <ShellContent
         Title="Register Page"
         ContentTemplate="{DataTemplate local:RegisterPage}"
         Route="RegisterPage" />
@@ -38,22 +40,22 @@
             Route="AppSettingsPage"
             />
     </FlyoutItem>
-    
+
     <FlyoutItem Title="Create plan!" Route="plan" IsEnabled="{Binding IsLogged}">
         <Tab>
-        <ShellContent
+            <ShellContent
         Title="FirstPlanPage"
         ContentTemplate="{DataTemplate firstconfig:FirstConfigPage}"
         IsVisible="True"
         Route="FirstPlanPage" />
 
-        <ShellContent
+            <ShellContent
         Title="CreatorPage"
         ContentTemplate="{DataTemplate firstconfig:FirstPlanCreator}"
         IsVisible="False"
         Route="CreatorPage" />
-        
-        <ShellContent
+
+            <ShellContent
         Title="FirstPlanSummaryPage"
         ContentTemplate="{DataTemplate firstconfig:FirstPlanSummary}"
         IsVisible="False"
@@ -63,12 +65,12 @@
 
     <FlyoutItem Route="about" Title="About app!">
         <Tab>
-        <ShellContent
+            <ShellContent
         Title="About app"
         ContentTemplate="{DataTemplate local:AboutApp}"
         Route="AboutApp" />
 
-        <ShellContent
+            <ShellContent
         Title="Main page"
         ContentTemplate="{DataTemplate main:MainPage}"
         IsVisible="False"
