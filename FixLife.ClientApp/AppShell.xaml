@@ -32,7 +32,7 @@
         IsVisible="True" />
     </FlyoutItem>
 
-    <FlyoutItem Title="App Settings" Route="settings" IsEnabled="{Binding IsLogged}">
+    <FlyoutItem Title="App Settings" Route="settings">
         <ShellContent
             Title="App Settings"
             ContentTemplate="{DataTemplate appSettings:AppSettingsPage}"

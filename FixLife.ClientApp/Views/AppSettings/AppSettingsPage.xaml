@@ -14,12 +14,23 @@
             HorizontalOptions="Center" />
 
         <StackLayout>
-            <ListView>
-                
-            </ListView>
+            <CheckBox IsChecked="{Binding NotificationEnabled}" />
+            <Entry Text="Enable Notifications" />
         </StackLayout>
         <StackLayout>
-            <Button Text="Save" Style="{StaticResource Key=PurpButton}" Clicked="Save_Clicked" />
+            <CheckBox IsChecked="{Binding OldPlansToFileEnabled}" />
+            <Entry Text="Save old plans to file" />
+        </StackLayout>
+        <StackLayout>
+            <Switch OnColor="{AppThemeBinding Dark=White, Light=Black}" ThumbColor="Purple" IsToggled="{Binding AppTheme}"/>
+            <Entry Text="App theme" />
+        </StackLayout>
+        <StackLayout>
+            <CheckBox IsChecked="{Binding ShareEnabled}" />
+            <Entry Text="Permit application to share your Weekly data" />
+        </StackLayout>
+        <StackLayout>
+            <Button Text="Save" Style="{StaticResource Key=PurpButton}" Command="{Binding SaveCommand}" />
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>
