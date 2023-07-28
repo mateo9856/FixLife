@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FixLife.ClientApp.Common;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +67,9 @@ namespace FixLife.ClientApp.ViewModels.AppSettings
 
         private async Task SaveData()
         {
-            
+            var appHelper = new AppHelper();
+            await appHelper.SetAppSettings(("NotificationEnabled", NotificationEnabled), ("OldPlansToFileEnabled", OldPlansToFileEnabled),
+                ("LightTheme", AppTheme), ("ShareEnabled", ShareEnabled));
         }
     }
 }
