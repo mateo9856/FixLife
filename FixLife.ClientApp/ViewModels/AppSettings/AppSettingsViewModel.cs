@@ -56,7 +56,7 @@ namespace FixLife.ClientApp.ViewModels.AppSettings
         public ICommand SaveCommand { get; private set; }
 
         public AppSettingsViewModel(IConfiguration configuration)
-        {//TODO:Get data from appSettings.json and implement save data to change values on appSettings.json
+        {
             _configuration = configuration;
             NotificationEnabled = configuration.GetValue<bool>("settings:NotificationEnabled");
             OldPlansToFileEnabled = configuration.GetValue<bool>("settings:OldPlansToFileEnabled");
