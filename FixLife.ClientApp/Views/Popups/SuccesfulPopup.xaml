@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:bind="clr-namespace:FixLife.ClientApp.Views.Popups"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               x:Class="FixLife.ClientApp.Views.Popups.SuccesfulPopup">
+    <VerticalStackLayout BackgroundColor="White">
+        <StackLayout>
+            <Label 
+            Text="Success"
+            TextColor="Green"
+            FontSize="18"
+            FontAttributes="Bold"
+            HorizontalOptions="Center" />
+            <Label 
+            Text="{Binding Id}"
+            TextColor="Red"
+            FontSize="18"
+            HorizontalOptions="Center" />
+        </StackLayout>
+        <Label 
+            Text="Operation execute succesfully"
+            TextColor="Black"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <Button
+            Text="Close"
+            VerticalOptions="EndAndExpand"
+            BackgroundColor="Purple"
+            MaximumWidthRequest="200"
+            TextColor="White"
+            FontSize="24"
+            Clicked="Button_Close" />
+    </VerticalStackLayout>
+</toolkit:Popup>

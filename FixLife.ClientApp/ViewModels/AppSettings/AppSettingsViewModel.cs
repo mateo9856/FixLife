@@ -1,4 +1,6 @@
-﻿using FixLife.ClientApp.Common;
+﻿using CommunityToolkit.Maui.Views;
+using FixLife.ClientApp.Common;
+using FixLife.ClientApp.Views.Popups;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -68,8 +70,18 @@ namespace FixLife.ClientApp.ViewModels.AppSettings
         private async Task SaveData()
         {
             var appHelper = new AppHelper();
-            await appHelper.SetAppSettings(("NotificationEnabled", NotificationEnabled), ("OldPlansToFileEnabled", OldPlansToFileEnabled),
+            var appSetter = await appHelper.SetAppSettings(("NotificationEnabled", NotificationEnabled), ("OldPlansToFileEnabled", OldPlansToFileEnabled),
                 ("LightTheme", AppTheme), ("ShareEnabled", ShareEnabled));
+
+            Popup popup = null;
+            if(appSetter) 
+            {
+                popup = new SuccesfulPopup();
+            } else
+            {
+                popup = new ErrorPopup("500", "Application settings change error!");
+            }
+            await ShowPopup(popup);
         }
     }
 }

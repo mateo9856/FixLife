@@ -18,16 +18,23 @@ namespace FixLife.ClientApp.Common
 
         public async Task<bool> SetAppSettings(params (string, bool)[] values)
         {
-            var path = GetAppSettingsPath();
-            var jsonPath = await File.ReadAllTextAsync(Path.Combine(path, "appsettings.json"));
-            dynamic jsonSettings = JsonConvert.DeserializeObject(jsonPath);
-            foreach(var value in values)
+            try
             {
-                jsonSettings["settings"][value.Item1] = value.Item2;
+                var path = GetAppSettingsPath();
+                var jsonPath = await File.ReadAllTextAsync(Path.Combine(path, "appsettings.json"));
+                dynamic jsonSettings = JsonConvert.DeserializeObject(jsonPath);
+                foreach (var value in values)
+                {
+                    jsonSettings["settings"][value.Item1] = value.Item2;
+                }
+                string output = JsonConvert.SerializeObject(jsonSettings, Formatting.Indented);
+                await File.WriteAllTextAsync(Path.Combine(path, "appsettings.json"), output);
+                return true;
             }
-            string output = JsonConvert.SerializeObject(jsonSettings, Formatting.Indented);
-            await File.WriteAllTextAsync(Path.Combine(path, "appsettings.json"), output);
-            return true;
+            catch
+            {
+                return false;
+            }
         }
     }
 }
