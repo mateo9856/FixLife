@@ -17,6 +17,10 @@ namespace FixLife.ClientApp.Common
             _timer.Elapsed += OnTiming;
         }
 
+        public static void EnableTiming() => _timer.Enabled = true;
+
+        public static void DisableTiming() => _timer.Enabled = false;
+
         private static void OnTiming(object sender, ElapsedEventArgs e)
         {
 

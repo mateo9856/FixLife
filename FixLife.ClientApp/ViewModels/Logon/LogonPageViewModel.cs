@@ -64,7 +64,10 @@ namespace FixLife.ClientApp.ViewModels.Logon
                     if(response.HasPlans.HasValue && !response.HasPlans.Value)
                         await RedirectToPageAsync("//plan/FirstPlanPage");
                     else
+                    {
+                        NotificationTimer.EnableTiming();
                         await RedirectToPageAsync("//dash/DashboardPage");
+                    }
                 }
             } catch(Exception ex)
             {
@@ -82,6 +85,8 @@ namespace FixLife.ClientApp.ViewModels.Logon
         private async void LogOff() { 
             UserSession.Token = null;
             UserSession.Email = null;
+            UserSession.UserPlans = null;
+            NotificationTimer.DisableTiming();
             await RedirectToPageAsync("//login/LoginPage");
         }
 
