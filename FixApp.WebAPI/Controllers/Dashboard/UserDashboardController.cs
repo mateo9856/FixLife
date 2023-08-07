@@ -31,5 +31,13 @@ namespace FixApp.WebAPI.Controllers.Dashboard
             return BadRequest();
         }
 
+        [Authorize]
+        [HttpGet("detectToNotification")]
+        public async Task<ActionResult> DetectToPush()
+        {
+
+            return BadRequest();
+        }
+
     }
 }

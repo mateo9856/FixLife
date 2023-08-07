@@ -3,6 +3,7 @@ using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.Dashboard;
 using FixLife.ClientApp.Resources.Helpers;
+using FixLife.ClientApp.Sessions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace FixLife.ClientApp.ViewModels
     public class DashboardViewModel : BaseViewModel
     {
         public ICommand EditPlanCommand { get; private set; }
-        public AppPlan ActualPlan { get; set; }
+        public AppPlan ActualPlan { get => UserSession.UserPlans; }
         private readonly IDashboardService _dashboardService;
         public string WorkStatus { 
             get 
@@ -86,7 +87,7 @@ namespace FixLife.ClientApp.ViewModels
             _dashboardService = dashboardService;
             Task t = new Task(async () =>
             {
-                ActualPlan = await _dashboardService.GetAppPlanData();
+                UserSession.UserPlans = await _dashboardService.GetAppPlanData();
             });
             t.Start();
             Task.WaitAll(t);

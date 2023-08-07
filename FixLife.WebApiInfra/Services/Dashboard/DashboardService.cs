@@ -26,12 +26,30 @@ namespace FixLife.WebApiInfra.Services.Dashboard
                 .Include(f => f.FreeTime)
                 .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
 
-            if(GetPlan != null)
+            if (GetPlan != null)
             {
-                return (200,GetPlan);
+                return (200, GetPlan);
             }
 
             return (404, null);
+        }
+
+        public async Task<(string, string)> HandleDetectPush(string user)
+        {
+            var GetPlan = await _context.Plans
+            .Include(d => d.WeeklyWork)
+            .Include(e => e.LearnTime)
+            .Include(f => f.FreeTime)
+            .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
+            if (GetPlan == null)
+            {
+                return ("500", "Server Error");
+            }
+
+            var dNow = DateTime.Now;
+            var actualTimeSpan = new TimeSpan(0, dNow.Hour, dNow.Minute, dNow.Second);
+
+            return ("", "");
         }
     }
 }
