@@ -1,4 +1,5 @@
-﻿using FixLife.WebApiInfra.Abstraction.Dashboard;
+﻿using FixLife.WebApiDomain.Exceptions;
+using FixLife.WebApiInfra.Abstraction.Dashboard;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -15,9 +16,16 @@ namespace FixLife.WebApiQueries.Dashboard.Queries
             _dashboardService= dashboardService;
         }
 
-        public Task<GetDetectionPushResponse> Handle(GetDetectionPushQuery request, CancellationToken cancellationToken)
+        public async Task<GetDetectionPushResponse> Handle(GetDetectionPushQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var notificationToSend = await _dashboardService.HandleDetectPush(request.UserId);
+
+            if(notificationToSend != null && notificationToSend is GetDetectionPushResponse)
+            {
+                return notificationToSend as GetDetectionPushResponse;
+            }
+
+            throw new PlanNotFoundException("Notification sender does not found plans to handle notification!");
         }
     }
 }

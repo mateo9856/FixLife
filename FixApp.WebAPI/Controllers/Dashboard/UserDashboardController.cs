@@ -35,7 +35,12 @@ namespace FixApp.WebAPI.Controllers.Dashboard
         [HttpGet("detectToNotification")]
         public async Task<ActionResult> DetectToPush()
         {
-
+            var userId = User.Claims.FirstOrDefault(d => d.Type == "UserId")?.Value;
+            var query = new GetDetectionPushQuery();
+            query.UserId = userId;
+            var response = await _mediator.Send(query);
+            if (response.Status == 200)
+                return Ok(response);
             return BadRequest();
         }
 
