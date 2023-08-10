@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixLife.WebApiInfra", "FixL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixLife.WebApiQueries", "FixLife.WebApiQueries\FixLife.WebApiQueries.csproj", "{46DEC898-0B71-45C6-A686-DB7D3636EF80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixLife.ClientApp", "FixLife.ClientApp\FixLife.ClientApp.csproj", "{EA9D2A9E-052F-44E7-84D5-311F931C4F6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixLife.ClientApp", "FixLife.ClientApp\FixLife.ClientApp.csproj", "{EA9D2A9E-052F-44E7-84D5-311F931C4F6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixLife.KafkaLog", "FixLife.KafkaLog\FixLife.KafkaLog.csproj", "{F91682D0-5E25-45A5-8016-5673DB218A59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{EA9D2A9E-052F-44E7-84D5-311F931C4F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA9D2A9E-052F-44E7-84D5-311F931C4F6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA9D2A9E-052F-44E7-84D5-311F931C4F6A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F91682D0-5E25-45A5-8016-5673DB218A59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F91682D0-5E25-45A5-8016-5673DB218A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F91682D0-5E25-45A5-8016-5673DB218A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F91682D0-5E25-45A5-8016-5673DB218A59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
