@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FixLife.ClientApp.MainPage">
-
+    <ContentPage.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
@@ -34,6 +36,7 @@
 
             <Button
                 Text="About app"
+                StyleClass="ButtonState"
                 TextColor="Black"
                 Background="{StaticResource Cyan}"
                 Clicked="About_Click"
@@ -41,6 +44,7 @@
 
             <Button
                 x:Name="CounterBtn"
+                StyleClass="ButtonState"
                 Text="Log On"
                 Clicked="Logon_Click"
                 HorizontalOptions="Center" />

@@ -27,14 +27,14 @@
             <Button
                 x:Name="btnPrev"
                 Margin="0,0,5,0"
-                Style="{StaticResource Key=PadPurpleLabel}"
+                StyleClass="ButtonState"
                 Text="Previous"
                 Clicked="Button_Clicked_Previous"
                 />
             <Button
                 x:Name="btnNext"
                 Margin="5,0,0,0"
-                Style="{StaticResource Key=PadPurpleLabel}"
+                StyleClass="ButtonState"
                 Text="Next"
                 Clicked="Button_Clicked_Next"
                 />

@@ -3,13 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FixLife.ClientApp.Resources.Styles.FixLifeStyles">
 
-    <Style TargetType="Label" x:Key="PadPurpleLabel">
+    <Style TargetType="Label" Class="PadPurpleLabel">
         <Setter Property="TextColor" Value="White" />
         <Setter Property="BackgroundColor" Value="Purple" />
     </Style>
 
     <Style TargetType="Label" x:Key="AppMargin">
         <Setter Property="Margin" Value="0,10,0,0"/>
+    </Style>
+
+    <Style TargetType="Button" ApplyToDerivedTypes="True" Class="ButtonState">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+            <VisualStateGroup x:Name="CommonStates">
+                <VisualState x:Name="Normal">
+                    <VisualState.Setters>
+                        <Setter Property="BackgroundColor" Value="MediumPurple" />
+                        <Setter Property="TextColor" Value="White" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Pressed">
+                    <VisualState.Setters>
+                        <Setter Property="BackgroundColor" Value="WhiteSmoke" />
+                        <Setter Property="TextColor" Value="Black" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
     
     <Style Class="FlyoutItemLayoutStyle" TargetType="Grid" ApplyToDerivedTypes="True">
@@ -41,6 +62,10 @@
         <Setter Property="MaximumWidthRequest" Value="200" />
         <Setter Property="BackgroundColor" Value="Purple" />
         <Setter Property="TextColor" Value="White" />
+    </Style>
+
+    <Style TargetType="Button" Class="Max200">
+        <Setter Property="MaximumWidthRequest" Value="200" />
     </Style>
 
     <Style TargetType="Border" x:Key="DashboardBorder">

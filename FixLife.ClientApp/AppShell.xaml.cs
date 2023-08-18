@@ -33,6 +33,7 @@ namespace FixLife.ClientApp
             Routing.RegisterRoute("FirstPlanPage", typeof(FirstConfigPage));
             Routing.RegisterRoute("CreatorPage", typeof(FirstPlanCreator));
             Routing.RegisterRoute("FirstPlanSummaryPage", typeof(FirstPlanSummary));
+            Routing.RegisterRoute("AboutAppPage", typeof(AboutApp));
             //Routing.RegisterRoute("DashboardPage", typeof(Dashboard));
             Routing.RegisterRoute("AppSettingsPage", typeof(AppSettingsPage));
         }

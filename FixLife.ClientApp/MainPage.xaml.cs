@@ -23,7 +23,7 @@
 
         private void About_Click(object sender, EventArgs e)
         {
-
+            Shell.Current.GoToAsync("AboutAppPage");
         }
     }
 }

@@ -4,6 +4,9 @@
              xmlns:Logon="clr-namespace:FixLife.ClientApp.ViewModels.Logon"
              x:Class="FixLife.ClientApp.RegisterPage"
              Title="RegisterPage">
+    <ContentPage.Resources>
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
+    </ContentPage.Resources>
     <ContentPage.BindingContext>
         <Logon:RegisterPageViewModel/>
     </ContentPage.BindingContext>
@@ -44,10 +47,9 @@
 
         <Button
             Margin="0,15,0,0"
-            BackgroundColor="MediumPurple"
+            StyleClass="ButtonState"
             Command="{Binding RegisterCommand}"
             MaximumWidthRequest="300"
-            TextColor="White"
             Text="Register account!" />
     </VerticalStackLayout>
 </ContentPage>

@@ -6,12 +6,14 @@
     <VerticalStackLayout>
         <Label 
             Text="About"
+            FontSize="28"
             VerticalOptions="Start" 
             HorizontalOptions="Center" />
 
-        <Label 
-            Text="TODO: write something"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+            <Label 
+            Text="FixLife Client - Version "/>
+            <Label Margin="5,0,0,0" Text="{Binding FixLifeVersion}"/>
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

@@ -7,6 +7,7 @@
              Title="LoginPage">
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FaStyles.xaml" />
+        <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
 	<ContentPage.BindingContext>
 		<Logon:LogonPageViewModel/>
@@ -34,22 +35,21 @@
 
         <Button
             Margin="0,15,0,0"
-            BackgroundColor="MediumPurple"
             Command="{Binding LogonCommand}"
+            StyleClass="ButtonState"
             MaximumWidthRequest="300"
-            TextColor="White"
             Text="Log on!" />
 
         <Button
             BackgroundColor="Red"
             Margin="0,15,0,0"
-            Style="{StaticResource Key=FaBrandRegularButton}"
+            StyleClass="FaBrandRegularButton, ButtonState"
             MaximumWidthRequest="300"
             TextColor="White"
             Text="{Static Member=f:FaBrandsRegular.GooglePlus}"/>
 
         <Button
-            Style="{StaticResource Key=FaBrandRegularButton}"
+            StyleClass="FaBrandRegularButton, ButtonState"
             Margin="0,15,0,0"
             BackgroundColor="SteelBlue"
             MaximumWidthRequest="300"
@@ -58,9 +58,8 @@
 
         <Button
             Margin="0,15,0,0"
-            BackgroundColor="SteelBlue"
+            StyleClass="ButtonState"
             MaximumWidthRequest="300"
-            TextColor="White"
             Command="{Binding RegisterCommand}"
             Text="If you not have account - REGISTER!" />
 

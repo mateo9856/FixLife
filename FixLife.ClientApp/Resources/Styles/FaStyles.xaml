@@ -11,4 +11,13 @@
         <Setter Property="FontFamily" Value="FontAwesomeBrandsRegular" />
     </Style>
 
+    <Style TargetType="Button" Class="FaBrandRegularButton">
+        <Setter Property="FontFamily" Value="FontAwesomeBrandsRegular" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+
+    <Style TargetType="Label" Class="FaBrandRegularLabel">
+        <Setter Property="FontFamily" Value="FontAwesomeBrandsRegular" />
+    </Style>
+
 </ResourceDictionary>
