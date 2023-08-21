@@ -14,11 +14,11 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <StackLayout>
-                    <Label Text="WEEKLY WORK" TextColor="White" />
-                    <Label HorizontalTextAlignment="Start" Text="{Binding WorkStatus}" />
-                    <Label HorizontalTextAlignment="Start" IsVisible="{Binding TimesLeftVisible}" Text="{Binding TimeToEndWork}" />
-                    <Label HorizontalTextAlignment="Start" IsVisible="{Binding TimeToWorkVisible}" Text="{Binding TimeToStartWork}" />
+                <StackLayout VerticalOptions="Center">
+                    <Label HorizontalOptions="Center" Text="WEEKLY WORK" TextColor="White" />
+                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="{Binding WorkStatus}" />
+                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" IsVisible="{Binding TimesLeftVisible}" Text="{Binding TimeToEndWork}" />
+                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" IsVisible="{Binding TimeToWorkVisible}" Text="{Binding TimeToStartWork}" />
                 </StackLayout>
             </Border>
         </StackLayout>
@@ -27,10 +27,10 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <StackLayout>
-                    <Label Text="FREE TIME" TextColor="White"/>
-                    <Label Text="{Binding ActualFreeTime}" TextColor="White" />
-                    <Label Text="{Binding NextFreeTime}" TextColor="White" />
+                <StackLayout VerticalOptions="Center">
+                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="FREE TIME" TextColor="White"/>
+                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="{Binding ActualFreeTime}" TextColor="White" />
+                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="{Binding NextFreeTime}" TextColor="White" />
                 </StackLayout>
             </Border>
         </StackLayout>
@@ -39,14 +39,14 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <StackLayout>
-                    <Label Text="LEARN TIME" TextColor="White"/>
-                    <Label Text="{Binding TimeToLearn}" TextColor="White" />
+                <StackLayout VerticalOptions="Center">
+                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="LEARN TIME" TextColor="White"/>
+                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="{Binding TimeToLearn}" TextColor="White" />
                 </StackLayout>
             </Border>
         </StackLayout>
         <StackLayout Margin="0,15,0,0" VerticalOptions="End" MaximumHeightRequest="80">
-            <Button MaximumWidthRequest="300" Text="Edit plan" BackgroundColor="Purple" TextColor="White" Command="{Binding EditPlanCommand}"/>
+            <Button StyleClass="ButtonState" MaximumWidthRequest="300" Text="Edit plan" Command="{Binding EditPlanCommand}"/>
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

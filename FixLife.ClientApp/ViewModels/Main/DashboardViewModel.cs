@@ -69,7 +69,7 @@ namespace FixLife.ClientApp.ViewModels
             {
                 if(OrderedFreeTimes.Count <= 0) return "You have not any Free Times :(";
                 var firstFreeTime = OrderedFreeTimes.FirstOrDefault(d => d.TimeStart >= DateTime.Now.ParseToTimeSpan());
-                return $"Now: {firstFreeTime}";
+                return firstFreeTime == null ? "You have not actual free times :(" : $"Now: {firstFreeTime.Text}";
             }
         }
 
@@ -106,7 +106,7 @@ namespace FixLife.ClientApp.ViewModels
 
         private async Task EditPlan()
         {
-           await Shell.Current.GoToAsync("//plan/FirstConfigPage");
+           await Shell.Current.GoToAsync("FirstPlanPage");
         }
 
     }
