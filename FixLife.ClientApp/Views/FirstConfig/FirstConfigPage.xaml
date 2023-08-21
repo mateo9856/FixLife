@@ -27,17 +27,15 @@
         <StackLayout HeightRequest="100">
         </StackLayout>
         <StackLayout VerticalOptions="End">
-            <Label Style="{StaticResource Key=PadPurpleLabel}"
-        Text="Click here to start!"
-        Padding="40, 20"
-        Margin="0, 20, 0, 0"
-        VerticalOptions="End" 
-        HorizontalOptions="Center">
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding CreateCommand}"
-                                      CommandParameter="create" />
-                </Label.GestureRecognizers>
-            </Label>
+            <Button 
+                StyleClass="ButtonState"
+                Text="Click here to start!"
+                Padding="40,20"
+                Margin="0,20,0,0"
+                VerticalOptions="End"
+                Command="{Binding CreateCommand}"
+                CommandParameter="create"
+                HorizontalOptions="Center"/>
         </StackLayout>
     </VerticalStackLayout>
     
