@@ -12,5 +12,6 @@ namespace FixLife.WebApiInfra.Abstraction
     {
         Task<(short, string)> CreatePlanAsync(Plan plan, bool isFirst, string userId);
         Task AssignPlanToUserAsync(string userId, Plan plan);
+        Task<(short, string)> EditPlanAsync(Plan plan, string userId);
     }
 }

@@ -59,5 +59,10 @@ namespace FixLife.WebApiInfra.Services
             }
 
         }
+
+        public Task<(short, string)> EditPlanAsync(Plan plan, string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -32,5 +32,19 @@ namespace FixApp.WebAPI.Controllers.FirstPlan
             }
             return BadRequest();
         }
+
+        [Authorize]
+        [HttpPut("EditPlan")]
+        public async Task<ActionResult> EditPlan([FromBody]EditPlanRequest request)
+        {
+            var userId = User.Claims.FirstOrDefault(d => d.Type == "UserId")?.Value;
+
+            var response = await _mediator.Send(new EditPlanCommand(request, userId));
+            if (response != null)
+            {
+                return StatusCode(response.Status, response);
+            }
+            return BadRequest();
+        }
     }
 }
