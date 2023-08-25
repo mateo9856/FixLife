@@ -35,6 +35,8 @@ namespace FixLife.WebApiQueries
 
             CreateMap<CreatePlanRequest, Plan>()
                 .ReverseMap();
+            CreateMap<EditPlanRequest, Plan>()
+                .ReverseMap();
             CreateMap<Plan, GetDashboardQueryResponse>()
                 .ReverseMap();
         }

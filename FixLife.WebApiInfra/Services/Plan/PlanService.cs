@@ -3,6 +3,7 @@ using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
 using FixLife.WebApiInfra.Abstraction.Identity;
 using FixLife.WebApiInfra.Contexts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,9 +61,34 @@ namespace FixLife.WebApiInfra.Services
 
         }
 
-        public Task<(short, string)> EditPlanAsync(Plan plan, string userId)
+        public async Task<(short, string)> EditPlanAsync(Plan plan, string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var UserPlan = await _context.Plans.FirstOrDefaultAsync(d => d.UserId == Guid.Parse(userId));
+                if (UserPlan == null)
+                    return (404, "User plan not found!");
+
+                _context.WeeklyWorks.Attach(plan.WeeklyWork);
+                _context.LearnTimes.Attach(plan.LearnTime);
+                foreach (var freeTime in plan.FreeTime)
+                {
+                    _context.FreeTimes.Attach(freeTime);
+                }
+                _context.Plans.Attach(plan);
+                var createStatus = await _context.SaveChangesAsync();
+
+                if (createStatus > 0)
+                {
+                    return (201, "Created succesfully");
+                }
+                return (400, "Something wrong in database");
+
+
+            } catch(Exception ex)
+            {
+                return (500, ex.Message);
+            }
         }
     }
 }

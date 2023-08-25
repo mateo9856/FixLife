@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FixLife.WebApiDomain.Plan;
+using FixLife.WebApiInfra.Abstraction;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -11,12 +13,28 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
     public class EditPlanHandler : IRequestHandler<EditPlanCommand, EditPlanResponse>
     {
         private readonly IMapper _mapper;
-        public EditPlanHandler(IMapper mapper) {
+        private readonly IPlanService _planService;
+        public EditPlanHandler(IMapper mapper, IPlanService planService) {
             _mapper = mapper;
+            _planService = planService;
         }
-        public Task<EditPlanResponse> Handle(EditPlanCommand request, CancellationToken cancellationToken)
+        public async Task<EditPlanResponse> Handle(EditPlanCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var mapPlan = _mapper.Map<Plan>(request.Request);
+
+            if (mapPlan != null)
+            {
+                mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
+                {
+                    Day = d,
+                    CreatedDate = DateTime.Now
+                }).ToList();
+            }
+
+            mapPlan.UpdatedDate = DateTime.Now;
+            var serviceResult = await _planService.EditPlanAsync(mapPlan, request.UserId);
+
+            return new EditPlanResponse { Status = serviceResult.Item1, Message = serviceResult.Item2 };
         }
     }
 }

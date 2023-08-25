@@ -38,7 +38,6 @@ namespace FixApp.WebAPI.Controllers.FirstPlan
         public async Task<ActionResult> EditPlan([FromBody]EditPlanRequest request)
         {
             var userId = User.Claims.FirstOrDefault(d => d.Type == "UserId")?.Value;
-
             var response = await _mediator.Send(new EditPlanCommand(request, userId));
             if (response != null)
             {
