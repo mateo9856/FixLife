@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FixLife.WebApiDomain.Exceptions;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
 using MediatR;
@@ -32,7 +33,15 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
             }
 
             mapPlan.UpdatedDate = DateTime.Now;
-            var serviceResult = await _planService.EditPlanAsync(mapPlan, request.UserId);
+
+            var GetActualPlan = await _planService.GetPlanAsync(request.UserId);
+
+            if (GetActualPlan == null)
+                throw new PlanNotFoundException("Plan was not found!");
+
+            var mapperPlan = _mapper.Map(mapPlan, GetActualPlan);
+
+            var serviceResult = await _planService.EditPlanAsync(mapperPlan, GetActualPlan, request.UserId);
 
             return new EditPlanResponse { Status = serviceResult.Item1, Message = serviceResult.Item2 };
         }

@@ -15,17 +15,19 @@ namespace FixLife.WebApiInfra.Services
     public class PlanService : BaseService<Plan>, IPlanService
     {
         private readonly IClientIdentityService _clientIdentityService;
-        public PlanService(ApplicationContext context, IClientIdentityService clientIdentityService) : base(context) { 
+        public PlanService(ApplicationContext context, IClientIdentityService clientIdentityService) : base(context)
+        {
             _clientIdentityService = clientIdentityService;
         }
 
         public async Task AssignPlanToUserAsync(string userId, Plan plan)
         {
             var user = await _clientIdentityService.GetClientUser(userId);
-            if (user == null) {
+            if (user == null)
+            {
                 throw new UserNotFoundException("User not found cannot add plan!");
             }
-            
+
             plan.UserId = user.Id;
         }
 
@@ -34,48 +36,55 @@ namespace FixLife.WebApiInfra.Services
             try
             {
                 Guid User;
-                if(string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out User))
+                if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out User))
                 {
                     return (400, "User is not recognized!");
                 }
                 plan.UserId = User;
                 await _context.WeeklyWorks.AddAsync(plan.WeeklyWork);
                 await _context.LearnTimes.AddAsync(plan.LearnTime);
-                foreach(var freeTime in plan.FreeTime)
+                foreach (var freeTime in plan.FreeTime)
                 {
                     await _context.FreeTimes.AddAsync(freeTime);
                 }
                 await _context.Plans.AddAsync(plan);
                 await AssignPlanToUserAsync(userId, plan);
                 var createStatus = await _context.SaveChangesAsync();
-                if(createStatus > 0)
+                if (createStatus > 0)
                 {
                     return (201, "Created succesfully");
                 }
                 return (400, "Something wrong in database");
-            } 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return (500, ex.Message);
             }
 
         }
 
-        public async Task<(short, string)> EditPlanAsync(Plan plan, string userId)
+        public async Task<(short, string)> EditPlanAsync(Plan plan, Plan oldPlan, string userId)
         {
             try
             {
-                var UserPlan = await _context.Plans.FirstOrDefaultAsync(d => d.UserId == Guid.Parse(userId));
-                if (UserPlan == null)
+
+                if (oldPlan == null)
                     return (404, "User plan not found!");
 
-                _context.WeeklyWorks.Attach(plan.WeeklyWork);
-                _context.LearnTimes.Attach(plan.LearnTime);
+                plan.Id = oldPlan.Id;
+                plan.UserId = oldPlan.UserId;
+                plan.CreatedDate = oldPlan.CreatedDate;
+                await _context.WeeklyWorks.AddAsync(plan.WeeklyWork);
+                await _context.LearnTimes.AddAsync(plan.LearnTime);
                 foreach (var freeTime in plan.FreeTime)
                 {
-                    _context.FreeTimes.Attach(freeTime);
+                    await _context.FreeTimes.AddAsync(freeTime);
                 }
-                _context.Plans.Attach(plan);
+                _context.Attach(plan);
+                _context.Entry(plan).State = EntityState.Modified;
+
+                UnassignOldPlan(oldPlan);
+
                 var createStatus = await _context.SaveChangesAsync();
 
                 if (createStatus > 0)
@@ -85,10 +94,36 @@ namespace FixLife.WebApiInfra.Services
                 return (400, "Something wrong in database");
 
 
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return (500, ex.Message);
             }
         }
+
+        public async Task<Plan?> GetPlanAsync(string userId)
+        {
+            return await _context.Plans.Include(d => d.WeeklyWork)
+                .AsNoTracking()
+                .Include(e => e.LearnTime)
+                .Include(f => f.FreeTime)
+                .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(userId));
+        }
+    
+    
+        private void UnassignOldPlan(Plan oldPlan)
+        {
+            oldPlan.WeeklyWork.DeletedDate = DateTime.Now;
+            _context.Entry(oldPlan.WeeklyWork).State = EntityState.Modified;
+            oldPlan.LearnTime.DeletedDate = DateTime.Now;
+            _context.Entry(oldPlan.LearnTime).State = EntityState.Modified;
+
+            foreach (var freeTime in oldPlan.FreeTime)
+            {
+                freeTime.DeletedDate = DateTime.Now;
+                _context.Entry(freeTime).State = EntityState.Modified;
+            }
+        }
+    
     }
 }
