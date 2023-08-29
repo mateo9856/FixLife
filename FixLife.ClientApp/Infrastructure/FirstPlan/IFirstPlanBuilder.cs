@@ -16,5 +16,6 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
         void SetFreeTime(FreeTimeViewModel model);
         void SetLearnTime(LearnTimeViewModel model);
         void ApplyPlan();
+        void AssignTypeEdit(string type);
     }
 }

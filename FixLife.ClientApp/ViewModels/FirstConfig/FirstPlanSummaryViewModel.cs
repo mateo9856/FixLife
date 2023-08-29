@@ -19,6 +19,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
     public class FirstPlanSummaryViewModel : BaseViewModel
     {
         public AppPlan SummaryPlan { get; set; }
+        public bool IsEdit { get;set; }
         public List<string> FreeTimeSummaryTextView =>
             SummaryPlan.FreeTime.Select(d => string.Format("{0}:, start: {1}, end: {2}", d.Text, d.TimeStart.ToString(), d.TimeEnd.ToString())).ToList();
         public string WeeklyWorkTextView =>
@@ -32,6 +33,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         public FirstPlanSummaryViewModel()
         {
             SummaryPlan = FirstPlanSession.Instance().SummaryPlan;
+            IsEdit = FirstPlanSession.Instance().IsEdit;
             CreateCommand = new Command(async () => await Create());
         }
 
@@ -78,8 +80,12 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 PlanCreateResponse response = null;
                 using (var client = new WebApiClient<PlanCreateResponse>())
                 {
-                    response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true, UserSession.Token);
+                    if(IsEdit)
+                        response = await client.PostPutAsync(requestBuilder, "FirstPlan/EditPlan", false, UserSession.Token);
+                    else
+                        response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true, UserSession.Token);
                 }
+                
                 if (response.Status == 201)
                 {
                     await ConsumeDataToKafka();
