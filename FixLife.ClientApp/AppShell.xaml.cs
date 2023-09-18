@@ -36,6 +36,7 @@ namespace FixLife.ClientApp
             Routing.RegisterRoute("AboutAppPage", typeof(AboutApp));
             //Routing.RegisterRoute("DashboardPage", typeof(Dashboard));
             Routing.RegisterRoute("AppSettingsPage", typeof(AppSettingsPage));
+            Routing.RegisterRoute("EditConfigPage", typeof(EditConfigPage));
         }
 
     }

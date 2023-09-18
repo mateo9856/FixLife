@@ -106,7 +106,7 @@ namespace FixLife.ClientApp.ViewModels
 
         private async Task EditPlan()
         {
-           await Shell.Current.GoToAsync("//plan/FirstPlanPage");
+           await Shell.Current.GoToAsync("EditConfigPage");
         }
 
     }
