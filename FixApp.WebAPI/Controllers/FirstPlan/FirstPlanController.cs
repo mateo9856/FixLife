@@ -1,5 +1,6 @@
 ﻿using FixLife.WebApiQueries.FirstPlan;
 using FixLife.WebApiQueries.FirstPlan.Commands;
+using FixLife.WebApiQueries.FirstPlan.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -44,6 +45,18 @@ namespace FixApp.WebAPI.Controllers.FirstPlan
                 return StatusCode(response.Status, response);
             }
             return BadRequest();
+        }
+
+        [Authorize]
+        [HttpGet("UserPlanId/{userId}")]
+        public async Task<ActionResult> GetUserPlanId([FromQuery]string userId)
+        {
+            var query = new GetUserPlanIdQuery
+            {
+                UserId = userId
+            };
+            var response = await _mediator.Send(query);
+            return response.Item1 == 200 ? StatusCode(200, response) : (ActionResult)StatusCode(400, response);
         }
     }
 }

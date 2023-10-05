@@ -109,8 +109,13 @@ namespace FixLife.WebApiInfra.Services
                 .Include(f => f.FreeTime)
                 .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(userId));
         }
-    
-    
+
+        public async Task<(short, string)> GetPlanIdAsync(string userId)
+        {
+            var returnedPlan = await _context.Plans.FirstOrDefaultAsync(d => d.UserId.ToString() == userId);
+            return returnedPlan != null ? ((short)200, returnedPlan.UserId.ToString()) : ((short)400, "");
+        }
+
         private void UnassignOldPlan(Plan oldPlan)
         {
             oldPlan.WeeklyWork.DeletedDate = DateTime.Now;
