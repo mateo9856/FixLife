@@ -1,13 +1,7 @@
-﻿using FixLife.ClientApp.Common.Enums;
+﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Infrastructure.FirstPlan;
-using FixLife.ClientApp.Models.FirstPlan;
+using FixLife.ClientApp.Sessions;
 using FixLife.ClientApp.Views.FirstConfig.PlanViews;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FixLife.ClientApp.ViewModels.FirstConfig
@@ -29,18 +23,18 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             _firstPlanBuilder.ClearPlan();
             CreateCommand = new Command(async (cmd) =>
             {
-                _firstPlanBuilder.AssignTypeEdit(cmd.ToString());
+                await CheckIfIsAddOrEdit(cmd.ToString());
                 await Shell.Current.GoToAsync("//plan/CreatorPage");
             });
         }
 
         public void SetModel(object vm)
         {
-            if(vm is WeeklyWorkViewModel)
+            if (vm is WeeklyWorkViewModel)
                 WeeklyWorkViewModel = (WeeklyWorkViewModel)vm;
-            else if(vm is FreeTimeViewModel)
+            else if (vm is FreeTimeViewModel)
                 FreeTimeViewModel = (FreeTimeViewModel)vm;
-            else if(vm is LearnTimeViewModel)
+            else if (vm is LearnTimeViewModel)
                 LearnTimeViewModel = (LearnTimeViewModel)vm;
         }
 
@@ -50,6 +44,34 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             _firstPlanBuilder.SetFreeTime(FreeTimeViewModel);
             _firstPlanBuilder.SetLearnTime(LearnTimeViewModel);
             _firstPlanBuilder.ApplyPlan();
+        }
+
+        private async Task CheckIfIsAddOrEdit(string type)
+        {
+            var isEdit = _firstPlanBuilder.AssignTypeEdit(type.ToString());
+
+            if (isEdit)
+                await GetUserId();
+        }
+
+        private async Task GetUserId()
+        {
+            (short, string) response = (0, null);
+            try
+            {
+                using (var client = new WebApiClient<(short, string)>())
+                {
+                    response = await client.CallServiceGetAsync(address: "FirstPlan/UserPlanId", token: UserSession.Token);
+                }
+                if (response.Item1 != 0)
+                {
+                    _firstPlanBuilder.AssignPlanId(response.Item2);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("API Connection error!");
+            }
         }
 
     }

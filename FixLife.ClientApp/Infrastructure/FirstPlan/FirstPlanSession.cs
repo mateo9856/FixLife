@@ -13,6 +13,7 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
         private static FirstPlanSession _instance;
         private FirstPlanSession() { }
         public bool IsEdit { get; set; }
+        public string Id { get; set; }
         public AppPlan SummaryPlan { get; set; }
 
         public static FirstPlanSession Instance()

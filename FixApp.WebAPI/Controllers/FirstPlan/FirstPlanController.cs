@@ -48,9 +48,10 @@ namespace FixApp.WebAPI.Controllers.FirstPlan
         }
 
         [Authorize]
-        [HttpGet("UserPlanId/{userId}")]
-        public async Task<ActionResult> GetUserPlanId([FromQuery]string userId)
+        [HttpGet("UserPlanId")]
+        public async Task<ActionResult> GetUserPlanId()
         {
+            var userId = User.Claims.FirstOrDefault(d => d.Type == "UserId")?.Value;
             var query = new GetUserPlanIdQuery
             {
                 UserId = userId

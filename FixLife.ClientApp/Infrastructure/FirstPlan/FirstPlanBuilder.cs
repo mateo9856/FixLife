@@ -51,9 +51,13 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
             Plan.WeeklyWork = mapModel;
         }
 
-        public void AssignTypeEdit(string type)
+        public bool AssignTypeEdit(string type)
         {
             FirstPlanSession.Instance().IsEdit = type.Equals("edit") ? true : false;
+            return FirstPlanSession.Instance().IsEdit;
         }
+
+        public void AssignPlanId(string id)
+           => FirstPlanSession.Instance().Id = id;
     }
 }
