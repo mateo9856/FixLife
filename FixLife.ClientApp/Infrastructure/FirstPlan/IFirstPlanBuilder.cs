@@ -17,6 +17,5 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
         void SetLearnTime(LearnTimeViewModel model);
         void ApplyPlan();
         bool AssignTypeEdit(string type);
-        void AssignPlanId(string id);
     }
 }

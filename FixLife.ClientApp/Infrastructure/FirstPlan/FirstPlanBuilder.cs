@@ -57,7 +57,5 @@ namespace FixLife.ClientApp.Infrastructure.FirstPlan
             return FirstPlanSession.Instance().IsEdit;
         }
 
-        public void AssignPlanId(string id)
-           => FirstPlanSession.Instance().Id = id;
     }
 }

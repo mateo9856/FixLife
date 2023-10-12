@@ -49,29 +49,6 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         private async Task CheckIfIsAddOrEdit(string type)
         {
             var isEdit = _firstPlanBuilder.AssignTypeEdit(type.ToString());
-
-            if (isEdit)
-                await GetUserId();
-        }
-
-        private async Task GetUserId()
-        {
-            (short, string) response = (0, null);
-            try
-            {
-                using (var client = new WebApiClient<(short, string)>())
-                {
-                    response = await client.CallServiceGetAsync(address: "FirstPlan/UserPlanId", token: UserSession.Token);
-                }
-                if (response.Item1 != 0)
-                {
-                    _firstPlanBuilder.AssignPlanId(response.Item2);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("API Connection error!");
-            }
         }
 
     }
