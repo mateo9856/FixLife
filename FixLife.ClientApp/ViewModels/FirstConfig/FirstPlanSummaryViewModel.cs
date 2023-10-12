@@ -60,7 +60,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                     TimeEnd = SummaryPlan.WeeklyWork.TimeEnd.ToString(),
                     DayOfWeeks = SummaryPlan.WeeklyWork.DayOfWeeks.Where(d => d.Selected).Select(e => e.Day).ToList()
                 },
-                FreeTime = SummaryPlan.FreeTime.Select(c => new
+                FreeTime = SummaryPlan.FreeTime.Where(d => !string.IsNullOrEmpty(d.Text))?.Select(c => new
                 {
                     TimeStart = c.TimeStart.ToString(),
                     TimeEnd = c.TimeEnd.ToString(),
@@ -80,7 +80,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 PlanCreateResponse response = null;
                 using (var client = new WebApiClient<PlanCreateResponse>())
                 {
-                    if(IsEdit)//bad request problem(check it!)
+                    if(IsEdit)
                         response = await client.PostPutAsync(requestBuilder, "FirstPlan/EditPlan", false, UserSession.Token);
                     else
                         response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true, UserSession.Token);
