@@ -40,7 +40,7 @@ namespace FixLife.ClientApp.ViewModels
         public string TimeToEndWork { 
             get
             {
-                var timeLeft = ActualPlan.WeeklyWork.TimeEnd.Add(new TimeSpan(1, 0, 0, 0)).Subtract(DateTime.Now.ParseToTimeSpan());
+                var timeLeft = ActualPlan.WeeklyWork.TimeEnd.Subtract(DateTime.Now.ParseToTimeSpan());
                 return $"Time to left: {timeLeft.ToString()}";
             } 
         }
@@ -78,7 +78,7 @@ namespace FixLife.ClientApp.ViewModels
             get 
             {
                 if (OrderedFreeTimes.Count <= 1) return string.Empty;
-                return $"Next: {OrderedFreeTimes[1]}";
+                return $"Next: {OrderedFreeTimes[1]?.Text}";
             }
         }
 
