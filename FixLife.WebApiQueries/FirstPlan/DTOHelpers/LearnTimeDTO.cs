@@ -13,5 +13,6 @@ namespace FixLife.WebApiQueries.FirstPlan
         public bool IsWeekly { get; set; }
         public string TimeInterval { get; set; }
         public string StartTime { get; set; }
+        public List<DayOfWeeks> DayOfWeeks { get; set; }
     }
 }

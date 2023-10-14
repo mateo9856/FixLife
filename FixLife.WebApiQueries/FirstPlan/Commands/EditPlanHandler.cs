@@ -30,6 +30,12 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
                     Day = d,
                     CreatedDate = DateTime.Now
                 }).ToList();
+
+                mapPlan.LearnTime.DayOfWeeks = request.Request.LearnTime.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
+                {
+                    Day = d,
+                    CreatedDate = DateTime.Now
+                }).ToList();
             }
 
             mapPlan.UpdatedDate = DateTime.Now;
