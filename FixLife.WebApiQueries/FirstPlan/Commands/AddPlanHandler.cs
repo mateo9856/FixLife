@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using FixLife.WebApiDomain.Exceptions;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -25,16 +27,25 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
         {
             var mapPlan = _mapper.Map<Plan>(request.Request);
             
-            if(mapPlan != null)
+            if(mapPlan == null)
             {
-                mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
-                {
-                    Day = d,
-                    CreatedDate= DateTime.Now
-                }).ToList();
+                throw new ValidationException("Validation after map is null");
             }
 
+            mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
+            {
+                Day = d,
+                CreatedDate = DateTime.Now
+            }).ToList();
+
+            mapPlan.LearnTime.DayOfWeeks = request.Request.LearnTime.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
+            {
+                Day = d,
+                CreatedDate = DateTime.Now
+            }).ToList();
+
             mapPlan.CreatedDate = DateTime.Now;
+
             var serviceResult = await _planService.CreatePlanAsync(mapPlan, true, request.UserId);
 
             return new CreatePlanResponse { Status = serviceResult.Item1, Message = serviceResult.Item2 };

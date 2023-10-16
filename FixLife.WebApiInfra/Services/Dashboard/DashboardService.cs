@@ -29,6 +29,10 @@ namespace FixLife.WebApiInfra.Services.Dashboard
 
             if (GetPlan != null)
             {
+                var weeklyWorkDayOfWeeks = await _context.WeeklyWorks.SingleAsync(a => a.Id == GetPlan.WeeklyWork.Id);
+
+                GetPlan.WeeklyWork = weeklyWorkDayOfWeeks;
+
                 return (200, GetPlan);
             }
 
@@ -67,7 +71,10 @@ namespace FixLife.WebApiInfra.Services.Dashboard
             {
                 timesList.Add(Tuple.Create("Free time", actualTimeSpan.Subtract(item.TimeStart)));
             }
-            var planToReturn = timesList.Where(a => a.Item2.Hours == 0).OrderBy(d => d.Item2.Minutes).ThenBy(e => e.Item2.Seconds).FirstOrDefault();
+            var planToReturn = timesList.Where(a => a.Item2.Hours == 0)
+                .OrderBy(d => d.Item2.Minutes)
+                .ThenBy(e => e.Item2.Seconds)
+                .FirstOrDefault();
             return new
             {
                 Status = 200,

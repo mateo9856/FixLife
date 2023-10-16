@@ -2,12 +2,8 @@
 using FixLife.WebApiDomain.Exceptions;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
+using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.WebApiQueries.FirstPlan.Commands
 {
@@ -23,20 +19,22 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
         {
             var mapPlan = _mapper.Map<Plan>(request.Request);
 
-            if (mapPlan != null)
+            if (mapPlan == null)
             {
-                mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
-                {
-                    Day = d,
-                    CreatedDate = DateTime.Now
-                }).ToList();
-
-                mapPlan.LearnTime.DayOfWeeks = request.Request.LearnTime.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
-                {
-                    Day = d,
-                    CreatedDate = DateTime.Now
-                }).ToList();
+                throw new ValidationException("Request after map is null");
             }
+
+            mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
+            {
+                Day = d,
+                CreatedDate = DateTime.Now
+            }).ToList();
+
+            mapPlan.LearnTime.DayOfWeeks = request.Request.LearnTime.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
+            {
+                Day = d,
+                CreatedDate = DateTime.Now
+            }).ToList();
 
             mapPlan.UpdatedDate = DateTime.Now;
 

@@ -71,6 +71,8 @@ namespace FixLife.WebApiInfra.Services
                 if (oldPlan == null)
                     return (404, "User plan not found!");
 
+                UnassignOldPlan(oldPlan);
+
                 plan.Id = oldPlan.Id;
                 plan.UserId = oldPlan.UserId;
                 plan.CreatedDate = oldPlan.CreatedDate;
@@ -82,8 +84,6 @@ namespace FixLife.WebApiInfra.Services
                 }
                 _context.Attach(plan);
                 _context.Entry(plan).State = EntityState.Modified;
-
-                UnassignOldPlan(oldPlan);
 
                 var createStatus = await _context.SaveChangesAsync();
 
@@ -119,14 +119,14 @@ namespace FixLife.WebApiInfra.Services
         private void UnassignOldPlan(Plan oldPlan)
         {
             oldPlan.WeeklyWork.DeletedDate = DateTime.Now;
-            _context.Entry(oldPlan.WeeklyWork).State = EntityState.Modified;
+            _context.Entry(oldPlan.WeeklyWork).State = EntityState.Deleted;
             oldPlan.LearnTime.DeletedDate = DateTime.Now;
-            _context.Entry(oldPlan.LearnTime).State = EntityState.Modified;
+            _context.Entry(oldPlan.LearnTime).State = EntityState.Deleted;
 
             foreach (var freeTime in oldPlan.FreeTime)
             {
                 freeTime.DeletedDate = DateTime.Now;
-                _context.Entry(freeTime).State = EntityState.Modified;
+                _context.Entry(freeTime).State = EntityState.Deleted;
             }
         }
     
