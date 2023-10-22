@@ -74,10 +74,10 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 }).ToList(),
                 LearnTime = new
                 {
-                    IsYearly = SummaryPlan.LearnTime.IsYearly,
-                    IsWeekly = SummaryPlan.LearnTime.IsWeekly,
                     TimeInterval = SummaryPlan.LearnTime.TimeInterval.ToString(),
                     StartTime = SummaryPlan.LearnTime.StartTime.ToString(),
+                    DayOfWeeks = SummaryPlan.LearnTime.DayOfWeeks.Where(d => d.Selected).Select(e => e.Day).ToList()
+
                 }
             };
 

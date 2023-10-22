@@ -14,7 +14,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         private bool _isWeekly;
 
         public bool IsWeekly
-        {
+        {// TO DELETE!!
             get { return _isWeekly; }
             set { _isWeekly = value; OnPropertyChanged(); }
         }

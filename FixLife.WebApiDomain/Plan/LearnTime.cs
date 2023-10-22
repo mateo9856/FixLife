@@ -9,8 +9,6 @@ namespace FixLife.WebApiDomain.Plan
 {
     public class LearnTime : BaseBusinessEntity
     {
-        public bool IsYearly { get; set; }
-        public bool IsWeekly { get; set; }
         public TimeSpan TimeInterval { get; set; }
         public TimeSpan StartTime { get; set; }
         public ICollection<Common.DayOfWeek> DayOfWeeks { get; set; }
