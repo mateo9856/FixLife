@@ -26,10 +26,6 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <VerticalStackLayout Grid.Row="1">
-            <RadioButton HorizontalOptions="Center" Content="Weekly" IsChecked="{Binding IsWeekly}" />
-            <RadioButton HorizontalOptions="Center" Content="Yearly" IsChecked="{Binding IsYearly}" />
-        </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="1" Grid.Column="2">
             <Label
                 HorizontalOptions="Center"
@@ -47,7 +43,7 @@
             <Label Margin="0,15,0,0"
                    HorizontalOptions="Center"
                 Text="For date" />
-            <DatePicker Format="yyyy-MM-dd" Date="{Binding SelectedDate}" MinimumWidthRequest="100" HorizontalOptions="Center"/>
+            <DatePicker Format="dd-MM-yyyy" Date="{Binding SelectedDate}" MinimumWidthRequest="100" HorizontalOptions="Center"/>
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2">
             <Label Text="Start hour:" HorizontalOptions="Center" />

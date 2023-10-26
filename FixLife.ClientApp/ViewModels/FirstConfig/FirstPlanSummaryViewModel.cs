@@ -26,7 +26,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             string.Format("Days: {0} Start: {1} End: {2}", string.Join(", ", SummaryPlan.WeeklyWork.DayOfWeeks.Where(d => d.Selected).Select(d => d.Day)),
                 SummaryPlan.WeeklyWork.TimeStart, SummaryPlan.WeeklyWork.TimeEnd);
         public string LearnTimeSummaryTextView =>
-            string.Format("{0} Start: {1} Interval: {2}", (SummaryPlan.LearnTime.IsWeekly ? "WEEKLY PLAN" : "YEARLY PLAN"),
+            string.Format("Days: {0} Start: {1} Interval: {2}", string.Join(", ", SummaryPlan.LearnTime.DayOfWeeks.Where(d => d.Selected).Select(d => d.Day)),
                 SummaryPlan.LearnTime.StartTime, SummaryPlan.LearnTime.TimeInterval);
         public string LearnTimeTextView { get; }
         public ICommand CreateCommand { get; private set; }
@@ -44,7 +44,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 var builder = new StringBuilder();
                 builder.Append(SummaryPlan.WeeklyWork.DayOfWeeks.Count() > 0 ? "Weekly work/" : "-/");
                 builder.Append(SummaryPlan.FreeTime.Count() > 0 ? "Free time/" : "-/");
-                builder.Append((SummaryPlan.LearnTime.IsWeekly || SummaryPlan.LearnTime.IsYearly) ? "Learn time/" : "-/");
+                builder.Append((SummaryPlan.LearnTime.DayOfWeeks.Count() > 0) ? "Learn time/" : "-/");
 
                 using (var producer = new CreatePlanKafkaProducer())
                 {
