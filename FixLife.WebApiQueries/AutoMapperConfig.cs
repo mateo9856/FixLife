@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
+using FixLife.WebApiDomain.Enums;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiQueries.Account;
 using FixLife.WebApiQueries.Dashboard.Queries;
 using FixLife.WebApiQueries.FirstPlan;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FixLife.WebApiQueries.FirstPlan.DTOHelpers;
 
 namespace FixLife.WebApiQueries
 {
@@ -34,11 +31,26 @@ namespace FixLife.WebApiQueries
                 .ForMember(d => d.TimeInterval, opt => opt.MapFrom(e => TimeSpan.Parse(e.TimeInterval)))
                 .ReverseMap();
 
+            CreateMap<Plan, PlanDTO>()
+                .ForMember(d => d.WeeklyWork, opt => opt.MapFrom(d => new WeeklyWorkDTO
+                {
+                    DayOfWeeks = d.WeeklyWork.DayOfWeeks.Select(a => a.Day).ToList(),
+                    TimeEnd = d.WeeklyWork.TimeEnd.ToString(),
+                    TimeStart = d.WeeklyWork.TimeStart.ToString(),
+                }))
+                .ForMember(d => d.LearnTime, opt => opt.MapFrom(d => new LearnTimeDTO
+                {
+                    DayOfWeeks = d.LearnTime.DayOfWeeks.Select(a => a.Day).ToList(),
+                    TimeInterval = d.LearnTime.TimeInterval.ToString(),
+                    StartTime = d.LearnTime.StartTime.ToString(),
+                }))
+                .ReverseMap();
+
             CreateMap<CreatePlanRequest, Plan>()
                 .ReverseMap();
             CreateMap<EditPlanRequest, Plan>()
                 .ReverseMap();
-            CreateMap<Plan, GetDashboardQueryResponse>()
+            CreateMap<PlanDTO, GetDashboardQueryResponse>()
                 .ReverseMap();
         }
     }

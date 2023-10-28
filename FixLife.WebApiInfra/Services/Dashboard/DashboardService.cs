@@ -23,7 +23,9 @@ namespace FixLife.WebApiInfra.Services.Dashboard
         {
             var GetPlan = await _context.Plans
                 .Include(d => d.WeeklyWork)
+                .ThenInclude(g => g.DayOfWeeks)
                 .Include(e => e.LearnTime)
+                .ThenInclude(h => h.DayOfWeeks)
                 .Include(f => f.FreeTime)
                 .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
 
