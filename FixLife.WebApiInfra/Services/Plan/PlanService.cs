@@ -89,7 +89,7 @@ namespace FixLife.WebApiInfra.Services
 
                 if (createStatus > 0)
                 {
-                    return (201, "Created succesfully");
+                    return (201, "Modified succesfully");
                 }
                 return (400, "Something wrong in database");
 
@@ -119,9 +119,9 @@ namespace FixLife.WebApiInfra.Services
         private void UnassignOldPlan(Plan oldPlan)
         {
             oldPlan.WeeklyWork.DeletedDate = DateTime.Now;
-            _context.Entry(oldPlan.WeeklyWork).State = EntityState.Deleted;
+            _context.Entry(oldPlan.WeeklyWork).State = EntityState.Modified;
             oldPlan.LearnTime.DeletedDate = DateTime.Now;
-            _context.Entry(oldPlan.LearnTime).State = EntityState.Deleted;
+            _context.Entry(oldPlan.LearnTime).State = EntityState.Modified;
 
             foreach (var freeTime in oldPlan.FreeTime)
             {

@@ -11,22 +11,6 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 {
     public class LearnTimeViewModel : BaseViewModel
     {
-        private bool _isWeekly;
-
-        public bool IsWeekly
-        {// TO DELETE!!
-            get { return _isWeekly; }
-            set { _isWeekly = value; OnPropertyChanged(); }
-        }
-
-        private bool _isYearly;
-
-        public bool IsYearly
-        {
-            get { return _isYearly; }
-            set { _isYearly = value; OnPropertyChanged(); }
-        }
-
         private DateTime _selectedDate;
 
         public DateTime SelectedDate

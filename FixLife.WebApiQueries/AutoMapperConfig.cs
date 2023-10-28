@@ -29,6 +29,7 @@ namespace FixLife.WebApiQueries
                 .ReverseMap();
 
             CreateMap<LearnTimeDTO, LearnTime>()
+                .ForMember(d => d.DayOfWeeks, opt => opt.Ignore())
                 .ForMember(d => d.StartTime, opt => opt.MapFrom(e => TimeSpan.Parse(e.StartTime)))
                 .ForMember(d => d.TimeInterval, opt => opt.MapFrom(e => TimeSpan.Parse(e.TimeInterval)))
                 .ReverseMap();
