@@ -23,10 +23,10 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         public List<string> FreeTimeSummaryTextView =>
             SummaryPlan.FreeTime.Select(d => string.Format("{0}:, start: {1}, end: {2}", d.Text, d.TimeStart.ToString(), d.TimeEnd.ToString())).ToList();
         public string WeeklyWorkTextView =>
-            string.Format("Days: {0} Start: {1} End: {2}", string.Join(", ", SummaryPlan.WeeklyWork.DayOfWeeks.Where(d => d.Selected).Select(d => d.Day)),
+            string.Format("Days: {0} Start: {1} End: {2}", string.Join(", ", SummaryPlan.WeeklyWork.DayOfWeeksList.Where(d => d.Selected).Select(d => d.Day)),
                 SummaryPlan.WeeklyWork.TimeStart, SummaryPlan.WeeklyWork.TimeEnd);
         public string LearnTimeSummaryTextView =>
-            string.Format("Days: {0} Start: {1} Interval: {2}", string.Join(", ", SummaryPlan.LearnTime.DayOfWeeks.Where(d => d.Selected).Select(d => d.Day)),
+            string.Format("Days: {0} Start: {1} Interval: {2}", string.Join(", ", SummaryPlan.LearnTime.DayOfWeeksList.Where(d => d.Selected).Select(d => d.Day)),
                 SummaryPlan.LearnTime.StartTime, SummaryPlan.LearnTime.TimeInterval);
         public string LearnTimeTextView { get; }
         public ICommand CreateCommand { get; private set; }
@@ -64,7 +64,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 {
                     TimeStart = SummaryPlan.WeeklyWork.TimeStart.ToString(),
                     TimeEnd = SummaryPlan.WeeklyWork.TimeEnd.ToString(),
-                    DayOfWeeks = SummaryPlan.WeeklyWork.DayOfWeeks.Where(d => d.Selected).Select(e => e.Day).ToList()
+                    DayOfWeeks = SummaryPlan.WeeklyWork.DayOfWeeksList.Where(d => d.Selected).Select(e => e.Day).ToList()
                 },
                 FreeTime = SummaryPlan.FreeTime.Where(d => !string.IsNullOrEmpty(d.Text))?.Select(c => new
                 {
@@ -76,7 +76,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 {
                     TimeInterval = SummaryPlan.LearnTime.TimeInterval.ToString(),
                     StartTime = SummaryPlan.LearnTime.StartTime.ToString(),
-                    DayOfWeeks = SummaryPlan.LearnTime.DayOfWeeks.Where(d => d.Selected).Select(e => e.Day).ToList()
+                    DayOfWeeks = SummaryPlan.LearnTime.DayOfWeeksList.Where(d => d.Selected).Select(e => e.Day).ToList()
 
                 }
             };
