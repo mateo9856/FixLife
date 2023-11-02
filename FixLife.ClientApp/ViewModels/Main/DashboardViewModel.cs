@@ -1,5 +1,6 @@
 ﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Common.Abstraction;
+using FixLife.ClientApp.Common.Extensions;
 using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.Dashboard;
 using FixLife.ClientApp.Resources.Helpers;
@@ -49,7 +50,7 @@ namespace FixLife.ClientApp.ViewModels
         {
             get
             {
-                var timeLeft = ActualPlan.WeeklyWork.TimeStart.Add(new TimeSpan(1, 0, 0, 0)).Subtract(DateTime.Now.ParseToTimeSpan());
+                var timeLeft = ActualPlan.WeeklyWork.TimeStart.Subtract(DateTime.Now.ParseToTimeSpan()).AbsTime();
                 return $"Time to work: {timeLeft.ToString()}";
             }
         }
@@ -58,7 +59,7 @@ namespace FixLife.ClientApp.ViewModels
         {
             get
             {
-                var learnTime = ActualPlan.LearnTime.StartTime.Add(new TimeSpan(1, 0, 0, 0)).Subtract(DateTime.Now.ParseToTimeSpan());
+                var learnTime = ActualPlan.LearnTime.StartTime.Subtract(DateTime.Now.ParseToTimeSpan()).AbsTime();
                 return $"Time to learn: {learnTime.ToString()}";
             }
         }
