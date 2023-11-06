@@ -42,9 +42,9 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             try
             {
                 var builder = new StringBuilder();
-                builder.Append(SummaryPlan.WeeklyWork.DayOfWeeks.Count() > 0 ? "Weekly work/" : "-/");
-                builder.Append(SummaryPlan.FreeTime.Count() > 0 ? "Free time/" : "-/");
-                builder.Append((SummaryPlan.LearnTime.DayOfWeeks.Count() > 0) ? "Learn time/" : "-/");
+                builder.Append(SummaryPlan.WeeklyWork.DayOfWeeks.Count() > 0 ? $"Weekly work: {WeeklyWorkTextView}/" : "-/");
+                builder.Append(SummaryPlan.FreeTime.Count() > 0 ? $"Free time: {string.Join("|", FreeTimeSummaryTextView)}/" : "-/");
+                builder.Append((SummaryPlan.LearnTime.DayOfWeeks.Count() > 0) ? $"Learn time: {LearnTimeSummaryTextView}/" : "-/");
 
                 using (var producer = new CreatePlanKafkaProducer())
                 {
@@ -94,7 +94,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 
                 if (response.Status == 201)
                 {
-                    //await ConsumeDataToKafka();
+                    await ConsumeDataToKafka();
                     await RedirectToPageAsync("//dash/DashboardPage");
                 }
                 else
