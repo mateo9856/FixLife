@@ -15,11 +15,14 @@ namespace FixLife.KafkaLog
                 BootstrapServers = "localhost:9092",
                 ClientId = "FixLife",
                 GroupId = "default",
-                BrokerAddressFamily = BrokerAddressFamily.V4
+                BrokerAddressFamily = BrokerAddressFamily.V4,
+                EnablePartitionEof = true,
             };
 
-            using var consumer = new ConsumerBuilder<Ignore, string>(config).Build();
-            consumer.Subscribe("plan-logs");
+            using var consumer = new ConsumerBuilder<Ignore, string>(config)
+                .SetErrorHandler(((_, e) => Console.WriteLine($"Detected error ! : Code : {e.Code}\n Reason: {e.Reason}")))
+                .Build();
+            consumer.Subscribe("FixLife-CreatePlanLogs");
 
             string key = "";
 

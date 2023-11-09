@@ -1,9 +1,4 @@
 ﻿using Confluent.Kafka;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.ClientApp.Infrastructure.MessageBroker
 {
@@ -31,10 +26,11 @@ namespace FixLife.ClientApp.Infrastructure.MessageBroker
                     Key = "Plan create",
                     Value = string.Format("Value created by {0}, created plans: {1}", user, plans)
                 };
-                var deliver = await producer.ProduceAsync("logs-topic", message);
+                var deliver = await producer.ProduceAsync("FixLife-CreatePlanLogs", message);
+
             } catch (Exception ex)
             {
-
+                return;
             }
         }
 
