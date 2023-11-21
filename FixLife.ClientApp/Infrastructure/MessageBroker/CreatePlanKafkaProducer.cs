@@ -14,10 +14,9 @@ namespace FixLife.ClientApp.Infrastructure.MessageBroker
             {
                 BootstrapServers = "localhost:9092",
                 ClientId = "FixLife",
-                BrokerAddressFamily = BrokerAddressFamily.V4
+                BrokerAddressFamily = BrokerAddressFamily.V4,
             };
         }
-
         public async Task CreateMessage(string user = "", string plans = "")
         {
             try

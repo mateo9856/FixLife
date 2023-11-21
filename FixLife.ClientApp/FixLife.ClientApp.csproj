@@ -72,6 +72,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\FixLife.Kafka\FixLife.Kafka.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="AboutApp.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
