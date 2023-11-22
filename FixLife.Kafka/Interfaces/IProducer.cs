@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FixLife.Kafka.Interfaces
 {
-    public interface IProducer
+    public interface IProducer<T, T1>
     {
-        void BuildConfig(string bootstrapServer, string groupId, BrokerAddressFamily brokerAddressFamily);
-        void CreateMessage<T, T1>(T key, T1 value);
-        Task ProduceAsync();
+        void BuildConfig(string bootstrapServer, string clientId, BrokerAddressFamily brokerAddressFamily);
+        void CreateMessage(T key, T1 value);
+        Task ProduceAsync(string topic);
     }
 }

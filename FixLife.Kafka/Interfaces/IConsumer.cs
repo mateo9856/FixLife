@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace FixLife.Kafka.Interfaces
 {
-    public interface IConsumer
+    public interface IConsumer<T, T1>
     {
-        void BuildConfig(string bootstrapServer, string groupId, BrokerAddressFamily brokerAddressFamily);
+        void BuildConfig(string bootstrapServer, string groupId, string clientId, BrokerAddressFamily brokerAddressFamily);
         void SubscribeTopic(string topic);
         void Unsubscribe();
-        Task ConsumeAsync();
+        T1 ConsumeValue();
     }
 }
