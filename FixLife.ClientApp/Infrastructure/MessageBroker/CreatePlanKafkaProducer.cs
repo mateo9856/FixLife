@@ -1,5 +1,7 @@
 ﻿using Confluent.Kafka;
 using Confluent.Kafka.Admin;
+using FixLife.Kafka.Interfaces;
+using Kfk = FixLife.Kafka.Interfaces;
 
 namespace FixLife.ClientApp.Infrastructure.MessageBroker
 {
@@ -8,8 +10,15 @@ namespace FixLife.ClientApp.Infrastructure.MessageBroker
         private ProducerConfig _config;
         private const string TopicName = "FixLife-CreatePlanLogs";
 
-        public CreatePlanKafkaProducer()
+        private readonly Kfk.IAdminClientService _adminClientService;
+        private readonly Kfk.IProducer<string, string> _producerService;
+
+        public CreatePlanKafkaProducer(IAdminClientService adminClientService, Kfk.IProducer<string, string> producer)
         {
+            _adminClientService = adminClientService;
+            _producerService = producer;
+
+            //TODO: Swap and test DI solutions
             _config = new ProducerConfig
             {
                 BootstrapServers = "localhost:9092",

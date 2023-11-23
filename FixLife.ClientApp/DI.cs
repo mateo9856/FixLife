@@ -1,14 +1,12 @@
-﻿using FixLife.ClientApp.Common.Abstraction;
+﻿using CommunityToolkit.Maui;
+using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Infrastructure.Dashboard;
 using FixLife.ClientApp.ViewModels;
 using FixLife.ClientApp.ViewModels.AppSettings;
 using FixLife.ClientApp.Views.AppSettings;
 using FixLife.ClientApp.Views.MainPage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FixLife.Kafka.Interfaces;
+using FixLife.Kafka.Services;
 
 namespace FixLife.ClientApp
 {
@@ -20,6 +18,14 @@ namespace FixLife.ClientApp
             appBuilder.Services.AddSingleton<DashboardViewModel>();
             appBuilder.Services.AddTransient<AppSettingsPage>();
             appBuilder.Services.AddTransient<AppSettingsViewModel>();
+            return appBuilder;
+        }
+
+        public static MauiAppBuilder RegisterKafka(this MauiAppBuilder appBuilder)
+        {
+            appBuilder.Services.AddTransient<IAdminClientService, AdminClientService>();
+            appBuilder.Services.AddTransient(typeof(IProducer<,>), typeof(ProducerService<,>));
+            appBuilder.Services.AddTransient(typeof(IConsumer<,>), typeof(ConsumerService<,>));
             return appBuilder;
         }
 
