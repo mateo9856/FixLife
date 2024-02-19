@@ -8,7 +8,7 @@ namespace FixLife.KafkaLog
     {
         static void Main(string[] args)
         {
-            var serviceProvider = new ServiceCollection()
+            var services = new ServiceCollection()
             .AddSingleton<Kfk.Interfaces.IConsumer<Ignore, string>, Kfk.Services.ConsumerService<Ignore, string>>()
             .BuildServiceProvider();
 
@@ -16,8 +16,15 @@ namespace FixLife.KafkaLog
             timer.Enabled = true;
             timer.Elapsed += WriteCloseInfo;
 
-            var consumerService = serviceProvider
+            var consumerService = services
             .GetService<Kfk.Interfaces.IConsumer<Ignore, string>>();
+
+            if(consumerService is null )
+            {
+                Console.WriteLine("Fatal error! Cannot load consumer Kafka service.\nPress any key to close.");
+                Console.ReadLine();
+                return;
+            }
 
             var consumer = new ConsumerBuilder(consumerService);
             consumer.StartProduce();
@@ -27,7 +34,7 @@ namespace FixLife.KafkaLog
             while(key == Console.ReadLine())
             {
                 var consumeResult = consumer.ConsumeValue();
-                Console.WriteLine(consumeResult.Value);
+                Console.WriteLine(consumeResult);
             }
 
             consumer.StopProduce();
