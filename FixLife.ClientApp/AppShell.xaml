@@ -16,11 +16,6 @@
         Title="Log On"
         ContentTemplate="{DataTemplate local:LoginPage}"
         Route="LoginPage" />
-
-            <ShellContent
-        Title="Register Page"
-        ContentTemplate="{DataTemplate local:RegisterPage}"
-        Route="RegisterPage" />
         </Tab>
     </FlyoutItem>
 
