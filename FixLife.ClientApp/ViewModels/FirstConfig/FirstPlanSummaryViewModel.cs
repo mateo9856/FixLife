@@ -1,18 +1,12 @@
-﻿using CommunityToolkit.Maui.Views;
-using FixLife.ClientApp.Common;
+﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Infrastructure.FirstPlan;
 using FixLife.ClientApp.Infrastructure.MessageBroker;
 using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.FirstPlan;
 using FixLife.ClientApp.Sessions;
 using FixLife.ClientApp.Views.Popups;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace FixLife.ClientApp.ViewModels.FirstConfig
 {
@@ -42,14 +36,15 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             try
             {
                 var builder = new StringBuilder();
-                builder.Append(SummaryPlan.WeeklyWork.DayOfWeeks.Count() > 0 ? "Weekly work/" : "-/");
-                builder.Append(SummaryPlan.FreeTime.Count() > 0 ? "Free time/" : "-/");
-                builder.Append((SummaryPlan.LearnTime.DayOfWeeks.Count() > 0) ? "Learn time/" : "-/");
+                builder.Append(SummaryPlan.WeeklyWork.DayOfWeeks.Count() > 0 ? $"Weekly work: {WeeklyWorkTextView}/" : "-/");
+                builder.Append(SummaryPlan.FreeTime.Count() > 0 ? $"Free time: {string.Join("|", FreeTimeSummaryTextView)}/" : "-/");
+                builder.Append((SummaryPlan.LearnTime.DayOfWeeks.Count() > 0) ? $"Learn time: {LearnTimeSummaryTextView}/" : "-/");
 
-                using (var producer = new CreatePlanKafkaProducer())
-                {
-                    await producer.CreateMessage(UserSession.Email, builder.ToString());
-                }
+                //Set to producerBuilder using DI:
+
+                //var producer = new CreatePlanKafkaProducer();
+                //await producer.CreateMessage(UserSession.Email, builder.ToString());
+            
             } catch(Exception ex)
             {
                 return;
@@ -94,7 +89,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 
                 if (response.Status == 201)
                 {
-                    //await ConsumeDataToKafka();
+                    await ConsumeDataToKafka();
                     await RedirectToPageAsync("//dash/DashboardPage");
                 }
                 else

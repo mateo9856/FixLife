@@ -1,46 +1,42 @@
 ﻿using Confluent.Kafka;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Confluent.Kafka.Admin;
+using FixLife.Kafka.Interfaces;
+using Kfk = FixLife.Kafka.Interfaces;
 
 namespace FixLife.ClientApp.Infrastructure.MessageBroker
 {
-    public class CreatePlanKafkaProducer : IDisposable
+    public class CreatePlanKafkaProducer
     {
-        private ProducerConfig _config;
+        private const string TopicName = "FixLife-CreatePlanLogs";
+        private const string BootstapServer = "localhost:9092";
 
-        public CreatePlanKafkaProducer()
+        private readonly Kfk.IAdminClientService _adminClientService;
+        private readonly Kfk.IProducer<string, string> _producerService;
+
+        public CreatePlanKafkaProducer(IAdminClientService adminClientService, Kfk.IProducer<string, string> producer)
         {
-            _config = new ProducerConfig
-            {
-                BootstrapServers = "localhost:9092",
-                ClientId = "FixLife",
-                BrokerAddressFamily = BrokerAddressFamily.V4
-            };
-        }
+            _adminClientService = adminClientService;
+            _producerService = producer;
 
+            _adminClientService.ApplyConfig(new AdminClientConfig
+            {
+                BootstrapServers = BootstapServer,
+                ApiVersionRequestTimeoutMs = 2500,    
+            });
+
+            _producerService.BuildConfig(BootstapServer, "FixLife", BrokerAddressFamily.V4);
+
+        }
         public async Task CreateMessage(string user = "", string plans = "")
         {
-            try
-            {
-                using var producer = new ProducerBuilder<string, string>(_config).Build();
-                var message = new Message<string, string>()
-                {
-                    Key = "Plan create",
-                    Value = string.Format("Value created by {0}, created plans: {1}", user, plans)
-                };
-                var deliver = await producer.ProduceAsync("logs-topic", message);
-            } catch (Exception ex)
-            {
+            var getTopic = await _adminClientService.GetOrCreateTopic(TopicName);
 
-            }
-        }
+            if (getTopic == null)
+                throw new Exception($"Topic: {TopicName} not found!");
 
-        public void Dispose()
-        {
-            _config = null;
+            _producerService.CreateMessage(user, plans);
+
+            await _producerService.ProduceAsync(TopicName);
         }
     }
 }

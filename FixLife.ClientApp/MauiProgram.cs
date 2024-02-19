@@ -13,7 +13,9 @@ namespace FixLife.ClientApp
         public static MauiApp CreateMauiApp()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("pl-PL", false);
-            using var settings = Assembly.GetExecutingAssembly().GetManifestResourceStream("FixLife.ClientApp.appsettings.json");
+            using var settings = Assembly
+                .GetExecutingAssembly()
+                .GetManifestResourceStream("FixLife.ClientApp.appsettings.json");
             var jsonBuilder = new ConfigurationBuilder()
                 .AddJsonStream(settings)
                 .Build();
@@ -24,6 +26,7 @@ namespace FixLife.ClientApp
                 .UseMauiCommunityToolkit()
                 .RegisterViewModels()
                 .RegisterServices()
+                .RegisterKafka()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
