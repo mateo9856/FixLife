@@ -10,6 +10,17 @@
     <Shell.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </Shell.Resources>
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <HorizontalStackLayout Style="{StaticResource FlyoutStyle}">
+                <Label 
+                x:Name="_flyoutText"
+                Margin="15,0,0,0"
+                Text="{Binding Title}" />
+            </HorizontalStackLayout>
+        </DataTemplate>
+
+    </Shell.ItemTemplate>
     <FlyoutItem Route="login" Title="Login/Register">
         <Tab>
             <ShellContent
