@@ -12,8 +12,16 @@ namespace FixLife.ClientApp.Common
         private string GetAppSettingsPath()
         {
             var baseDir = AppContext.BaseDirectory;
+            //TODO: Set substring if is android version
             var subStrDir = baseDir.Substring(0, baseDir.IndexOf("ClientApp") + 9);
             return subStrDir; 
+        }
+
+        public string GetApiConnectionPath()
+        {
+            var path = GetAppSettingsPath();
+            var jsonPath = File.ReadAllText(Path.Combine(path, "apiConnection.json"));
+            return jsonPath;
         }
 
         public async Task<bool> SetAppSettings(params (string, bool)[] values)

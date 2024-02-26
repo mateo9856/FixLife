@@ -4,7 +4,7 @@
                xmlns:bind="clr-namespace:FixLife.ClientApp.Views.Popups"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="FixLife.ClientApp.Views.Popups.ErrorPopup">
-    <VerticalStackLayout BackgroundColor="White">
+    <VerticalStackLayout Padding="15,15,15,15" BackgroundColor="White">
         <StackLayout>
             <Label 
             Text="Error: "
@@ -21,15 +21,17 @@
         <Label 
             Text="{Binding Message}"
             TextColor="Black"
+            Padding="0,10,0,15"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
         <Button
             Text="Close"
             VerticalOptions="EndAndExpand"
             BackgroundColor="Purple"
-            MaximumWidthRequest="200"
+            MaximumWidthRequest="{OnPlatform Android=120, iOS=120, Default=200}"
+            MaximumHeightRequest="{OnPlatform Android=60, iOS=60, Default=100}"
             TextColor="White"
-            FontSize="24"
+            FontSize="{OnPlatform Android=18, iOS=18, Default=24}"
             Clicked="Button_Close" />
     </VerticalStackLayout>
 </toolkit:Popup>

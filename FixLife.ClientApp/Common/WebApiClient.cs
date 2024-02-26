@@ -1,17 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using FixLife.ClientApp.Options;
+using Newtonsoft.Json;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 
 namespace FixLife.ClientApp.Common
 {
     public class WebApiClient<T> : IDisposable
     {
-        public const string ADDRESS = "https://localhost:7021";
+        private readonly string ADDRESS = GetAddressByPlatform();
 
         HttpClient client;
         public WebApiClient()
@@ -101,6 +97,23 @@ namespace FixLife.ClientApp.Common
         public void Dispose()
         {
             client.Dispose();
+        }
+
+        private static string GetAddressByPlatform()
+        {
+            var appHelper = new AppHelper();
+            var configurations = appHelper.GetApiConnectionPath();
+
+            var apiConfig = JsonConvert.DeserializeObject<ApiConnectionOptions>(configurations);
+
+            var currentPlatform = DeviceInfo.Current.Platform;
+
+            if (currentPlatform == DevicePlatform.Android)
+            {
+                return apiConfig.Android;
+            }
+            else
+                return apiConfig.Windows;
         }
     }
 }
