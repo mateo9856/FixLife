@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:FixLife.ClientApp"
     xmlns:main="clr-namespace:FixLife.ClientApp.Views.MainPage"
     xmlns:firstconfig="clr-namespace:FixLife.ClientApp.Views.FirstConfig"
-    xmlns:appSettings="clr-namespace:FixLife.ClientApp.Views.AppSettings">
+    xmlns:appSettings="clr-namespace:FixLife.ClientApp.Views.AppSettings"
+    Shell.NavBarIsVisible="False">
     <Shell.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </Shell.Resources>
