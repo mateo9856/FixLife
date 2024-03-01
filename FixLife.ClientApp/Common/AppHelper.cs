@@ -12,7 +12,9 @@ namespace FixLife.ClientApp.Common
         private string GetAppSettingsPath()
         {
             var baseDir = AppContext.BaseDirectory;
-            //TODO: Set substring if is android version
+            if(DeviceInfo.Current.Platform == DevicePlatform.Android)
+                return baseDir;
+
             var subStrDir = baseDir.Substring(0, baseDir.IndexOf("ClientApp") + 9);
             return subStrDir; 
         }
