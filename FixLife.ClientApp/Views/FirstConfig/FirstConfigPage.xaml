@@ -4,7 +4,7 @@
              xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              xmlns:span="clr-namespace:FixLife.ClientApp.Resources.Helpers"
              x:Class="FixLife.ClientApp.Views.FirstConfig.FirstConfigPage"
-             Title="FirstConfigPage">
+             Title="">
 	<ContentPage.BindingContext>
 		<FirstConfig:FirstPlanViewModel/>
 	</ContentPage.BindingContext>

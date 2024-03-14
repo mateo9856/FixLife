@@ -4,7 +4,7 @@
              xmlns:plan="clr-namespace:FixLife.ClientApp.Views.FirstConfig.PlanViews"
              xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              x:Class="FixLife.ClientApp.Views.FirstConfig.FirstPlanCreator"
-             Title="FirstPlanCreator">
+             Title="">
     <ContentPage.BindingContext>
         <FirstConfig:FirstPlanViewModel/>
     </ContentPage.BindingContext>
