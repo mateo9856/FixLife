@@ -1,5 +1,4 @@
-﻿using FixLife.ClientApp.Options;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text;
 
 
@@ -101,19 +100,15 @@ namespace FixLife.ClientApp.Common
 
         private static string GetAddressByPlatform()
         {
-            var appHelper = new AppHelper();
-            var configurations = appHelper.GetApiConnectionPath();
-
-            var apiConfig = JsonConvert.DeserializeObject<ApiConnectionOptions>(configurations);
 
             var currentPlatform = DeviceInfo.Current.Platform;
 
             if (currentPlatform == DevicePlatform.Android)
             {
-                return apiConfig.Android;
+                return "http://10.0.2.2:5141";
             }
             else
-                return apiConfig.Windows;
+                return "https://localhost:7021";
         }
     }
 }
