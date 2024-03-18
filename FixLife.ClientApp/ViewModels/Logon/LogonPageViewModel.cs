@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Views;
-using FixLife.ClientApp.Common;
+﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Models.Account;
 using FixLife.ClientApp.Sessions;

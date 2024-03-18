@@ -27,7 +27,7 @@
             TextColor="Black"
             Text="{Binding PhoneNumber}"
             MaximumWidthRequest="300"
-            Placeholder="PhoneNumber" />
+            Placeholder="Phone number" />
         <Entry
             Placeholder="Password"
             Background="White"

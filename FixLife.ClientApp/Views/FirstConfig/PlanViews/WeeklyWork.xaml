@@ -21,12 +21,12 @@
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
-            <Label HorizontalOptions="Center" VerticalOptions="Center" Text="{Static Member=f:FaFreeSolid.ChevronLeft}" Grid.Column="0" FontSize="45" TextColor="White">
+            <Label HorizontalOptions="Center" VerticalOptions="Center" Text="{Static Member=f:FaFreeSolid.ChevronLeft}" Grid.Column="0" FontSize="45" TextColor="{AppThemeBinding Dark=White, Light=Black}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SetPreviousImage" />
                 </Label.GestureRecognizers>
             </Label>
-            <Label Text="Select your work Type" HorizontalTextAlignment="Center" Grid.Column="1" />
+            <Label Text="Select your work Type" FontSize="20" HorizontalTextAlignment="Center" Grid.Column="1" />
             <Border Grid.Column="1"
                     Margin="0,30,0,0"
                     MinimumWidthRequest="{x:OnPlatform Android=150, WinUI=250, Default=250 }"
@@ -35,14 +35,14 @@
                     MaximumHeightRequest="{x:OnPlatform Android=200, WinUI=250, Default=200}"
                     StrokeThickness="5"
                     BackgroundColor="White"
-                    Stroke="#FFFF">
+                    Stroke="#FFFFFF">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
                 <ImageButton x:Name="activeWorkMessage" Source="{Binding ActiveWorkImage.Source}"/>
             </Border>
             <Label x:Name="SetterText" Text="{Binding ActiveWorkImage.Description}" Margin="0, 15, 0, 0" HorizontalTextAlignment="Center" Grid.Column="1" Grid.Row="1" />
-            <Label HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" Text="{Static Member=f:FaFreeSolid.ChevronRight}" FontSize="45" TextColor="White">
+        <Label HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" Text="{Static Member=f:FaFreeSolid.ChevronRight}" FontSize="45" TextColor="{AppThemeBinding Dark=White, Light=Black}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SetNextImage" />
                 </Label.GestureRecognizers>
@@ -51,10 +51,11 @@
             <CollectionView Margin="0,50,0,0" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" ItemsSource="{Binding DayOfWeeks}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <HorizontalStackLayout>
-                            <CheckBox Color="White" BackgroundColor="Silver" HorizontalOptions="Start" MaximumWidthRequest="30" IsChecked="{Binding Selected, Mode=TwoWay}" />
-                            <Label HorizontalOptions="Center" TextColor="White" VerticalOptions="Center" FontSize="16" Text="{Binding Day, Mode=TwoWay}" />
-                        </HorizontalStackLayout>
+                        <FlexLayout JustifyContent="SpaceEvenly">
+                            <CheckBox HorizontalOptions="CenterAndExpand" Color="White" BackgroundColor="Silver" 
+                                      MaximumWidthRequest="{OnPlatform 30 ,Android=50, iOS=50}" IsChecked="{Binding Selected, Mode=TwoWay}" />
+                            <Label MinimumWidthRequest="100" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalOptions="Center" FontSize="16" Text="{Binding Day, Mode=TwoWay}" />
+                        </FlexLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
@@ -62,11 +63,11 @@
             <FlexLayout Margin="0,15, 0, 0" Grid.Row="2" JustifyContent="SpaceAround" Grid.Column="1">
                 <VerticalStackLayout>
                     <Label Text="From:" HorizontalOptions="Center" />
-                    <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding WeeklyWorkStart}"/>
+                    <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="{OnPlatform '0,15,0,0', Android='0,5,0,0', iOS='0,5,0,0'}" Time="{Binding WeeklyWorkStart}"/>
                 </VerticalStackLayout>
                 <VerticalStackLayout>
                     <Label Text="To:" HorizontalOptions="Center" />
-                    <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="0,15,0,0" Time="{Binding WeeklyWorkEnd}" FlowDirection="MatchParent"/>
+                <TimePicker Style="{StaticResource Key=WhiteTime}" Margin="{OnPlatform '0,15,0,0', Android='0,5,0,0', iOS='0,5,0,0'}" Time="{Binding WeeklyWorkEnd}" FlowDirection="MatchParent"/>
                 </VerticalStackLayout>
 
             </FlexLayout>

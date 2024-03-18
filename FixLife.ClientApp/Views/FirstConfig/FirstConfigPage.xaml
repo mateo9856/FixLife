@@ -21,6 +21,9 @@
 
             <Label
             Text="Before you start use app, you need to prepare your day plan."
+            Margin="{OnPlatform Android='0,15,0,0', iOS='0,15,0,0'}"
+            MaximumWidthRequest="{OnPlatform 500, Android=250, iOS=250}"
+            HorizontalTextAlignment="Center"
             VerticalOptions="Center"
             HorizontalOptions="Center"/>
         </StackLayout>
@@ -29,8 +32,10 @@
         <StackLayout VerticalOptions="End">
             <Button 
                 StyleClass="ButtonState"
-                Text="Click here to start!"
-                Padding="40,20"
+                Text="Start!"
+                Padding="30,15"
+                FontAttributes="Bold"
+                FontSize="25"
                 Margin="0,20,0,0"
                 VerticalOptions="End"
                 Command="{Binding CreateCommand}"
