@@ -27,13 +27,23 @@
             <Button Margin="10,0,0,0" Text="Add"
                     Command="{Binding AddToListCommand}"
                     MaximumHeightRequest="150"
+                    MinimumWidthRequest="100"
                     TextColor="White"
                     BackgroundColor="MediumPurple" />
         </HorizontalStackLayout>
         <CollectionView HorizontalOptions="Center" Margin="0, 15,0 ,0" ItemsSource="{Binding FreeTimeListItems}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding TimeString}" TextColor="White" />
+                    <StackLayout HorizontalOptions="Center" Padding="5,5,5,5">
+                        <Border Stroke="{AppThemeBinding Dark=White, Light=Black}"
+                        MinimumWidthRequest="250"
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 5,5,5,5"
+                        Padding="16,8"
+                        HorizontalOptions="Center">
+                            <Label Text="{Binding TimeString}" HorizontalOptions="Center" TextColor="{AppThemeBinding Dark=White, Light=Black}" />
+                        </Border>
+                    </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

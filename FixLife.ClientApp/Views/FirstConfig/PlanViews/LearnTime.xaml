@@ -11,52 +11,53 @@
     </ContentView.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="{OnPlatform 20, Android=40, iOS=40}"/>
             <RowDefinition Height="340"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Column="1"
-            Text="Let's plan your weekly Learn Time"
-            VerticalOptions="Center" 
+            Text="Let's plan your Learn Time"
+            VerticalOptions="Center"
             HorizontalOptions="Center" />
 
-        <VerticalStackLayout Grid.Row="1" Grid.Column="2">
+        <VerticalStackLayout Grid.Row="1" Grid.Column="1">
             <Label
                 HorizontalOptions="Center"
                 Text="For week" />
-            <CollectionView Margin="0,15,0,0" HorizontalOptions="Center" ItemsSource="{Binding DayOfWeeks}">
+            <CollectionView Margin="0,15,0,0" ItemsSource="{Binding DayOfWeeks}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <HorizontalStackLayout>
-                            <CheckBox Color="White" BackgroundColor="Silver" HorizontalOptions="Start" MaximumWidthRequest="30" IsChecked="{Binding Selected, Mode=TwoWay}" />
-                            <Label HorizontalOptions="Center" TextColor="White" VerticalOptions="Center" FontSize="16" Text="{Binding Day, Mode=TwoWay}" />
-                        </HorizontalStackLayout>
+                        <FlexLayout JustifyContent="SpaceEvenly">
+                            <CheckBox HorizontalOptions="CenterAndExpand" Color="White" BackgroundColor="Silver" 
+                                      MaximumWidthRequest="{OnPlatform 30 ,Android=50, iOS=50}" IsChecked="{Binding Selected, Mode=TwoWay}" />
+                            <Label MinimumWidthRequest="100" HorizontalTextAlignment="Center" TextColor="{AppThemeBinding Light=Black, Dark=White}" VerticalOptions="Center" FontSize="16" Text="{Binding Day, Mode=TwoWay}" />
+                        </FlexLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <Label Margin="0,15,0,0"
                    HorizontalOptions="Center"
                 Text="For date" />
-            <DatePicker Format="dd-MM-yyyy" Date="{Binding SelectedDate}" MinimumWidthRequest="100" HorizontalOptions="Center"/>
+            <DatePicker Format="dd-MM-yyyy" HorizontalOptions="Center" Date="{Binding SelectedDate}" />
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2">
             <Label Text="Start hour:" HorizontalOptions="Center" />
             <TimePicker Style="{StaticResource Key=WhiteTime}" Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding SelectedStartTime}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
-        <VerticalStackLayout Grid.Row="2" Grid.Column="1">
-            <Label Text="Weekly destination:" HorizontalOptions="Center" />
+        <VerticalStackLayout Grid.Row="2" Grid.Column="2">
+            <Label Text="Destination:" HorizontalOptions="Center" />
             <TimePicker Style="{StaticResource Key=WhiteTime}" Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding TimeInterval}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
-        <CollectionView Grid.Row="2" Grid.ColumnSpan="2">
+        <CollectionView Grid.Row="2" Grid.Column="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding TimeString}" TextColor="White" />
+                    <Label Text="{Binding TimeString}" TextColor="{AppThemeBinding Dark=White, Light=Black}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
