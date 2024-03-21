@@ -12,8 +12,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="{OnPlatform 20, Android=40, iOS=40}"/>
-            <RowDefinition Height="340"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -41,25 +40,25 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Label Margin="0,15,0,0"
-                   HorizontalOptions="Center"
-                Text="For date" />
-            <DatePicker Format="dd-MM-yyyy" HorizontalOptions="Center" Date="{Binding SelectedDate}" />
         </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2">
             <Label Text="Start hour:" HorizontalOptions="Center" />
             <TimePicker Style="{StaticResource Key=WhiteTime}" Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding SelectedStartTime}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="2" Grid.Column="1">
+            <Label HorizontalOptions="Center" Text="For date" />
+            <DatePicker Margin="0,15,0,0" Format="dd-MM-yyyy" HorizontalOptions="Center" Date="{Binding SelectedDate}" />
+        </VerticalStackLayout>
         <VerticalStackLayout Grid.Row="2" Grid.Column="2">
             <Label Text="Destination:" HorizontalOptions="Center" />
             <TimePicker Style="{StaticResource Key=WhiteTime}" Unfocused="TimePicker_Unfocused" Focused="TimePicker_Focused" Margin="0,15,0,0" Time="{Binding TimeInterval}" HorizontalOptions="Center"/>
         </VerticalStackLayout>
-        <CollectionView Grid.Row="2" Grid.Column="2">
+        <!--<CollectionView Grid.Row="2" Grid.Column="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Label Text="{Binding TimeString}" TextColor="{AppThemeBinding Dark=White, Light=Black}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </CollectionView>-->
     </Grid>
 </ContentView>
