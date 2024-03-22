@@ -1,12 +1,8 @@
 ﻿using CommunityToolkit.Maui.Views;
 using FixLife.ClientApp.Common;
+using FixLife.ClientApp.Options;
 using FixLife.ClientApp.Views.Popups;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FixLife.ClientApp.ViewModels.AppSettings
@@ -14,6 +10,8 @@ namespace FixLife.ClientApp.ViewModels.AppSettings
     public class AppSettingsViewModel : BaseViewModel
     {
         private readonly IConfiguration _configuration;
+        private ClientOptions _options;
+
         private bool _notificationEnabled;
         public bool NotificationEnabled
         {
@@ -35,7 +33,7 @@ namespace FixLife.ClientApp.ViewModels.AppSettings
             }
         }
         private bool _appTheme;
-        public bool AppTheme
+        public bool LightTheme
         {
             get => _appTheme;
             set
@@ -60,21 +58,28 @@ namespace FixLife.ClientApp.ViewModels.AppSettings
         public AppSettingsViewModel(IConfiguration configuration)
         {
             _configuration = configuration;
-            NotificationEnabled = configuration.GetValue<bool>("settings:NotificationEnabled");
-            OldPlansToFileEnabled = configuration.GetValue<bool>("settings:OldPlansToFileEnabled");
-            AppTheme = configuration.GetValue<bool>("settings:LightTheme");
-            ShareEnabled = configuration.GetValue<bool>("settings:ShareEnabled");
+            _options = SettingsOperations.LoadToOptionsPage();
+            NotificationEnabled = _options.NotificationEnabled;
+            OldPlansToFileEnabled = _options.OldPlansToFileEnabled;
+            LightTheme = _options.LightTheme;
+            ShareEnabled = _options.ShareEnabled;
             SaveCommand = new Command(async () => await SaveData());
         }
 
         private async Task SaveData()
         {
-            var appHelper = new AppHelper();
-            var appSetter = await appHelper.SetAppSettings(("NotificationEnabled", NotificationEnabled), ("OldPlansToFileEnabled", OldPlansToFileEnabled),
-                ("LightTheme", AppTheme), ("ShareEnabled", ShareEnabled));
+            _options = new()
+            {
+                LightTheme = LightTheme,
+                ShareEnabled = ShareEnabled,
+                OldPlansToFileEnabled = OldPlansToFileEnabled,
+                NotificationEnabled = NotificationEnabled,
+            };
+
+            var setResult = SettingsOperations.SaveNewSettings(_options);
 
             Popup popup = null;
-            if(appSetter) 
+            if(setResult) 
             {
                 popup = new SuccesfulPopup();
             } else

@@ -66,7 +66,8 @@ namespace FixLife.ClientApp.Common
 
                 return JsonConvert.DeserializeObject<T>(result);
 
-            } catch(Exception ex)
+            }
+            catch (Exception)
             {
                 throw;
             }
@@ -87,7 +88,7 @@ namespace FixLife.ClientApp.Common
                 var response = await client.DeleteAsync(uri);
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

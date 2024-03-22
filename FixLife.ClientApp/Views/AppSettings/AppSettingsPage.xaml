@@ -22,8 +22,8 @@
                 <Label Style="{StaticResource Key=AppMargin}" Text="Save old plans to file" />
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Switch OnColor="{AppThemeBinding Dark=White, Light=Black}" ThumbColor="Purple" IsToggled="{Binding AppTheme}"/>
-                <Label Style="{StaticResource Key=AppMargin}" Text="App theme" />
+                <Switch OnColor="{AppThemeBinding Dark=White, Light=Black}" ThumbColor="Purple" IsToggled="{Binding LightTheme}"/>
+                <Label Style="{StaticResource Key=AppMargin}" Text="Light theme" />
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <CheckBox IsChecked="{Binding ShareEnabled}" />

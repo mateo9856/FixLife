@@ -45,7 +45,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 //var producer = new CreatePlanKafkaProducer();
                 //await producer.CreateMessage(UserSession.Email, builder.ToString());
             
-            } catch(Exception ex)
+            } catch(Exception)
             {
                 return;
             }
