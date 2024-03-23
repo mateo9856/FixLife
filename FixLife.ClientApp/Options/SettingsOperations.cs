@@ -9,15 +9,19 @@ namespace FixLife.ClientApp.Options
         {
             try
             {
+                Preferences.Clear();
+
                 _path = Path.Combine(FileSystem.Current.AppDataDirectory, "clientSettings.json");
                 var data = File.ReadAllText(_path);
+                ApplyToPreferences(JsonConvert.DeserializeObject<ClientOptions>(data));
 
             } catch(Exception)
             {
-                CreateSettings();
+                var newSettings = CreateSettings();
+                ApplyToPreferences(JsonConvert.DeserializeObject<ClientOptions>(newSettings));
             }
         }
-        private static void CreateSettings()
+        private static string CreateSettings()
         {
             var optionsObj = new ClientOptions
             {
@@ -28,6 +32,7 @@ namespace FixLife.ClientApp.Options
             };
             var jsonFormat = JsonConvert.SerializeObject(optionsObj);
             File.WriteAllText(_path, jsonFormat);
+            return jsonFormat;
         }
 
         public static ClientOptions LoadToOptionsPage()
@@ -48,6 +53,15 @@ namespace FixLife.ClientApp.Options
             {
                 return false;
             }
+        }
+
+        private static void ApplyToPreferences(ClientOptions options) {
+
+            Preferences.Set("NotificationEnabled", options.NotificationEnabled);
+            Preferences.Set("OldPlansToFileEnabled", options.OldPlansToFileEnabled);
+            Preferences.Set("LightTheme", options.LightTheme);
+            Preferences.Set("ShareEnabled", options.ShareEnabled);
+
         }
     }
 }
