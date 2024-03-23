@@ -28,8 +28,8 @@ namespace FixLife.ClientApp
             builder
                 .UseMauiApp<App>()
                 .UseMauiCommunityToolkit()
-                .RegisterViewModels()
                 .RegisterServices()
+                .RegisterViewModels()
                 .RegisterKafka()
                 .ConfigureFonts(fonts =>
                 {
