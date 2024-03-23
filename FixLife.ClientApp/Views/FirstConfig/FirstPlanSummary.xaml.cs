@@ -1,9 +1,12 @@
+using FixLife.ClientApp.ViewModels.FirstConfig;
+
 namespace FixLife.ClientApp.Views.FirstConfig;
 
 public partial class FirstPlanSummary : ContentPage
 {
-	public FirstPlanSummary()
+	public FirstPlanSummary(FirstPlanSummaryViewModel model)
 	{
+		BindingContext = model;
 		InitializeComponent();
 	}
 

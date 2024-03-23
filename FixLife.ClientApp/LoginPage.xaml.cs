@@ -1,12 +1,12 @@
-using CommunityToolkit.Maui.Views;
-using FixLife.ClientApp.Views.Popups;
+using FixLife.ClientApp.ViewModels.Logon;
 
 namespace FixLife.ClientApp;
 
 public partial class LoginPage : ContentPage
 {
-	public LoginPage()
+	public LoginPage(LogonPageViewModel model)
 	{
+		BindingContext = model;
 		InitializeComponent();
 	}
 

@@ -9,9 +9,6 @@
         <ResourceDictionary Source="/Resources/Styles/FaStyles.xaml" />
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
-	<ContentPage.BindingContext>
-		<Logon:LogonPageViewModel/>
-	</ContentPage.BindingContext>
     <VerticalStackLayout>
         <Label 
             Text="Enter your credentials"

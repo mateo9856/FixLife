@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Infrastructure.Dashboard;
 using FixLife.ClientApp.ViewModels;
@@ -32,6 +33,7 @@ namespace FixLife.ClientApp
         public static MauiAppBuilder RegisterServices(this MauiAppBuilder appBuilder)
         {
             appBuilder.Services.AddScoped<IDashboardService, DashboardService>();
+            appBuilder.Services.AddTransient(typeof(WebApiClient<>));
             return appBuilder;
         }
     }

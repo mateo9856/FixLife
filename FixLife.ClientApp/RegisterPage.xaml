@@ -7,9 +7,6 @@
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
-    <ContentPage.BindingContext>
-        <Logon:RegisterPageViewModel/>
-    </ContentPage.BindingContext>
     <VerticalStackLayout>
         <Label 
             Text="Fill the form to Register"

@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using FixLife.ClientApp.Models;
 using FixLife.ClientApp.ViewModels.FirstConfig;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.ClientApp.Common
 {

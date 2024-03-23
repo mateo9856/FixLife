@@ -4,9 +4,6 @@
              xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              x:Class="FixLife.ClientApp.Views.FirstConfig.FirstPlanSummary"
              Title="">
-	<ContentPage.BindingContext>
-		<FirstConfig:FirstPlanSummaryViewModel/>
-	</ContentPage.BindingContext>
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>

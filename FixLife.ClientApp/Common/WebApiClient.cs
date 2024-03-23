@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using FixLife.ClientApp.Options;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System.Text;
 
 
@@ -6,18 +8,21 @@ namespace FixLife.ClientApp.Common
 {
     public class WebApiClient<T> : IDisposable
     {
-        private readonly string ADDRESS = GetAddressByPlatform();
+        private readonly ApiConnectionOptions _options;
+        private string _address;
 
         HttpClient client;
-        public WebApiClient()
+        public WebApiClient(IOptions<ApiConnectionOptions> options)
         {
+            _options = options.Value;
+            _address = GetAddressByPlatform();
             client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(30);
         }
 
         public async Task<T> CallServiceGetAsync(string address, object element = null, string token = null)
         {
-            Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
+            Uri uri = new Uri(string.Format("{0}/api/{1}", _address, address));
             try
             {
 
@@ -47,7 +52,7 @@ namespace FixLife.ClientApp.Common
 
         public async Task<T> PostPutAsync(object element, string address, bool isPost, string token = null)
         {
-            Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
+            Uri uri = new Uri(string.Format("{0}/api/{1}", _address, address));
             try
             {
                 HttpMethod method = isPost ? HttpMethod.Post : HttpMethod.Put;
@@ -77,7 +82,7 @@ namespace FixLife.ClientApp.Common
 
         public async Task<string> DeleteAsync(string address, string token = null)
         {
-            Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
+            Uri uri = new Uri(string.Format("{0}/api/{1}", _address, address));
             try
             {
                 HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Delete, uri);
@@ -99,17 +104,17 @@ namespace FixLife.ClientApp.Common
             client.Dispose();
         }
 
-        private static string GetAddressByPlatform()
+        private string GetAddressByPlatform()
         {
 
             var currentPlatform = DeviceInfo.Current.Platform;
 
             if (currentPlatform == DevicePlatform.Android)
             {
-                return "http://10.0.2.2:5141";
+                return _options.Android;
             }
             else
-                return "https://localhost:7021";
+                return _options.Windows;
         }
     }
 }
