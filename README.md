@@ -1,14 +1,12 @@
-# FixLife
-
+# FixLife v.0.1
 Work in progress...
 
-MAUI application with REST API to improve your daily performance.
+## Description
+Create your own daily plan, what you want to strict.
+We help you to fulfill this, so we inform you by notifications it's time to start Work, Free time or Learn.
 
-Actually work:
+Still work in progress...
 
-Dashboard build, along with ideas; add new operations to API.
-
-Future plans:
-Admin page - (Angular or React)
-Collect monthly datas - (Azure Functions)
-Use more cloud solutions f.e KeyVault, Container Registry etc.
+## In Future
+ - Plan deploy AI to help you choose plan if you don't know.
+ - Monitoring
