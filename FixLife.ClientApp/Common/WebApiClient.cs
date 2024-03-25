@@ -111,7 +111,7 @@ namespace FixLife.ClientApp.Common
 
             if (currentPlatform == DevicePlatform.Android)
             {
-                return _options.Android;
+                return _options.HttpsConnection ? _options.AndroidHttps : _options.Android;
             }
             else
                 return _options.Windows;

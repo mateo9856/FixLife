@@ -39,9 +39,11 @@ namespace FixLife.ClientApp
                     fonts.AddFont("Font Awesome 6 Free-Regular-400.otf", "FontAwesomeFreeRegular");
                     fonts.AddFont("Font Awesome 6 Free-Solid-900.otf", "FontAwesomeFreeSolid");
                 });
-            builder.Services.Configure<ApiConnectionOptions>(d => { 
+            builder.Services.Configure<ApiConnectionOptions>(d => {
+                d.TrustConnection = builder.Configuration.GetSection(ApiConnectionOptions.ApiConnection)["TrustConnection"] ?? "false";
                 d.Windows = builder.Configuration.GetSection(ApiConnectionOptions.ApiConnection)["Windows"] ?? "";
                 d.Android = builder.Configuration.GetSection(ApiConnectionOptions.ApiConnection)["Android"] ?? "";
+                d.AndroidHttps = builder.Configuration.GetSection(ApiConnectionOptions.ApiConnection)["AndroidHttps"] ?? "";
             });
 
 #if DEBUG
