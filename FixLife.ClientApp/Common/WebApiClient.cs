@@ -16,7 +16,7 @@ namespace FixLife.ClientApp.Common
         {
             _options = options.Value;
             _address = GetAddressByPlatform();
-            client = new HttpClient();
+            client = LoadPlatformWebClient();
             client.Timeout = TimeSpan.FromSeconds(30);
         }
 
@@ -111,10 +111,30 @@ namespace FixLife.ClientApp.Common
 
             if (currentPlatform == DevicePlatform.Android)
             {
-                return _options.HttpsConnection ? _options.AndroidHttps : _options.Android;
+                if(_options.HttpsConnection)
+                {
+                    return _options.AndroidHttps;
+                }
+                return _options.Android;
             }
             else
                 return _options.Windows;
+        }
+
+        private HttpClient LoadPlatformWebClient()
+        {
+#if ANDROID
+            var handler = new Xamarin.Android.Net.AndroidMessageHandler();
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+            {
+                if (cert != null && cert.Issuer.Equals("CN=localhost"))
+                    return true;
+                return errors == System.Net.Security.SslPolicyErrors.None;
+            };
+            return new HttpClient(handler);
+#else
+            return new HttpClient();
+#endif
         }
     }
 }
