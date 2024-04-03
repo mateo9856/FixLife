@@ -10,5 +10,6 @@
         public string Windows { get; set; }
         public string Android { get; set; }
         public string AndroidHttps { get; set; }
+        public string CertIssuer { get; set; }
     }
 }

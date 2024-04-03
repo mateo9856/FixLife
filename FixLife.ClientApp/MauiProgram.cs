@@ -44,6 +44,7 @@ namespace FixLife.ClientApp
                 d.Windows = builder.Configuration.GetSection(ApiConnectionOptions.ApiConnection)["Windows"] ?? "";
                 d.Android = builder.Configuration.GetSection(ApiConnectionOptions.ApiConnection)["Android"] ?? "";
                 d.AndroidHttps = builder.Configuration.GetSection(ApiConnectionOptions.ApiConnection)["AndroidHttps"] ?? "";
+                d.CertIssuer = builder.Configuration.GetSection(ApiConnectionOptions.ApiConnection)["CertIssuer"] ?? "";
             });
 
 #if DEBUG

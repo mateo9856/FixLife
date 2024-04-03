@@ -127,7 +127,7 @@ namespace FixLife.ClientApp.Common
             var handler = new Xamarin.Android.Net.AndroidMessageHandler();
             handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
             {
-                if (cert != null && cert.Issuer.Equals("CN=localhost"))
+                if (!string.IsNullOrEmpty(_options.CertIssuer) && cert != null && cert.Issuer.Equals(_options.CertIssuer))
                     return true;
                 return errors == System.Net.Security.SslPolicyErrors.None;
             };

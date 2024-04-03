@@ -14,11 +14,11 @@ namespace FixLife.ClientApp.Infrastructure.Dashboard
             _webApiClient = webApiClient;
         }
 
-        public async Task<AppPlan> GetAppPlanData()
+        public AppPlan GetAppPlanData()
         {
-            var result = await _webApiClient.CallServiceGetAsync("UserDashboard/getdashboarddata", token: UserSession.Token);
+            var result = _webApiClient.CallServiceGetAsync("UserDashboard/getdashboarddata", token: UserSession.Token);
 
-            return result;
+            return result.Result;
 
         }
 
