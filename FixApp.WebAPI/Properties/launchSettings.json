@@ -10,6 +10,16 @@
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7021;http://localhost:5141"
     },
+    "FixApp.WebAPI.HTTP": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5141"
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,

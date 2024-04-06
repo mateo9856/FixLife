@@ -4,14 +4,11 @@
              xmlns:f="clr-namespace:FixLife.ClientApp.Resources.IconsHelper"
              xmlns:Logon="clr-namespace:FixLife.ClientApp.ViewModels.Logon"
              x:Class="FixLife.ClientApp.LoginPage"
-             Title="LoginPage">
+             Title="">
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FaStyles.xaml" />
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
-	<ContentPage.BindingContext>
-		<Logon:LogonPageViewModel/>
-	</ContentPage.BindingContext>
     <VerticalStackLayout>
         <Label 
             Text="Enter your credentials"

@@ -1,6 +1,5 @@
 ﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Infrastructure.FirstPlan;
-using FixLife.ClientApp.Infrastructure.MessageBroker;
 using FixLife.ClientApp.Models;
 using FixLife.ClientApp.Models.FirstPlan;
 using FixLife.ClientApp.Sessions;
@@ -12,6 +11,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 {
     public class FirstPlanSummaryViewModel : BaseViewModel
     {
+        private readonly WebApiClient<PlanCreateResponse> _webApiClient;
         public AppPlan SummaryPlan { get; set; }
         public bool IsEdit { get;set; }
         public List<string> FreeTimeSummaryTextView =>
@@ -24,11 +24,12 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 SummaryPlan.LearnTime.StartTime, SummaryPlan.LearnTime.TimeInterval);
         public string LearnTimeTextView { get; }
         public ICommand CreateCommand { get; private set; }
-        public FirstPlanSummaryViewModel()
+        public FirstPlanSummaryViewModel(WebApiClient<PlanCreateResponse> webApiClient)
         {
             SummaryPlan = FirstPlanSession.Instance().SummaryPlan;
             IsEdit = FirstPlanSession.Instance().IsEdit;
             CreateCommand = new Command(async () => await Create());
+            _webApiClient = webApiClient;
         }
 
         private async Task ConsumeDataToKafka()
@@ -45,7 +46,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 //var producer = new CreatePlanKafkaProducer();
                 //await producer.CreateMessage(UserSession.Email, builder.ToString());
             
-            } catch(Exception ex)
+            } catch(Exception)
             {
                 return;
             }
@@ -79,14 +80,11 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             try
             {
                 PlanCreateResponse response = null;
-                using (var client = new WebApiClient<PlanCreateResponse>())
-                {
-                    if(IsEdit)
-                        response = await client.PostPutAsync(requestBuilder, "FirstPlan/EditPlan", false, UserSession.Token);
-                    else
-                        response = await client.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true, UserSession.Token);
-                }
-                
+                if (IsEdit)
+                    response = await _webApiClient.PostPutAsync(requestBuilder, "FirstPlan/EditPlan", false, UserSession.Token);
+                else
+                    response = await _webApiClient.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true, UserSession.Token);
+
                 if (response.Status == 201)
                 {
                     await ConsumeDataToKafka();

@@ -3,22 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dash="clr-namespace:FixLife.ClientApp.ViewModels"
              x:Class="FixLife.ClientApp.Views.MainPage.Dashboard"
-             Title="Dashboard">
+             Title="">
 
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
+    <ScrollView>
     <VerticalStackLayout>
         <StackLayout Margin="0,15,0,0" VerticalOptions="Start">
             <Border Style="{StaticResource Key=DashboardBorder}">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <StackLayout VerticalOptions="Center">
-                    <Label HorizontalOptions="Center" Text="WEEKLY WORK" TextColor="White" />
-                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="{Binding WorkStatus}" />
-                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" IsVisible="{Binding TimesLeftVisible}" Text="{Binding TimeToEndWork}" />
-                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" IsVisible="{Binding TimeToWorkVisible}" Text="{Binding TimeToStartWork}" />
+                <StackLayout VerticalOptions="Start">
+                    <Label Style="{StaticResource Key=CenterLabel}" Margin="0,15,0,0" Text="WEEKLY WORK" />
+                    <Label Style="{StaticResource Key=CenterLabel}" Margin="0,5,0,0" Text="{Binding WorkStatus}" />
+                    <Label Style="{StaticResource Key=CenterLabel}" Margin="0,5,0,0" IsVisible="{Binding TimesLeftVisible}" Text="{Binding TimeToEndWork}" />
+                    <Label Style="{StaticResource Key=CenterLabel}" Margin="0,5,0,0" IsVisible="{Binding TimeToWorkVisible}" Text="{Binding TimeToStartWork}" />
                 </StackLayout>
             </Border>
         </StackLayout>
@@ -27,10 +28,10 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <StackLayout VerticalOptions="Center">
-                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="FREE TIME" TextColor="White"/>
-                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="{Binding ActualFreeTime}" TextColor="White" />
-                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="{Binding NextFreeTime}" TextColor="White" />
+                <StackLayout VerticalOptions="Start">
+                    <Label Style="{StaticResource Key=CenterLabel}" Margin="0,15,0,0" Text="FREE TIME" />
+                    <Label Style="{StaticResource Key=CenterLabel}" Margin="0,5,0,0" Text="{Binding ActualFreeTime}" />
+                    <Label Style="{StaticResource Key=CenterLabel}" Margin="0,5,0,0" Text="{Binding NextFreeTime}" />
                 </StackLayout>
             </Border>
         </StackLayout>
@@ -39,9 +40,9 @@
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="15,15,15,15" />
                 </Border.StrokeShape>
-                <StackLayout VerticalOptions="Center">
-                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="LEARN TIME" TextColor="White"/>
-                    <Label Margin="0,5,0,0" HorizontalTextAlignment="Center" Text="{Binding TimeToLearn}" TextColor="White" />
+                <StackLayout VerticalOptions="Start">
+                    <Label Style="{StaticResource Key=CenterLabel}" Margin="0,15,0,0" Text="LEARN TIME" />
+                    <Label Style="{StaticResource Key=CenterLabel}" Margin="0,5,0,0" Text="{Binding TimeToLearn}" />
                 </StackLayout>
             </Border>
         </StackLayout>
@@ -49,4 +50,5 @@
             <Button StyleClass="ButtonState" MaximumWidthRequest="300" Text="Edit plan" Command="{Binding EditPlanCommand}"/>
         </StackLayout>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

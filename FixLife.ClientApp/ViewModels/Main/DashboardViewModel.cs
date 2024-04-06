@@ -88,7 +88,7 @@ namespace FixLife.ClientApp.ViewModels
             _dashboardService = dashboardService;
             Task t = new Task(async () =>
             {
-                UserSession.UserPlans = await _dashboardService.GetAppPlanData();
+                UserSession.UserPlans = _dashboardService.GetAppPlanData();
             });
             t.Start();
             Task.WaitAll(t);

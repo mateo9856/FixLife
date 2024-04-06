@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Views;
-using FixLife.ClientApp.Common;
+﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Models.Account;
 using FixLife.ClientApp.Sessions;
@@ -10,6 +9,8 @@ namespace FixLife.ClientApp.ViewModels.Logon
 {
     public class LogonPageViewModel : BaseViewModel
     {
+        private readonly WebApiClient<AccountResponseResult> _webApiClient;
+
         private string _credentials;
         private string _password;
         public string Credentials { get => _credentials; 
@@ -31,11 +32,12 @@ namespace FixLife.ClientApp.ViewModels.Logon
         public ICommand LogOffCommand { get; private set; }
         public ICommand RegisterCommand { get; private set; }
 
-        public LogonPageViewModel()
+        public LogonPageViewModel(WebApiClient<AccountResponseResult> webApiClient)
         {
             LogonCommand = new Command(Logon);
             LogOffCommand = new Command(LogOff);
             RegisterCommand = new Command(Register);
+            _webApiClient = webApiClient;
         }
 
         private async void Logon() {
@@ -51,10 +53,7 @@ namespace FixLife.ClientApp.ViewModels.Logon
 
             try
             {
-                using (var client = new WebApiClient<AccountResponseResult>())
-                {
-                    response = await client.PostPutAsync(credentials, "Account/Login", true);
-                }
+                response = await _webApiClient.PostPutAsync(credentials, "Account/Login", true);
                 if (response != null)
                 {
                     UserSession.Token = response.Token;

@@ -17,6 +17,7 @@ namespace FixLife.ApiTest
 
         public PlanTest()
         {
+            _planService = _planMock.Object;
             SetUp();
         }
 

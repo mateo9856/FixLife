@@ -1,28 +1,28 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using FixLife.ClientApp.Options;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 
 namespace FixLife.ClientApp.Common
 {
     public class WebApiClient<T> : IDisposable
     {
-        public const string ADDRESS = "https://localhost:7021";
+        private readonly ApiConnectionOptions _options;
+        private string _address;
 
         HttpClient client;
-        public WebApiClient()
+        public WebApiClient(IOptions<ApiConnectionOptions> options)
         {
-            client = new HttpClient();
+            _options = options.Value;
+            _address = GetAddressByPlatform();
+            client = LoadPlatformWebClient();
             client.Timeout = TimeSpan.FromSeconds(30);
         }
 
         public async Task<T> CallServiceGetAsync(string address, object element = null, string token = null)
         {
-            Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
+            Uri uri = new Uri(string.Format("{0}/api/{1}", _address, address));
             try
             {
 
@@ -52,7 +52,7 @@ namespace FixLife.ClientApp.Common
 
         public async Task<T> PostPutAsync(object element, string address, bool isPost, string token = null)
         {
-            Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
+            Uri uri = new Uri(string.Format("{0}/api/{1}", _address, address));
             try
             {
                 HttpMethod method = isPost ? HttpMethod.Post : HttpMethod.Put;
@@ -71,7 +71,8 @@ namespace FixLife.ClientApp.Common
 
                 return JsonConvert.DeserializeObject<T>(result);
 
-            } catch(Exception ex)
+            }
+            catch (Exception)
             {
                 throw;
             }
@@ -81,7 +82,7 @@ namespace FixLife.ClientApp.Common
 
         public async Task<string> DeleteAsync(string address, string token = null)
         {
-            Uri uri = new Uri(string.Format("{0}/api/{1}", ADDRESS, address));
+            Uri uri = new Uri(string.Format("{0}/api/{1}", _address, address));
             try
             {
                 HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Delete, uri);
@@ -92,7 +93,7 @@ namespace FixLife.ClientApp.Common
                 var response = await client.DeleteAsync(uri);
                 return await response.Content.ReadAsStringAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -101,6 +102,39 @@ namespace FixLife.ClientApp.Common
         public void Dispose()
         {
             client.Dispose();
+        }
+
+        private string GetAddressByPlatform()
+        {
+
+            var currentPlatform = DeviceInfo.Current.Platform;
+
+            if (currentPlatform == DevicePlatform.Android)
+            {
+                if(_options.HttpsConnection)
+                {
+                    return _options.AndroidHttps;
+                }
+                return _options.Android;
+            }
+            else
+                return _options.Windows;
+        }
+
+        private HttpClient LoadPlatformWebClient()
+        {
+#if ANDROID
+            var handler = new Xamarin.Android.Net.AndroidMessageHandler();
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+            {
+                if (!string.IsNullOrEmpty(_options.CertIssuer) && cert != null && cert.Issuer.Equals(_options.CertIssuer))
+                    return true;
+                return errors == System.Net.Security.SslPolicyErrors.None;
+            };
+            return new HttpClient(handler);
+#else
+            return new HttpClient();
+#endif
         }
     }
 }

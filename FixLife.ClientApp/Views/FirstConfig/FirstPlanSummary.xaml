@@ -3,10 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              x:Class="FixLife.ClientApp.Views.FirstConfig.FirstPlanSummary"
-             Title="FirstPlanSummary">
-	<ContentPage.BindingContext>
-		<FirstConfig:FirstPlanSummaryViewModel/>
-	</ContentPage.BindingContext>
+             Title="">
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
@@ -22,21 +19,21 @@
         </Grid.RowDefinitions>
         <StackLayout HorizontalOptions="Center" Grid.Row="0">
             <Label HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Weekly Work Plan" FontSize="22" />
-            <Label Margin="0,10,0,0" HorizontalOptions="Center" Text="{Binding WeeklyWorkTextView}" />
+            <Label Margin="0,10,0,0" HorizontalTextAlignment="Center" Text="{Binding WeeklyWorkTextView}" />
         </StackLayout>
         <StackLayout HorizontalOptions="Center" Grid.Row="1">
             <Label HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Free Time Plan" FontSize="22" />
             <CollectionView ItemsSource="{Binding FreeTimeSummaryTextView}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Label Margin="0,10,0,0" Text="{Binding}" />
+                        <Label HorizontalTextAlignment="Center" Margin="0,10,0,0" Text="{Binding}" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </StackLayout>
         <StackLayout HorizontalOptions="Center" Grid.Row="2">
             <Label HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Learn Time Plan" FontSize="22" />
-            <Label Margin="0,10,0,0" Text="{Binding LearnTimeSummaryTextView}" />
+            <Label HorizontalTextAlignment="Center" Margin="0,10,0,0" Text="{Binding LearnTimeSummaryTextView}" />
         </StackLayout>
         <FlexLayout Grid.Row="3" MaximumHeightRequest="50" VerticalOptions="End" HorizontalOptions="Center">
             <Button
@@ -44,12 +41,14 @@
                 StyleClass="Max200, ButtonState"
                 Margin="0,0,5,0"
                 Text="Correct data"
+                MinimumWidthRequest="120"
                 Clicked="CorrectData"
                 />
             <Button
                 x:Name="btnNext"
                 StyleClass="Max200, ButtonState"
                 Margin="5,0,0,0"
+                MinimumWidthRequest="120"
                 Text="Create!"
                 Command="{Binding CreateCommand}"
                 />

@@ -1,16 +1,12 @@
 ﻿using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Models.Account;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FixLife.ClientApp.ViewModels.Logon
 {
     public class RegisterPageViewModel : BaseViewModel
     {
+        private readonly WebApiClient<AccountResponseResult> _webApiClient;
         public ICommand RegisterCommand { get; private set; }
 
         private string _email;
@@ -50,8 +46,9 @@ namespace FixLife.ClientApp.ViewModels.Logon
             }
         }
 
-        public RegisterPageViewModel() 
-        { 
+        public RegisterPageViewModel(WebApiClient<AccountResponseResult> webApiClient) 
+        {
+            _webApiClient = webApiClient;
             RegisterCommand = new Command(Register);
         }
 
@@ -65,13 +62,9 @@ namespace FixLife.ClientApp.ViewModels.Logon
             };
 
             object response = null;
+            response = await _webApiClient.PostPutAsync(registerRequest, "Account/Register", true);
 
-            using(var client = new WebApiClient<AccountResponseResult>())
-            {
-                response = await client.PostPutAsync(registerRequest, "Account/Register", true);
-            }
-
-            if(response != null)
+            if (response != null)
                 await RedirectToPageAsync("//login/LoginPage");
 
         }
