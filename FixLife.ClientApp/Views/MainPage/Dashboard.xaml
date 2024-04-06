@@ -8,6 +8,7 @@
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentPage.Resources>
+    <ScrollView>
     <VerticalStackLayout>
         <StackLayout Margin="0,15,0,0" VerticalOptions="Start">
             <Border Style="{StaticResource Key=DashboardBorder}">
@@ -49,4 +50,5 @@
             <Button StyleClass="ButtonState" MaximumWidthRequest="300" Text="Edit plan" Command="{Binding EditPlanCommand}"/>
         </StackLayout>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
