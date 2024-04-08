@@ -9,6 +9,7 @@
 		<RootNamespace>FixLife.ClientApp</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
+		<InvariantGlobalization>true</InvariantGlobalization>
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
