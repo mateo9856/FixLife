@@ -1,0 +1,88 @@
+name: FixLife.ClientApp
+# TODO: Tests and add signing keys
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+env:
+  DOTNETVERSION: 7.0.13
+
+jobs:
+  buildWindows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET VERSION ${{env.DOTNETVERSION}}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '${{env.DOTNETVERSION}}'
+
+      - name: Install .NET MAUI
+        shell: pwsh
+        run: |
+          & dotnet clean
+          & dotnet nuget locals all --clear
+          & dotnet workload install maui --source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json --source https://api.nuget.org/v3/index.json
+          & dotnet workload install android maui wasm-tools --source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json --source https://api.nuget.org/v3/index.json
+          
+      - name : Build and Run Tests
+        run: |
+          cd .\FixLife.ClientApp
+          dotnet build FixLife.ClientApp
+          dotnet test
+
+      - name: Build Windows
+        run: |
+          dotnet publish -f net7.0-windows10.0.19041.0 -c Release
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-windows
+          path: |
+            **\*.msix
+        
+      
+  buildAndroid:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET VERSION ${{env.DOTNETVERSION}}
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '${{env.DOTNETVERSION}}'
+
+      - name: Install .NET MAUI
+        shell: bash
+        run: |
+          & dotnet clean
+          & dotnet nuget locals all --clear
+          & dotnet workload install maui --source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json --source https://api.nuget.org/v3/index.json
+          & dotnet workload install android maui wasm-tools --source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json --source https://api.nuget.org/v3/index.json
+
+      - name: Restore nuget
+        run: |
+          cd FixLife.ClientApp
+          dotnet restore FixLife.ClientApp.csproj
+      
+      - name : Build and Run Tests
+        run: |
+          cd FixLife.ClientApp
+          dotnet build FixLife.ClientApp
+          dotnet test
+
+      - name: Build Android
+        run: |
+          cd FixLife.ClientApp
+          dotnet publish -f net7.0-windows10.0.19041.0 -c Release
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: artifacts-android
+          path: |
+            FixLife.ClientApp\bin\\net7.0-android\publish\*.apk
