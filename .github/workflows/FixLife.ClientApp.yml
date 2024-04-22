@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNETVERSION:  7.x
+  DOTNETVERSION:  7.0.408
 
 jobs:
   buildWindows:
