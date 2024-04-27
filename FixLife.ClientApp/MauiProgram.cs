@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
 using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Options;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +15,6 @@ namespace FixLife.ClientApp
     {
         public static MauiApp CreateMauiApp()
         {
-            CultureInfo.CurrentUICulture = new CultureInfo("pl-PL", false);
             SettingsOperations.LoadOrCreateSettings();
             using var settings = Assembly
                 .GetExecutingAssembly()
