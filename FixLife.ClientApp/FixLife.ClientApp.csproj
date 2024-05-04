@@ -10,6 +10,7 @@
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<InvariantGlobalization>true</InvariantGlobalization>
+		<ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
