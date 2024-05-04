@@ -95,4 +95,4 @@ jobs:
         with:
           name: artifacts-android
           path: |
-            FixLife.ClientApp\bin\\net8.0-android\publish\*.apk
+            **\*.apk
