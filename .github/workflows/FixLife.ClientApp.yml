@@ -67,6 +67,12 @@ jobs:
         with:
           dotnet-version: '${{env.DOTNETVERSION}}'
 
+      - name: Extract Android signing key from env
+        shell: bash
+        run: |
+              echo "${{ secrets.RELEASE_KEYSTORE }}" > FixLife.keystore.asc
+              gpg -d --passphrase "${{ secrets.KEYSTORE_PASSWORD_GPG }}" --batch FixLife.keystore.asc > FixLife.keystore
+      
       - name: Install .NET MAUI
         shell: bash
         run: |
@@ -83,26 +89,12 @@ jobs:
       - name : Build and Run Tests
         run: |
           cd .\FixLife.ClientApp
-          dotnet build
+          dotnet build FixLife.ClientApp.csproj -c Release -f net8.0-android /p:AndroidSigningKeyStore=FixLife.keystore /p:AndroidSigningKeyPass=ghactionskey /p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" /p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD_ALIAS }}" --no-restore
           dotnet test
-
-      - name: Build Android
-        run: |
-          cd FixLife.ClientApp
-          dotnet publish -f net8.0-android -c Release
-
-      - name: Extract Android signing key from env
-        shell: bash
-        run: |
-              echo "${{ secrets.RELEASE_KEYSTORE }}" > android/release.jks.base64
-              base64 -d android/release.jks.base64 > android/release.decrypted.jks
-
-      - name: Sign dev build
-        shell: bash
-        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.RELEASE_KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/bundle/release/app-release.aab release
-
+          
       - uses: actions/upload-artifact@v2
         with:
           name: artifacts-android
           path: |
+            **\*.aab
             **\*.apk
