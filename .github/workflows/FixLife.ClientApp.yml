@@ -36,7 +36,7 @@ jobs:
 
       - name: Decrypt PFX file and add to store
         run: |
-          echo "${{secrets.WINDOWS.PFX}}" > FixLife.pfx.asc
+          echo "${{secrets.WINDOWS_PFX}}" > FixLife.pfx.asc
           certutil -decode FixLife.pfx.asc FixLife.pfx
           certutil -user -q -p ${{secrets.WINDOWS_PFX_PASSWORD}} -importpfx FixLife.pfx NoRoot
           
