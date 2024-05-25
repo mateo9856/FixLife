@@ -25,12 +25,12 @@ jobs:
           cd ./FixApp.WebAPI
           dotnet nuget locals all --clear
           dotnet restore
-          dotnet workload restore
     - name: Build and Test
       run: |
+          dotnet workload restore
           dotnet clean
-          dotnet build
-          dotnet test
+          dotnet build FixApp.WebAPI.csproj
+          dotnet test FixApp.WebAPI.csproj
     - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
