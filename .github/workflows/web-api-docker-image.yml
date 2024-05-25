@@ -1,4 +1,4 @@
-name: FixLife.WebApi-Docker-Image-CI
+name: FixLife.WebApi-Docker-Image
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
         dotnet-version: '${{env.DOTNETVERSION}}'
     - name: Restore NuGet
       run: |
-          cd FixApp.WebApi
+          cd ./FixApp.WebAPI
           dotnet nuget locals all --clear
           dotnet restore
     - name: Build and Test
