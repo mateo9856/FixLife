@@ -36,4 +36,4 @@ jobs:
     - name: Build the Docker image
       run: |
         cd ./FixApp.WebAPI
-        docker build . --file Dockerfile --tag FixLife.WebAPI:$(date +%s)
+        docker build . --file Dockerfile --tag fixlife-webapi:$(date +%s)
