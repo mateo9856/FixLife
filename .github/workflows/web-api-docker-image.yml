@@ -35,5 +35,4 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build the Docker image
       run: |
-        cd ./FixApp.WebAPI
         docker build . --file Dockerfile --tag fixlife-webapi:$(date +%s)
