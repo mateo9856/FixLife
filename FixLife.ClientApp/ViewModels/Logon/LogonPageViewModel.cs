@@ -31,12 +31,26 @@ namespace FixLife.ClientApp.ViewModels.Logon
         public ICommand LogonCommand { get; private set; }
         public ICommand LogOffCommand { get; private set; }
         public ICommand RegisterCommand { get; private set; }
-
+        public ICommand GoogleLogonCommand { get; private set; }
+        public ICommand FacebookLogonCommand { get; private set; }
+        public ICommand AppleLogonCommand { get; private set; }
         public LogonPageViewModel(WebApiClient<AccountResponseResult> webApiClient)
         {
             LogonCommand = new Command(Logon);
             LogOffCommand = new Command(LogOff);
             RegisterCommand = new Command(Register);
+            GoogleLogonCommand = new Command(async () =>
+            {
+                await OAuthLogon("google");
+            });
+            FacebookLogonCommand = new Command(async () =>
+            {
+                await OAuthLogon("facebook");
+            });
+            AppleLogonCommand = new Command(async () =>
+            {
+                await OAuthLogon("apple");
+            });
             _webApiClient = webApiClient;
         }
 
@@ -79,6 +93,11 @@ namespace FixLife.ClientApp.ViewModels.Logon
         private async void Register()
         {
             await RedirectToPageAsync("//login/RegisterPage");
+        }
+
+        private async Task OAuthLogon(string oAuthClient)
+        {
+
         }
 
         private async void LogOff() { 
