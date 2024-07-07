@@ -9,6 +9,6 @@ namespace FixLife.ClientApp
               DataScheme = CALLBACK_SCHEME)]
     public class WebAuthenticationCallbackActivity : WebAuthenticatorCallbackActivity
     {
-        const string CALLBACK_SCHEME = "fixlife";
+        const string CALLBACK_SCHEME = "com.mateo9856.fixlife";
     }
 }
