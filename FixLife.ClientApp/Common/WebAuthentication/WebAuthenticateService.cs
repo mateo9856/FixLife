@@ -14,7 +14,7 @@ namespace FixLife.ClientApp.Common.WebAuthentication
             string uri = string.Empty;
             var stateParam = Guid.NewGuid().ToString();
             var shaHash = Convert.ToBase64String(Encoding.UTF8.GetBytes(stateParam));
-            var clientData = ReadDataFromJson(client);
+            var clientData = await ReadDataFromJson(client);
             if (client == "Google")
             {
                 uri = @"https://accounts.google.com/o/oauth2/auth?
@@ -51,11 +51,12 @@ namespace FixLife.ClientApp.Common.WebAuthentication
         public string GetToken()
             => _token;
 
-        private OAuthClient ReadDataFromJson(string client)
+        private async Task<OAuthClient> ReadDataFromJson(string client)
         {
-            using StreamReader reader = new StreamReader("oauthclients.json");
-            var json = reader.ReadToEnd();
-            var clientsClass = JsonConvert.DeserializeObject<OAuthClientClass>(json);
+            using var jsonStream = await FileSystem.OpenAppPackageFileAsync("oauthclients.json");
+            using var jsonFile = new StreamReader(jsonStream);
+            var jsonText = jsonFile.ReadToEnd();
+            var clientsClass = JsonConvert.DeserializeObject<OAuthClientClass>(jsonText);
 
             return client == "Google" ? clientsClass.Google :
                    client == "Facebook" ? clientsClass.Facebook :

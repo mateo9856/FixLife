@@ -1,0 +1,13 @@
+{
+  "Google": {
+    "ClientId": "",
+    "RedirectUri": ""
+  },
+  "Facebook": {
+    "ClientId": "",
+    "ClientSecret": "",
+    "RedirectUri": ""
+  }
+}
+
+//fill your own oauth settings
