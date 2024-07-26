@@ -17,13 +17,13 @@ namespace FixLife.ClientApp.Common.WebAuthentication
             var clientData = await ReadDataFromJson(client);
             if (client == "Google")
             {
-                uri = @"https://accounts.google.com/o/oauth2/auth?
-             scope=email%20profile&
-             response_type=code&
-             state=" + stateParam + @"&
-             redirect_uri=" + clientData.RedirectUri + @"&
-             code_challenge=" + shaHash + @"&
-             client_id=" + clientData.ClientId;
+                uri = string.Concat("https://accounts.google.com/o/oauth2/auth?",
+                    "scope=email%20profile",
+                    "&response_type=code",
+                    $"&client_id={clientData.ClientId}",
+                    $"&code_challenge={shaHash}",
+                    $"&redirect_uri={clientData.RedirectUri}",
+                    $"&state={stateParam}");
             }
             if(client == "Facebook")
             {
