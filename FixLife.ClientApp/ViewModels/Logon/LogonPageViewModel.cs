@@ -1,4 +1,5 @@
 ﻿using FixLife.ClientApp.Common;
+using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Models.Account;
 using FixLife.ClientApp.Sessions;
@@ -10,6 +11,7 @@ namespace FixLife.ClientApp.ViewModels.Logon
     public class LogonPageViewModel : BaseViewModel
     {
         private readonly WebApiClient<AccountResponseResult> _webApiClient;
+        private readonly IWebAuthenticateService _webAuthenticationService;
 
         private string _credentials;
         private string _password;
@@ -31,13 +33,28 @@ namespace FixLife.ClientApp.ViewModels.Logon
         public ICommand LogonCommand { get; private set; }
         public ICommand LogOffCommand { get; private set; }
         public ICommand RegisterCommand { get; private set; }
-
-        public LogonPageViewModel(WebApiClient<AccountResponseResult> webApiClient)
+        public ICommand GoogleLogonCommand { get; private set; }
+        public ICommand FacebookLogonCommand { get; private set; }
+        public ICommand AppleLogonCommand { get; private set; }
+        public LogonPageViewModel(WebApiClient<AccountResponseResult> webApiClient, IWebAuthenticateService webAuthenticateService)
         {
+            _webApiClient = webApiClient;
+            _webAuthenticationService = webAuthenticateService;
             LogonCommand = new Command(Logon);
             LogOffCommand = new Command(LogOff);
             RegisterCommand = new Command(Register);
-            _webApiClient = webApiClient;
+            GoogleLogonCommand = new Command(async () =>
+            {
+                await OAuthLogon("Google");
+            });
+            FacebookLogonCommand = new Command(async () =>
+            {
+                await OAuthLogon("Facebook");
+            });
+            AppleLogonCommand = new Command(async () =>
+            {
+                await OAuthLogon("Apple");
+            });
         }
 
         private async void Logon() {
@@ -79,6 +96,11 @@ namespace FixLife.ClientApp.ViewModels.Logon
         private async void Register()
         {
             await RedirectToPageAsync("//login/RegisterPage");
+        }
+
+        private async Task OAuthLogon(string oAuthClient)
+        {
+            await _webAuthenticationService.AuthenticateAsync(oAuthClient);
         }
 
         private async void LogOff() { 

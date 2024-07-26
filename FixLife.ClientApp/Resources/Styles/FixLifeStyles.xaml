@@ -23,8 +23,7 @@
             <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
-                        <Setter Property="BackgroundColor" Value="MediumPurple" />
-                        <Setter Property="TextColor" Value="White" />
+                            <Setter Property="TextColor" Value="White" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Pressed">

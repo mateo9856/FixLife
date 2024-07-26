@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using FixLife.ClientApp.Common;
 using FixLife.ClientApp.Common.Abstraction;
+using FixLife.ClientApp.Common.WebAuthentication;
 using FixLife.ClientApp.Infrastructure.Dashboard;
 using FixLife.ClientApp.ViewModels;
 using FixLife.ClientApp.ViewModels.AppSettings;
@@ -43,6 +44,7 @@ namespace FixLife.ClientApp
         {
             appBuilder.Services.AddScoped<IDashboardService, DashboardService>();
             appBuilder.Services.AddTransient(typeof(WebApiClient<>));
+            appBuilder.Services.AddScoped<IWebAuthenticateService, WebAuthenticateService>();
             return appBuilder;
         }
     }

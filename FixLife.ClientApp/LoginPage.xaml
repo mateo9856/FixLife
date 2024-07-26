@@ -35,30 +35,53 @@
             Command="{Binding LogonCommand}"
             StyleClass="ButtonState"
             MaximumWidthRequest="300"
+            BackgroundColor="MediumPurple"
             Text="Log on!" />
 
         <Button
             BackgroundColor="Red"
             Margin="0,15,0,0"
-            StyleClass="FaBrandRegularButton, ButtonState"
+            Command="{Binding GoogleLogonCommand}"
+            StyleClass="ButtonState"
             MaximumWidthRequest="300"
-            TextColor="White"
-            Text="{Static Member=f:FaBrandsRegular.GooglePlus}"/>
+            Text="Login by Google!">
+            <Button.ImageSource>
+                <FontImageSource Size="20" FontFamily="FontAwesomeBrandsRegular" Glyph="{x:Static f:FaBrandsRegular.GooglePlus}" />
+            </Button.ImageSource>
+        </Button>
 
         <Button
-            StyleClass="FaBrandRegularButton, ButtonState"
+            StyleClass="ButtonState"
+            Command="{Binding FacebookLogonCommand}"
             Margin="0,15,0,0"
             BackgroundColor="SteelBlue"
             MaximumWidthRequest="300"
-            TextColor="White"
-            Text="{Static Member=f:FaBrandsRegular.Facebook}" />
+            Text="Login by Facebook!">
+            <Button.ImageSource>
+                <FontImageSource Size="20" FontFamily="FontAwesomeBrandsRegular" Glyph="{x:Static f:FaBrandsRegular.Facebook}" />
+            </Button.ImageSource>
+        </Button>
+
+        <Button
+            StyleClass="ButtonState"
+            IsVisible="{OnPlatform iOS=True, Default=False}"
+            IsEnabled="{OnPlatform iOS=True, Default=False}"
+            Command="{Binding AppleLogonCommand}"
+            Margin="0,15,0,0"
+            BackgroundColor="Black"
+            MaximumWidthRequest="300"
+            Text="Login by AppleID!">
+            <Button.ImageSource>
+                <FontImageSource Size="20" FontFamily="FontAwesomeBrandsRegular" Glyph="{x:Static f:FaBrandsRegular.Apple}" />
+            </Button.ImageSource>
+        </Button>
 
         <Button
             Margin="0,15,0,0"
             StyleClass="ButtonState"
             MaximumWidthRequest="300"
+            BackgroundColor="MediumPurple"
             Command="{Binding RegisterCommand}"
             Text="If you not have account - REGISTER!" />
-
     </VerticalStackLayout>
 </ContentPage>
