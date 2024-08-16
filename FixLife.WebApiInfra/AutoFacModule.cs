@@ -21,7 +21,7 @@ namespace FixLife.WebApiInfra
 
             builder.RegisterType<DashboardService>().As<IDashboardService>().InstancePerLifetimeScope();
 
-            builder.Register<DbContextFactory>().As<IDbContextFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<DbContextFactory>().As<IDbContextFactory>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes()
                 .Where(d => d.Name.EndsWith("Service") || d.Name.EndsWith("Repository"))
