@@ -1,16 +1,12 @@
 ﻿using Autofac;
-using Autofac.Core;
 using FixLife.WebApiInfra.Abstraction;
 using FixLife.WebApiInfra.Abstraction.Dashboard;
 using FixLife.WebApiInfra.Abstraction.Identity;
+using FixLife.WebApiInfra.Common;
+using FixLife.WebApiInfra.Contexts;
 using FixLife.WebApiInfra.Services;
 using FixLife.WebApiInfra.Services.Dashboard;
 using FixLife.WebApiInfra.Services.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.WebApiInfra
 {
@@ -24,6 +20,8 @@ namespace FixLife.WebApiInfra
             builder.RegisterType<PlanService>().As<IPlanService>().InstancePerLifetimeScope();
 
             builder.RegisterType<DashboardService>().As<IDashboardService>().InstancePerLifetimeScope();
+
+            builder.Register<DbContextFactory>().As<IDbContextFactory>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes()
                 .Where(d => d.Name.EndsWith("Service") || d.Name.EndsWith("Repository"))
