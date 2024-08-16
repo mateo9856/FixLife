@@ -1,10 +1,5 @@
 ﻿using FixLife.WebApiDomain.User;
 using FixLife.WebApiInfra.Services.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.WebApiInfra.Abstraction.Identity
 {
