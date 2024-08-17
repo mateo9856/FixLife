@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace FixLife.WebApiDomain.Common
 {
     public class BaseBusinessEntity : IAudible
     {
-        public Guid Id { get; set; }
+        [BsonId]
+        public ObjectId Id { get; set; }
+        [BsonElement("createdDate")]
         public DateTime? CreatedDate { get; set; }
+        [BsonElement("updatedDate")]
         public DateTime? UpdatedDate { get; set; }
+        [BsonElement("deletedDate")]
         public DateTime? DeletedDate { get; set; }
 
         public BaseBusinessEntity()
         {
-            Id = Guid.NewGuid();
+            Id = ObjectId.GenerateNewId();
             CreatedDate = DateTime.Now;
         }
 
