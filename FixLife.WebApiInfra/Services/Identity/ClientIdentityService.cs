@@ -1,9 +1,11 @@
 ﻿using FixLife.WebApiDomain.User;
 using FixLife.WebApiInfra.Abstraction.Identity;
 using FixLife.WebApiInfra.Contexts;
+using FixLife.WebApiInfra.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -22,11 +24,12 @@ namespace FixLife.WebApiInfra.Services.Identity
             _jwtOptions = options.Value;
         }
 
-        public Guid UserId { get; private set; }
+        public string UserId { get; private set; }
 
         public async Task<ClientUser> GetClientUser(string userId)
         {
-            return await _context.ClientUsers.SingleOrDefaultAsync(a => a.Id == Guid.Parse(userId));
+            return await _context.ClientUsers.SingleOrDefaultAsync(a => a.Id.ToString() == userId)
+                ?? throw new RecordNotFoundException(userId, "ClientUser");
         }
 
         public async Task<ClientIdentityResponse> LoginAsync(ClientUser clientIdentityRequest)
@@ -41,7 +44,7 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var audience = _jwtOptions.Audience;
                     var key = Encoding.ASCII.GetBytes
                     (_jwtOptions.Secret);
-                    UserId = findUser.Id;
+                    UserId = findUser.Id.ToString();
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
                         Subject = new System.Security.Claims.ClaimsIdentity(new[]
@@ -62,7 +65,7 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var token = tokenHandler.CreateToken(tokenDescriptor);
                     var jwtToken = tokenHandler.WriteToken(token);
                     var stringToken = tokenHandler.WriteToken(token);
-                    var hasPlans = _applicationContext.Plans.Any(d => d.UserId == findUser.Id);
+                    var hasPlans = _applicationContext.Plans.Any(d => d.UserId == findUser.Id.ToString());
 
                     return new ClientIdentityResponse()
                     {
@@ -102,7 +105,7 @@ namespace FixLife.WebApiInfra.Services.Identity
         {
             var newUser = new ClientUser
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId(),
                 Email = request.Email,
                 Password = request.Password,
                 PhoneNumber = request.PhoneNumber

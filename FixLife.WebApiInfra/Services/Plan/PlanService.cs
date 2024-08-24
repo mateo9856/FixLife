@@ -2,6 +2,7 @@
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
 using FixLife.WebApiInfra.Abstraction.Identity;
+using FixLife.WebApiInfra.Common;
 using FixLife.WebApiInfra.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ namespace FixLife.WebApiInfra.Services
     public class PlanService : BaseService<Plan>, IPlanService
     {
         private readonly IClientIdentityService _clientIdentityService;
-        public PlanService(ApplicationContext context, IClientIdentityService clientIdentityService) : base(context)
+        public PlanService(IMongoContextFactory<ApplicationContext> dbFactory, IClientIdentityService clientIdentityService) : base(dbFactory)
         {
             _clientIdentityService = clientIdentityService;
         }
@@ -20,22 +21,21 @@ namespace FixLife.WebApiInfra.Services
             var user = await _clientIdentityService.GetClientUser(userId);
             if (user == null)
             {
-                throw new UserNotFoundException("User not found cannot add plan!");
+                throw new UserNotFoundException("User not found! Cannot add plan!");
             }
 
-            plan.UserId = user.Id;
+            plan.UserId = user.Id.ToString();
         }
 
         public async Task<(short, string)> CreatePlanAsync(Plan plan, bool isFirst, string userId)
         {
             try
             {
-                Guid User;
-                if (string.IsNullOrEmpty(userId) || !Guid.TryParse(userId, out User))
+                if (string.IsNullOrEmpty(userId))
                 {
                     return (400, "User is not recognized!");
                 }
-                plan.UserId = User;
+                plan.UserId = userId;
                 await _context.WeeklyWorks.AddAsync(plan.WeeklyWork);
                 await _context.LearnTimes.AddAsync(plan.LearnTime);
                 foreach (var freeTime in plan.FreeTime)
@@ -102,7 +102,7 @@ namespace FixLife.WebApiInfra.Services
                 .AsNoTracking()
                 .Include(e => e.LearnTime)
                 .Include(f => f.FreeTime)
-                .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(userId));
+                .FirstOrDefaultAsync(d => d.UserId == userId);
         }
 
         public async Task<(short, string)> GetPlanIdAsync(string userId)

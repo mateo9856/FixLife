@@ -14,14 +14,21 @@ namespace FixLife.WebApiInfra
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ClientIdentityService>().As<IClientIdentityService>()
-            .InstancePerLifetimeScope();
+            builder.RegisterType<ClientIdentityService>()
+                .As<IClientIdentityService>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<PlanService>().As<IPlanService>().InstancePerLifetimeScope();
+            builder.RegisterType<PlanService>()
+                .As<IPlanService>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<DashboardService>().As<IDashboardService>().InstancePerLifetimeScope();
+            builder.RegisterType<DashboardService>()
+                .As<IDashboardService>()
+                .InstancePerLifetimeScope();
 
-            builder.RegisterType<DbContextFactory>().As<IDbContextFactory>().InstancePerLifetimeScope();
+            builder.RegisterGeneric(typeof(MongoContextFactory<>))
+                .As(typeof(IMongoContextFactory<>))
+                .InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes()
                 .Where(d => d.Name.EndsWith("Service") || d.Name.EndsWith("Repository"))

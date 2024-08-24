@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FixLife.WebApiInfra.Services.Dashboard
 {
-    public class DashboardService : BaseService<UserPlan>, IDashboardService
+    public class DashboardService : BaseService<Plan>, IDashboardService
     {
         private readonly IdentityContext _identityContext;
         public DashboardService(ApplicationContext context, IdentityContext identityContext) : base(context)
@@ -19,7 +19,7 @@ namespace FixLife.WebApiInfra.Services.Dashboard
                 .Include(d => d.WeeklyWork)
                 .Include(e => e.LearnTime)
                 .Include(f => f.FreeTime)
-                .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
+                .FirstOrDefaultAsync(d => d.UserId.ToString() == user);
 
             if (GetPlan != null)
             {
@@ -39,7 +39,7 @@ namespace FixLife.WebApiInfra.Services.Dashboard
             .Include(d => d.WeeklyWork)
             .Include(e => e.LearnTime)
             .Include(f => f.FreeTime)
-            .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
+            .FirstOrDefaultAsync(d => d.UserId.ToString() == user);
             if (GetPlan == null)
             {
                 return new
@@ -72,7 +72,7 @@ namespace FixLife.WebApiInfra.Services.Dashboard
             return new
             {
                 Status = 200,
-                TextHeader = planToReturn.Item1,
+                TextHeader = planToReturn?.Item1,
                 Text = planToReturn.Item2
             };
         }
