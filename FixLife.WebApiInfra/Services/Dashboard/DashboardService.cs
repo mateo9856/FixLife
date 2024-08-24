@@ -1,5 +1,6 @@
 ﻿using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction.Dashboard;
+using FixLife.WebApiInfra.Common;
 using FixLife.WebApiInfra.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,9 @@ namespace FixLife.WebApiInfra.Services.Dashboard
     public class DashboardService : BaseService<Plan>, IDashboardService
     {
         private readonly IdentityContext _identityContext;
-        public DashboardService(ApplicationContext context, IdentityContext identityContext) : base(context)
+        public DashboardService(IMongoContextFactory<ApplicationContext> dbFactory, IMongoContextFactory<IdentityContext> idFactory) : base(dbFactory)
         {
-            _identityContext = identityContext;
+            _identityContext = idFactory.CreateDbInstance();
         }
 
         public async Task<(short, Plan)> GetDashboardData(string user)
