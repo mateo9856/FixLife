@@ -1,4 +1,5 @@
 ﻿using FixLife.WebApiDomain.Common;
+using FixLife.WebApiDomain.Enums;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace FixLife.WebApiDomain.Plan
@@ -10,6 +11,6 @@ namespace FixLife.WebApiDomain.Plan
         [BsonElement("startTime")]
         public TimeSpan StartTime { get; set; }
         [BsonElement("dayOfWeeks")]
-        public ICollection<Common.DayOfWeek> DayOfWeeks { get; set; }
+        public ICollection<DayOfWeeks> DayOfWeeks { get; set; }
     }
 }

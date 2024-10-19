@@ -1,6 +1,7 @@
 ﻿using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction.Dashboard;
 using FixLife.WebApiInfra.Common;
+using FixLife.WebApiInfra.Common.Constants;
 using FixLife.WebApiInfra.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,10 +29,10 @@ namespace FixLife.WebApiInfra.Services.Dashboard
 
                 GetPlan.WeeklyWork = weeklyWorkDayOfWeeks;
 
-                return (200, GetPlan);
+                return (HttpCodes.Ok, GetPlan);
             }
 
-            return (404, null);
+            return (HttpCodes.NotFound, null);
         }
 
         public async Task<object> HandleDetectPush(string user)
@@ -72,7 +73,7 @@ namespace FixLife.WebApiInfra.Services.Dashboard
                 .FirstOrDefault();
             return new
             {
-                Status = 200,
+                Status = HttpCodes.Ok,
                 TextHeader = planToReturn?.Item1,
                 Text = planToReturn.Item2
             };

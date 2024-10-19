@@ -24,17 +24,9 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
                 throw new ValidationException("Request after map is null");
             }
 
-            mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
-            {
-                Day = d,
-                CreatedDate = DateTime.Now
-            }).ToList();
+            mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks;
 
-            mapPlan.LearnTime.DayOfWeeks = request.Request.LearnTime.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
-            {
-                Day = d,
-                CreatedDate = DateTime.Now
-            }).ToList();
+            mapPlan.LearnTime.DayOfWeeks = request.Request.LearnTime.DayOfWeeks;
 
             mapPlan.UpdatedDate = DateTime.Now;
 

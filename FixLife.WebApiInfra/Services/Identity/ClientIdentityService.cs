@@ -1,5 +1,7 @@
 ﻿using FixLife.WebApiDomain.User;
 using FixLife.WebApiInfra.Abstraction.Identity;
+using FixLife.WebApiInfra.Common;
+using FixLife.WebApiInfra.Common.Constants;
 using FixLife.WebApiInfra.Contexts;
 using FixLife.WebApiInfra.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +19,10 @@ namespace FixLife.WebApiInfra.Services.Identity
         private readonly IdentityContext _context;
         private readonly ApplicationContext _applicationContext;
         private JwtOptions _jwtOptions;
-        public ClientIdentityService(IdentityContext context, ApplicationContext appContext, IOptions<JwtOptions> options)
+        public ClientIdentityService(IMongoContextFactory<IdentityContext> idContext, IMongoContextFactory<ApplicationContext> appContext, IOptions<JwtOptions> options)
         {
-            _context = context;
-            _applicationContext = appContext;
+            _context = idContext.CreateDbInstance();
+            _applicationContext = appContext.CreateDbInstance();
             _jwtOptions = options.Value;
         }
 
@@ -28,14 +30,14 @@ namespace FixLife.WebApiInfra.Services.Identity
 
         public async Task<ClientUser> GetClientUser(string userId)
         {
-            return await _context.ClientUsers.SingleOrDefaultAsync(a => a.Id.ToString() == userId)
+            return await _context.ClientUsers.FindAsync(userId)
                 ?? throw new RecordNotFoundException(userId, "ClientUser");
         }
 
         public async Task<ClientIdentityResponse> LoginAsync(ClientUser clientIdentityRequest)
         {
-            var findUser = await _context.ClientUsers.Where(d => (d.Email == clientIdentityRequest.Email
-            || d.PhoneNumber == clientIdentityRequest.PhoneNumber) && d.Password == clientIdentityRequest.Password).FirstOrDefaultAsync();
+            var findUser = await _context.ClientUsers.FirstOrDefaultAsync(d => (d.Email == clientIdentityRequest.Email
+            || d.PhoneNumber == clientIdentityRequest.PhoneNumber) && d.Password == clientIdentityRequest.Password);
             try
             {
                 if (findUser != null)
@@ -69,7 +71,7 @@ namespace FixLife.WebApiInfra.Services.Identity
 
                     return new ClientIdentityResponse()
                     {
-                        Status = 200,
+                        Status = HttpCodes.Ok,
                         Details = "User logged!",
                         Token = stringToken,
                         Email = findUser.Email,
@@ -80,15 +82,15 @@ namespace FixLife.WebApiInfra.Services.Identity
 
                 return new ClientIdentityResponse
                 {
-                    Status = 404,
+                    Status = HttpCodes.NotFound,
                     Details = "User not found in database!",
                     Token = null,
                 };
-            } catch(Exception ex)
+            } catch(Exception)
             {
                 return new ClientIdentityResponse
                 {
-                    Status = 500,
+                    Status = HttpCodes.InternalServerError,
                     Details = "There's a something problem with request.",
                     Token = null
                 };
@@ -117,11 +119,11 @@ namespace FixLife.WebApiInfra.Services.Identity
 
             if(save > 0)
             {
-                return new ClientIdentityResponse { Status = 200, Details = "User created!" };
+                return new ClientIdentityResponse { Status = HttpCodes.Ok, Details = "User created!" };
             }
             else
             {
-                return new ClientIdentityResponse { Status = 400, Details = "User not created" };
+                return new ClientIdentityResponse { Status = HttpCodes.NotFound, Details = "User not created" };
             }
 
         }

@@ -3,6 +3,7 @@ using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
 using FixLife.WebApiInfra.Abstraction.Identity;
 using FixLife.WebApiInfra.Common;
+using FixLife.WebApiInfra.Common.Constants;
 using FixLife.WebApiInfra.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,27 +34,32 @@ namespace FixLife.WebApiInfra.Services
             {
                 if (string.IsNullOrEmpty(userId))
                 {
-                    return (400, "User is not recognized!");
+                    return (HttpCodes.NotFound, "User is not recognized!");
                 }
+
                 plan.UserId = userId;
+                
                 await _context.WeeklyWorks.AddAsync(plan.WeeklyWork);
                 await _context.LearnTimes.AddAsync(plan.LearnTime);
                 foreach (var freeTime in plan.FreeTime)
                 {
                     await _context.FreeTimes.AddAsync(freeTime);
                 }
+                
                 await _context.Plans.AddAsync(plan);
                 await AssignPlanToUserAsync(userId, plan);
+                
                 var createStatus = await _context.SaveChangesAsync();
                 if (createStatus > 0)
                 {
-                    return (201, "Created succesfully");
+                    return (HttpCodes.Created, "Created succesfully");
                 }
-                return (400, "Something wrong in database");
+                
+                return (HttpCodes.NotFound, "Something wrong in database");
             }
             catch (Exception ex)
             {
-                return (500, ex.Message);
+                return (HttpCodes.InternalServerError, ex.Message);
             }
 
         }
@@ -64,7 +70,7 @@ namespace FixLife.WebApiInfra.Services
             {
 
                 if (oldPlan == null)
-                    return (404, "User plan not found!");
+                    return (HttpCodes.NotFound, "User plan not found!");
 
                 UnassignOldPlan(oldPlan);
 
@@ -84,15 +90,15 @@ namespace FixLife.WebApiInfra.Services
 
                 if (createStatus > 0)
                 {
-                    return (201, "Modified succesfully");
+                    return (HttpCodes.Created, "Modified succesfully");
                 }
-                return (400, "Something wrong in database");
+                return (HttpCodes.NotFound, "Something wrong in database");
 
 
             }
             catch (Exception ex)
             {
-                return (500, ex.Message);
+                return (HttpCodes.InternalServerError, ex.Message);
             }
         }
 
@@ -108,7 +114,7 @@ namespace FixLife.WebApiInfra.Services
         public async Task<(short, string)> GetPlanIdAsync(string userId)
         {
             var returnedPlan = await _context.Plans.FirstOrDefaultAsync(d => d.UserId.ToString() == userId);
-            return returnedPlan != null ? ((short)200, returnedPlan.UserId.ToString()) : ((short)400, "");
+            return returnedPlan != null ? (HttpCodes.Ok, returnedPlan.UserId.ToString()) : (HttpCodes.NotFound, "");
         }
 
         private void UnassignOldPlan(Plan oldPlan)
