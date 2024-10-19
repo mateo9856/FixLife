@@ -1,9 +1,9 @@
 using FixLife.WebApiDomain.Enums;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
+using FixLife.WebApiInfra.Common.Constants;
+using MongoDB.Bson;
 using Moq;
-using NUnit.Framework;
-using DayOfWeekObject= FixLife.WebApiDomain.Common.DayOfWeek;
 
 namespace FixLife.ApiTest
 {
@@ -13,7 +13,7 @@ namespace FixLife.ApiTest
         private readonly Mock<IPlanService> _planMock = new Mock<IPlanService>();
         private Mock<Plan> _firstPlan = new Mock<Plan>();
         private Mock<Plan> _secondPlan = new Mock<Plan>();
-        private Guid UserGuid { get; set; } = Guid.NewGuid();
+        private ObjectId UserGuid { get; set; } = ObjectId.GenerateNewId();
 
         public PlanTest()
         {
@@ -23,28 +23,28 @@ namespace FixLife.ApiTest
 
         public void SetUp()
         {
-            var dayOfWeeks = new List<DayOfWeekObject> { 
-                new DayOfWeekObject { Day = DayOfWeeks.Monday },
-                new DayOfWeekObject { Day = DayOfWeeks.Tuesday },
-                new DayOfWeekObject { Day = DayOfWeeks.Wednesday },
+            var dayOfWeeks = new List<DayOfWeeks> {
+                DayOfWeeks.Monday,
+                DayOfWeeks.Tuesday,
+                DayOfWeeks.Wednesday,
             };
 
             var firstWeeklyWork = new WeeklyWork
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId(),
                 CreatedDate = DateTime.Now,
                 TimeStart = new TimeSpan(8, 0, 0),
                 TimeEnd = new TimeSpan(16, 0, 0),
-                DayOfWeeks = dayOfWeeks.ConvertAll(x => (FixLife.WebApiDomain.Common.DayOfWeek)x)
+                DayOfWeeks = dayOfWeeks
             };
 
             var secondWeeklyWork = new WeeklyWork
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId(),
                 CreatedDate = DateTime.Now,
                 TimeStart = new TimeSpan(9, 0, 0),
                 TimeEnd = new TimeSpan(17, 0, 0),
-                DayOfWeeks = dayOfWeeks.ConvertAll(x => (FixLife.WebApiDomain.Common.DayOfWeek)x)
+                DayOfWeeks = dayOfWeeks
             };
 
             _firstPlan.Object.Id = UserGuid;
@@ -59,13 +59,13 @@ namespace FixLife.ApiTest
         public void Dashboard_ShouldEditSuccesful()
         {
             _planMock.Setup(d => d.EditPlanAsync(_firstPlan.Object, _secondPlan.Object, UserGuid.ToString()))
-            .ReturnsAsync(((short)200, "TEST"));
+            .ReturnsAsync((HttpCodes.Ok, "TEST"));
 
             _planService = _planMock.Object;
 
             var act = _planService.EditPlanAsync(_firstPlan.Object, _secondPlan.Object, UserGuid.ToString()).Result;
 
-            Xunit.Assert.True(act.Item1 == 200);
+            Xunit.Assert.True(act.Item1 == HttpCodes.Ok);
         }
     }
 }
