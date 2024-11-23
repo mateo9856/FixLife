@@ -11,6 +11,7 @@ using MongoDB.Bson;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ClaimsIdentity = System.Security.Claims.ClaimsIdentity;
 
 namespace FixLife.WebApiInfra.Services.Identity
 {
@@ -49,7 +50,7 @@ namespace FixLife.WebApiInfra.Services.Identity
                     UserId = findUser.Id.ToString();
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        Subject = new System.Security.Claims.ClaimsIdentity(new[]
+                        Subject = new ClaimsIdentity(new[]
                         {
                             new Claim("Id", Guid.NewGuid().ToString()),
                             new Claim("UserId", findUser.Id.ToString()),
@@ -67,6 +68,7 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var token = tokenHandler.CreateToken(tokenDescriptor);
                     var jwtToken = tokenHandler.WriteToken(token);
                     var stringToken = tokenHandler.WriteToken(token);
+
                     var hasPlans = _applicationContext.Plans.Any(d => d.UserId == findUser.Id.ToString());
 
                     return new ClientIdentityResponse()

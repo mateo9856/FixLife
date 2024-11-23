@@ -2,8 +2,8 @@
 
 namespace FixLife.WebApiInfra.Common
 {
-    public interface IMongoContextFactory<T> where T : DbContext
+    public interface IMongoContextFactory<TContext>
     {
-        public T CreateDbInstance();
+        public TContext CreateDbInstance();
     }
 }

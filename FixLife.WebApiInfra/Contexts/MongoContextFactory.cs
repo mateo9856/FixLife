@@ -6,11 +6,11 @@ using MongoDB.Driver;
 
 namespace FixLife.WebApiInfra.Contexts
 {
-    public class MongoContextFactory<T> : IMongoContextFactory<T> where T : DbContext
+    public class MongoContextFactory<TContext> : IMongoContextFactory<TContext> where TContext : DbContext
     {
         private readonly string _connectionString;
         private readonly MongoClient _client;
-        private readonly DbContextOptionsBuilder<T> _optionsBuilder;
+        private readonly DbContextOptionsBuilder<TContext> _optionsBuilder;
 
         public MongoContextFactory(IConfiguration configuration)
         {
@@ -20,13 +20,16 @@ namespace FixLife.WebApiInfra.Contexts
 
             _client = new MongoClient(_connectionString);
 
-            _optionsBuilder = new DbContextOptionsBuilder<T>().UseMongoDB(_client, "FixLifeDb");
+            _optionsBuilder = new DbContextOptionsBuilder<TContext>().UseMongoDB(_client, "FixLifeDb");
 
         }
 
-        public T CreateDbInstance()
+        public TContext CreateDbInstance()
         {
-            return (T)new DbContext(_optionsBuilder.Options);
+            var dbCtx = Activator.CreateInstance(typeof(TContext), _optionsBuilder.Options)
+                ?? throw new DbContextLoadException(typeof(TContext));
+
+            return (TContext)dbCtx;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FixLife.WebApiDomain.Plan;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 
 namespace FixLife.WebApiInfra.Contexts
 {
@@ -16,6 +17,12 @@ namespace FixLife.WebApiInfra.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<FreeTime>();
+            modelBuilder.Entity<LearnTime>();
+            modelBuilder.Entity<WeeklyWork>();
+            modelBuilder.Entity<Plan>();
+                
         }
 
     }
