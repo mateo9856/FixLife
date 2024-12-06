@@ -1,15 +1,9 @@
 ﻿using AutoMapper;
-using FixLife.WebApiDomain.Exceptions;
+using FixLife.WebApiDomain.Models;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.WebApiQueries.FirstPlan.Commands
 {
@@ -25,7 +19,7 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
 
         public async Task<CreatePlanResponse> Handle(AddPlanCommand request, CancellationToken cancellationToken)
         {
-            var mapPlan = _mapper.Map<Plan>(request.Request);
+            var mapPlan = _mapper.Map<PlanModel>(request.Request);
             
             if(mapPlan == null)
             {
@@ -35,8 +29,6 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
             mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks;
 
             mapPlan.LearnTime.DayOfWeeks = request.Request.LearnTime.DayOfWeeks;
-
-            mapPlan.CreatedDate = DateTime.Now;
 
             var serviceResult = await _planService.CreatePlanAsync(mapPlan, true, request.UserId);
 

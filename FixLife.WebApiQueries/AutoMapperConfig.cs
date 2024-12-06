@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FixLife.WebApiDomain.Models;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiQueries.Account;
 using FixLife.WebApiQueries.Dashboard.Queries;
@@ -34,9 +35,9 @@ namespace FixLife.WebApiQueries
                 .ForMember(d => d.TimeInterval, opt => opt.MapFrom(e => TimeSpan.Parse(e.TimeInterval)))
                 .ReverseMap();
 
-            CreateMap<CreatePlanRequest, Plan>()
+            CreateMap<CreatePlanRequest, PlanModel>()
                 .ReverseMap();
-            CreateMap<EditPlanRequest, Plan>()
+            CreateMap<EditPlanRequest, PlanModel>()
                 .ReverseMap();
             CreateMap<Plan, GetDashboardQueryResponse>()
                 .ReverseMap();

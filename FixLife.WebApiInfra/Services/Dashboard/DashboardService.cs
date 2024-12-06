@@ -18,16 +18,14 @@ namespace FixLife.WebApiInfra.Services.Dashboard
         public async Task<(short, Plan)> GetDashboardData(string user)
         {
             var GetPlan = await _context.Plans
-                .Include(d => d.WeeklyWork)
-                .Include(e => e.LearnTime)
-                .Include(f => f.FreeTime)
                 .FirstOrDefaultAsync(d => d.UserId.ToString() == user);
 
             if (GetPlan != null)
             {
-                var weeklyWorkDayOfWeeks = await _context.WeeklyWorks.SingleAsync(a => a.Id == GetPlan.WeeklyWork.Id);
+                //var weeklyWorkDayOfWeeks = await _context.WeeklyWorks.SingleAsync(a => a.Id == GetPlan.WeeklyWork.Id);
 
-                GetPlan.WeeklyWork = weeklyWorkDayOfWeeks;
+                //GetPlan.WeeklyWork = weeklyWorkDayOfWeeks;
+                //TODO: Refactor and create DashboardDataDTO
 
                 return (HttpCodes.Ok, GetPlan);
             }
@@ -38,9 +36,6 @@ namespace FixLife.WebApiInfra.Services.Dashboard
         public async Task<object> HandleDetectPush(string user)
         {
             var GetPlan = await _context.Plans
-            .Include(d => d.WeeklyWork)
-            .Include(e => e.LearnTime)
-            .Include(f => f.FreeTime)
             .FirstOrDefaultAsync(d => d.UserId.ToString() == user);
             if (GetPlan == null)
             {
@@ -51,7 +46,7 @@ namespace FixLife.WebApiInfra.Services.Dashboard
                     Text = "Plan not found! Please create!"
                 };
             }
-
+            //TODO: Refactor and create DashboardDataDTO
             var dNow = DateTime.Now;
             var actualTimeSpan = new TimeSpan(0, dNow.Hour, dNow.Minute, dNow.Second);
 
