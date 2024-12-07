@@ -1,42 +1,39 @@
-﻿using FixLife.WebApiDomain.Plan;
+﻿using FixLife.WebApiDomain.Models;
+using FixLife.WebApiDomain.Plan;
+using FixLife.WebApiInfra.Abstraction;
 using FixLife.WebApiInfra.Abstraction.Dashboard;
 using FixLife.WebApiInfra.Common;
 using FixLife.WebApiInfra.Common.Constants;
 using FixLife.WebApiInfra.Contexts;
-using Microsoft.EntityFrameworkCore;
 
 namespace FixLife.WebApiInfra.Services.Dashboard
 {
     public class DashboardService : BaseService<Plan>, IDashboardService
     {
-        private readonly IdentityContext _identityContext;
-        public DashboardService(IMongoContextFactory<ApplicationContext> dbFactory, IMongoContextFactory<IdentityContext> idFactory) : base(dbFactory)
+        private readonly IPlanService _planService;
+
+        public DashboardService(IMongoContextFactory<ApplicationContext> dbFactory, IPlanService planService) : base(dbFactory)
         {
-            _identityContext = idFactory.CreateDbInstance();
+            _planService = planService;
         }
 
-        public async Task<(short, Plan)> GetDashboardData(string user)
+        public async Task<(short, PlanModel)> GetDashboardData(string user)
         {
-            var GetPlan = await _context.Plans
-                .FirstOrDefaultAsync(d => d.UserId.ToString() == user);
+            var GetPlan = await GetByIdAsync(user);
 
-            if (GetPlan != null)
+            if (GetPlan == null)
             {
-                //var weeklyWorkDayOfWeeks = await _context.WeeklyWorks.SingleAsync(a => a.Id == GetPlan.WeeklyWork.Id);
-
-                //GetPlan.WeeklyWork = weeklyWorkDayOfWeeks;
-                //TODO: Refactor and create DashboardDataDTO
-
-                return (HttpCodes.Ok, GetPlan);
+                return (HttpCodes.NotFound, null);   
             }
 
-            return (HttpCodes.NotFound, null);
+            var plans = await _planService.GetPlanWithModel(user);
+
+            return (HttpCodes.Ok, plans);
         }
 
         public async Task<object> HandleDetectPush(string user)
         {
-            var GetPlan = await _context.Plans
-            .FirstOrDefaultAsync(d => d.UserId.ToString() == user);
+            var GetPlan = await _planService.GetPlanWithModel(user);
             if (GetPlan == null)
             {
                 return new

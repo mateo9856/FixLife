@@ -4,11 +4,6 @@ using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiQueries.Account;
 using FixLife.WebApiQueries.Dashboard.Queries;
 using FixLife.WebApiQueries.FirstPlan;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.WebApiQueries
 {
@@ -36,8 +31,10 @@ namespace FixLife.WebApiQueries
                 .ReverseMap();
 
             CreateMap<CreatePlanRequest, PlanModel>()
+                .ForMember(d => d.UserId, opt => opt.Ignore())
                 .ReverseMap();
             CreateMap<EditPlanRequest, PlanModel>()
+                .ForMember(d => d.UserId, opt => opt.Ignore())
                 .ReverseMap();
             CreateMap<Plan, GetDashboardQueryResponse>()
                 .ReverseMap();

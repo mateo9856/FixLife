@@ -126,6 +126,24 @@ namespace FixLife.WebApiInfra.Services
             return returnedPlan != null ? (HttpCodes.Ok, returnedPlan.UserId.ToString()) : (HttpCodes.NotFound, "");
         }
 
+        public async Task<PlanModel?> GetPlanWithModel(string userId)
+        {
+            var actualPlan = await GetPlanAsync(userId)
+                ?? throw new ArgumentNullException(userId);
+
+            var weeklyWork = await _context.WeeklyWorks.FirstOrDefaultAsync(d => d.Id == actualPlan.WeeklyWorkId);
+            var learnTime = await _context.LearnTimes.FirstOrDefaultAsync(e => e.Id == actualPlan.LearnTimeId);
+            var freeTimes = await _context.FreeTimes.Where(f => actualPlan.FreeTimeId.Any(g => g.Equals(f.Id))).ToListAsync();
+
+            return new PlanModel
+            {
+                UserId = userId,
+                WeeklyWork = weeklyWork,
+                LearnTime = learnTime,
+                FreeTime = freeTimes
+            };
+        }
+
         private void UnassignOldPlan(PlanModel oldPlan)
         {
             oldPlan.WeeklyWork.DeletedDate = DateTime.Now;

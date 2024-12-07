@@ -1,11 +1,6 @@
 ﻿using FixLife.WebApiDomain.Exceptions;
 using FixLife.WebApiInfra.Abstraction.Dashboard;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.WebApiQueries.Dashboard.Queries
 {
@@ -16,7 +11,7 @@ namespace FixLife.WebApiQueries.Dashboard.Queries
             _dashboardService= dashboardService;
         }
 
-        public async Task<GetDetectionPushResponse> Handle(GetDetectionPushQuery request, CancellationToken cancellationToken)
+        public async Task<GetDetectionPushResponse?> Handle(GetDetectionPushQuery request, CancellationToken cancellationToken)
         {
             var notificationToSend = await _dashboardService.HandleDetectPush(request.UserId);
 

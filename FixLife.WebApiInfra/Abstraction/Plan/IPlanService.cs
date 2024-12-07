@@ -10,5 +10,6 @@ namespace FixLife.WebApiInfra.Abstraction
         Task<(short, string)> GetPlanIdAsync(string userId);
         Task<(short, string)> EditPlanAsync(PlanModel planModel, PlanModel oldPlanModel, string userId);
         Task<Plan?> GetPlanAsync(string userId);
+        Task<PlanModel?> GetPlanWithModel(string userId);
     }
 }
