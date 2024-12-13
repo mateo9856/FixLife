@@ -43,7 +43,7 @@ namespace FixLife.WebApiInfra.Services.Dashboard
                     Text = "Plan not found! Please create!"
                 };
             }
-            //TODO: Refactor and create DashboardDataDTO
+
             var dNow = DateTime.Now;
             var actualTimeSpan = new TimeSpan(0, dNow.Hour, dNow.Minute, dNow.Second);
 
