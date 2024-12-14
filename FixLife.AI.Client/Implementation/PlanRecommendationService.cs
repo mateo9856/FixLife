@@ -29,7 +29,12 @@ namespace FixLife.AI.Client.Implementation
 
             await Task.Delay(500);
 
-            throw new NotImplementedException();
+            var responseText = chatCompletion.Value.Content[0].Text;
+
+            return responseText
+                .Remove(responseText.Length - 1)
+                .Split(',', StringSplitOptions.TrimEntries)
+                .ToList();
         }
 
     }
