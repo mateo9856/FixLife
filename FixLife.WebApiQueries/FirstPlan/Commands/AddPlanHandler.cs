@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FixLife.WebApiDomain.Models;
-using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
 using FluentValidation;
 using MediatR;

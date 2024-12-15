@@ -31,7 +31,7 @@ namespace FixLife.WebApiInfra.Services.Identity
 
         public async Task<ClientUser> GetClientUser(string userId)
         {
-            return await _context.ClientUsers.FindAsync(userId)
+            return await _context.ClientUsers.FindAsync(ObjectId.Parse(userId))
                 ?? throw new RecordNotFoundException(userId, "ClientUser");
         }
 
