@@ -13,9 +13,12 @@ namespace FixLife.WebApiInfra.Services
 {
     public class PlanService : BaseService<Plan>, IPlanService
     {
+        private readonly IMongoContextFactory<ApplicationContext> _context;
         private readonly IClientIdentityService _clientIdentityService;
+
         public PlanService(IMongoContextFactory<ApplicationContext> dbFactory, IClientIdentityService clientIdentityService) : base(dbFactory)
         {
+            _context = dbFactory;
             _clientIdentityService = clientIdentityService;
         }
 
@@ -34,6 +37,8 @@ namespace FixLife.WebApiInfra.Services
         {
             try
             {
+                using var ctx = await _context.CreateDbContextAsync();
+
                 if (string.IsNullOrEmpty(userId))
                 {
                     return (HttpCodes.NotFound, "User is not recognized!");
@@ -47,17 +52,17 @@ namespace FixLife.WebApiInfra.Services
                     LearnTimeId = planModel.LearnTime.Id
                 };
 
-                await _context.WeeklyWorks.AddAsync(planModel.WeeklyWork);
-                await _context.LearnTimes.AddAsync(planModel.LearnTime);
+                await ctx.WeeklyWorks.AddAsync(planModel.WeeklyWork);
+                await ctx.LearnTimes.AddAsync(planModel.LearnTime);
                 foreach (var freeTime in planModel.FreeTime)
                 {
-                    await _context.FreeTimes.AddAsync(freeTime);
+                    await ctx.FreeTimes.AddAsync(freeTime);
                 }
                 
-                await _context.Plans.AddAsync(plan);
+                await ctx.Plans.AddAsync(plan);
                 await AssignPlanToUserAsync(userId, plan);
                 
-                var createStatus = await _context.SaveChangesAsync();
+                var createStatus = await ctx.SaveChangesAsync();
                 if (createStatus > 0)
                 {
                     return (HttpCodes.Created, "Created succesfully");
@@ -76,29 +81,29 @@ namespace FixLife.WebApiInfra.Services
         {
             try
             {
-
+                using var ctx = await _context.CreateDbContextAsync();
                 if (oldPlanModel == null)
                     return (HttpCodes.NotFound, "User plan not found!");
 
-                UnassignOldPlan(oldPlanModel);
+                UnassignOldPlan(oldPlanModel, ctx);
 
-                await _context.WeeklyWorks.AddAsync(planModel.WeeklyWork);
-                await _context.LearnTimes.AddAsync(planModel.LearnTime);
+                await ctx.WeeklyWorks.AddAsync(planModel.WeeklyWork);
+                await ctx.LearnTimes.AddAsync(planModel.LearnTime);
                 foreach (var freeTime in planModel.FreeTime)
                 {
-                    await _context.FreeTimes.AddAsync(freeTime);
+                    await ctx.FreeTimes.AddAsync(freeTime);
                 }
-                _context.Attach(planModel.WeeklyWork);
-                _context.Entry(planModel.WeeklyWork).State = EntityState.Modified;
-                _context.Attach(planModel.LearnTime);
-                _context.Entry(planModel.LearnTime).State = EntityState.Modified;
+                ctx.Attach(planModel.WeeklyWork);
+                ctx.Entry(planModel.WeeklyWork).State = EntityState.Modified;
+                ctx.Attach(planModel.LearnTime);
+                ctx.Entry(planModel.LearnTime).State = EntityState.Modified;
                 foreach (var freeTime in planModel.FreeTime)
                 {
-                    _context.Attach(freeTime);
-                    _context.Entry(freeTime).State = EntityState.Modified;
+                    ctx.Attach(freeTime);
+                    ctx.Entry(freeTime).State = EntityState.Modified;
                 }
 
-                var createStatus = await _context.SaveChangesAsync();
+                var createStatus = await ctx.SaveChangesAsync();
 
                 if (createStatus > 0)
                 {
@@ -116,24 +121,27 @@ namespace FixLife.WebApiInfra.Services
 
         public async Task<Plan?> GetPlanAsync(string userId)
         {
-            return await _context.Plans
+            using var ctx = await _context.CreateDbContextAsync();
+            return await ctx.Plans
                 .FirstOrDefaultAsync(d => d.UserId == ObjectId.Parse(userId));
         }
 
         public async Task<(short, string)> GetPlanIdAsync(string userId)
         {
-            var returnedPlan = await _context.Plans.FirstOrDefaultAsync(d => d.UserId.ToString() == userId);
+            using var ctx = await _context.CreateDbContextAsync();
+            var returnedPlan = await ctx.Plans.FirstOrDefaultAsync(d => d.UserId.ToString() == userId);
             return returnedPlan != null ? (HttpCodes.Ok, returnedPlan.UserId.ToString()) : (HttpCodes.NotFound, "");
         }
 
         public async Task<PlanModel?> GetPlanWithModel(string userId)
         {
+            using var ctx = await _context.CreateDbContextAsync();
             var actualPlan = await GetPlanAsync(userId)
                 ?? throw new ArgumentNullException(userId);
 
-            var weeklyWork = await _context.WeeklyWorks.FirstOrDefaultAsync(d => d.Id == actualPlan.WeeklyWorkId);
-            var learnTime = await _context.LearnTimes.FirstOrDefaultAsync(e => e.Id == actualPlan.LearnTimeId);
-            var freeTimes = await _context.FreeTimes.Where(f => actualPlan.FreeTimeId.Any(g => g.Equals(f.Id))).ToListAsync();
+            var weeklyWork = await ctx.WeeklyWorks.FirstOrDefaultAsync(d => d.Id == actualPlan.WeeklyWorkId);
+            var learnTime = await ctx.LearnTimes.FirstOrDefaultAsync(e => e.Id == actualPlan.LearnTimeId);
+            var freeTimes = await ctx.FreeTimes.Where(f => actualPlan.FreeTimeId.Any(g => g.Equals(f.Id))).ToListAsync();
 
             return new PlanModel
             {
@@ -144,16 +152,16 @@ namespace FixLife.WebApiInfra.Services
             };
         }
 
-        private void UnassignOldPlan(PlanModel oldPlan)
+        private void UnassignOldPlan(PlanModel oldPlan, ApplicationContext context)
         {
             oldPlan.WeeklyWork.DeletedDate = DateTime.Now;
-            _context.Entry(oldPlan.WeeklyWork).State = EntityState.Modified;
+            context.Entry(oldPlan.WeeklyWork).State = EntityState.Modified;
             oldPlan.LearnTime.DeletedDate = DateTime.Now;
-            _context.Entry(oldPlan.LearnTime).State = EntityState.Modified;
+            context.Entry(oldPlan.LearnTime).State = EntityState.Modified;
             oldPlan.FreeTime.ForEach((el) =>
             {
                 el.DeletedDate = DateTime.Now;
-                _context.Entry(el).State = EntityState.Deleted;
+                context.Entry(el).State = EntityState.Deleted;
             });
 
         }

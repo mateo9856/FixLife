@@ -11,20 +11,21 @@ namespace FixLife.WebApiInfra.Contexts
         private readonly string _connectionString;
         private readonly MongoClient _client;
         private readonly DbContextOptionsBuilder<TContext> _optionsBuilder;
-
+        
         public MongoContextFactory(IConfiguration configuration)
         {
-
             _connectionString = configuration.GetConnectionString("FixLife") 
                 ?? throw new ConnStringFailException();
 
             _client = new MongoClient(_connectionString);
 
-            _optionsBuilder = new DbContextOptionsBuilder<TContext>().UseMongoDB(_client, "FixLifeDb");
+            _optionsBuilder = new DbContextOptionsBuilder<TContext>()
+                .UseMongoDB(_client, "FixLifeDb")
+                .EnableServiceProviderCaching();
 
         }
 
-        public TContext CreateDbInstance()
+        public TContext CreateDbContext()
         {
             var dbCtx = Activator.CreateInstance(typeof(TContext), _optionsBuilder.Options)
                 ?? throw new DbContextLoadException(typeof(TContext));

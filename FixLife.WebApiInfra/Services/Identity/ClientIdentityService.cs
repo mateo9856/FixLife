@@ -17,13 +17,13 @@ namespace FixLife.WebApiInfra.Services.Identity
 {
     public class ClientIdentityService : IClientIdentityService
     {
-        private readonly IdentityContext _context;
-        private readonly ApplicationContext _applicationContext;
+        private readonly IMongoContextFactory<IdentityContext> _context;
+        private readonly IMongoContextFactory<ApplicationContext> _applicationContext;
         private JwtOptions _jwtOptions;
         public ClientIdentityService(IMongoContextFactory<IdentityContext> idContext, IMongoContextFactory<ApplicationContext> appContext, IOptions<JwtOptions> options)
         {
-            _context = idContext.CreateDbInstance();
-            _applicationContext = appContext.CreateDbInstance();
+            _context = idContext;
+            _applicationContext = appContext;
             _jwtOptions = options.Value;
         }
 
@@ -31,13 +31,17 @@ namespace FixLife.WebApiInfra.Services.Identity
 
         public async Task<ClientUser> GetClientUser(string userId)
         {
-            return await _context.ClientUsers.FindAsync(ObjectId.Parse(userId))
+            using var idCtx = _context.CreateDbContext();
+            return await idCtx.ClientUsers.FindAsync(ObjectId.Parse(userId))
                 ?? throw new RecordNotFoundException(userId, "ClientUser");
         }
 
         public async Task<ClientIdentityResponse> LoginAsync(ClientUser clientIdentityRequest)
         {
-            var findUser = await _context.ClientUsers.FirstOrDefaultAsync(d => (d.Email == clientIdentityRequest.Email
+            using var idCtx = _context.CreateDbContext();
+            using var appCtx = _applicationContext.CreateDbContext();
+
+            var findUser = await idCtx.ClientUsers.FirstOrDefaultAsync(d => (d.Email == clientIdentityRequest.Email
             || d.PhoneNumber == clientIdentityRequest.PhoneNumber) && d.Password == clientIdentityRequest.Password);
             try
             {
@@ -69,7 +73,7 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var jwtToken = tokenHandler.WriteToken(token);
                     var stringToken = tokenHandler.WriteToken(token);
 
-                    var hasPlans = _applicationContext.Plans.Any(d => d.UserId == findUser.Id);
+                    var hasPlans = appCtx.Plans.Any(d => d.UserId == findUser.Id);
 
                     return new ClientIdentityResponse()
                     {
@@ -107,6 +111,8 @@ namespace FixLife.WebApiInfra.Services.Identity
 
         public async Task<ClientIdentityResponse> RegisterAsync(ClientUser request)
         {
+            using var idCtx = _context.CreateDbContext();
+
             var newUser = new ClientUser
             {
                 Id = ObjectId.GenerateNewId(),
@@ -115,9 +121,9 @@ namespace FixLife.WebApiInfra.Services.Identity
                 PhoneNumber = request.PhoneNumber
             };
 
-            await _context.ClientUsers.AddAsync(newUser);
+            await idCtx.ClientUsers.AddAsync(newUser);
 
-            var save = await _context.SaveChangesAsync();
+            var save = await idCtx.SaveChangesAsync();
 
             if(save > 0)
             {

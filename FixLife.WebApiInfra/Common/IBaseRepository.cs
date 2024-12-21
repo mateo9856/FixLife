@@ -7,6 +7,5 @@
         Task DeleteAsync(string id);
         Task<IEnumerable<T>> GetAllAsync();
         Task UpdateAsync(T entity);
-        Task SaveChangesAsync();
     }
 }
