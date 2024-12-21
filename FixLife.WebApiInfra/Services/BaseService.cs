@@ -2,6 +2,7 @@
 using FixLife.WebApiInfra.Contexts;
 using FixLife.WebApiInfra.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 
 namespace FixLife.WebApiInfra.Services
 {
@@ -35,7 +36,7 @@ namespace FixLife.WebApiInfra.Services
 
         public async Task<T> GetByIdAsync(string id)
         {
-            return await _dbSet.FindAsync(id)
+            return await _dbSet.FindAsync(ObjectId.Parse(id))
                 ?? throw new RecordNotFoundException(id, nameof(T));
         }
 

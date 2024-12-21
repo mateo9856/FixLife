@@ -19,14 +19,11 @@ namespace FixLife.WebApiInfra.Services.Dashboard
 
         public async Task<(short, PlanModel)> GetDashboardData(string user)
         {
-            var GetPlan = await GetByIdAsync(user);
-
-            if (GetPlan == null)
-            {
-                return (HttpCodes.NotFound, null);   
-            }
 
             var plans = await _planService.GetPlanWithModel(user);
+
+            if (plans is null)
+                return (HttpCodes.NotFound, null);
 
             return (HttpCodes.Ok, plans);
         }
@@ -67,7 +64,7 @@ namespace FixLife.WebApiInfra.Services.Dashboard
             {
                 Status = HttpCodes.Ok,
                 TextHeader = planToReturn?.Item1,
-                Text = planToReturn.Item2
+                Text = planToReturn?.Item2
             };
         }
     }

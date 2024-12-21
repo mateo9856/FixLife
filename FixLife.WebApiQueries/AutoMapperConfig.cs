@@ -33,10 +33,13 @@ namespace FixLife.WebApiQueries
             CreateMap<CreatePlanRequest, PlanModel>()
                 .ForMember(d => d.UserId, opt => opt.Ignore())
                 .ReverseMap();
+
             CreateMap<EditPlanRequest, PlanModel>()
                 .ForMember(d => d.UserId, opt => opt.Ignore())
                 .ReverseMap();
-            CreateMap<Plan, GetDashboardQueryResponse>()
+
+            CreateMap<GetDashboardQueryResponse, PlanModel>()
+                .ForMember(d => d.UserId, opt => opt.Ignore())
                 .ReverseMap();
         }
     }
