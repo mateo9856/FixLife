@@ -1,4 +1,5 @@
 using FixLife.WebApiDomain.Enums;
+using FixLife.WebApiDomain.Models;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
 using FixLife.WebApiInfra.Common.Constants;
@@ -13,6 +14,8 @@ namespace FixLife.ApiTest
         private readonly Mock<IPlanService> _planMock = new Mock<IPlanService>();
         private Mock<Plan> _firstPlan = new Mock<Plan>();
         private Mock<Plan> _secondPlan = new Mock<Plan>();
+        private Mock<PlanModel> _firstPlanModel = new Mock<PlanModel>();
+        private Mock<PlanModel> _secondPlanModel = new Mock<PlanModel>();
         private ObjectId UserGuid { get; set; } = ObjectId.GenerateNewId();
 
         public PlanTest()
@@ -50,20 +53,20 @@ namespace FixLife.ApiTest
             _firstPlan.Object.Id = UserGuid;
             _secondPlan.Object.Id = UserGuid;
 
-            _firstPlan.Object.WeeklyWork = firstWeeklyWork;
-            _secondPlan.Object.WeeklyWork = secondWeeklyWork;
+            _firstPlanModel.Object.WeeklyWork = firstWeeklyWork;
+            _secondPlanModel.Object.WeeklyWork = secondWeeklyWork;
 
         }
 
         [Fact]
         public void Dashboard_ShouldEditSuccesful()
         {
-            _planMock.Setup(d => d.EditPlanAsync(_firstPlan.Object, _secondPlan.Object, UserGuid.ToString()))
+            _planMock.Setup(d => d.EditPlanAsync(_firstPlanModel.Object, _secondPlanModel.Object, UserGuid.ToString()))
             .ReturnsAsync((HttpCodes.Ok, "TEST"));
 
             _planService = _planMock.Object;
 
-            var act = _planService.EditPlanAsync(_firstPlan.Object, _secondPlan.Object, UserGuid.ToString()).Result;
+            var act = _planService.EditPlanAsync(_firstPlanModel.Object, _secondPlanModel.Object, UserGuid.ToString()).Result;
 
             Xunit.Assert.True(act.Item1 == HttpCodes.Ok);
         }
