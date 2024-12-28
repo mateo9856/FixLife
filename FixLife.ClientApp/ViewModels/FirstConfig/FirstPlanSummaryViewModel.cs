@@ -81,9 +81,9 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             {
                 PlanCreateResponse response = null;
                 if (IsEdit)
-                    response = await _webApiClient.PostPutAsync(requestBuilder, "FirstPlan/EditPlan", false, UserSession.Token);
+                    response = await _webApiClient.PostPutAsync(requestBuilder, "Plan/EditPlan", false, UserSession.Token);
                 else
-                    response = await _webApiClient.PostPutAsync(requestBuilder, "FirstPlan/createFirstPlan", true, UserSession.Token);
+                    response = await _webApiClient.PostPutAsync(requestBuilder, "Plan/createFirstPlan", true, UserSession.Token);
 
                 if (response.Status == 201)
                 {
