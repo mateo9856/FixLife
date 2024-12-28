@@ -12,10 +12,8 @@ namespace FixApp.WebAPI.Controllers.Dashboard
     public class UserDashboardController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
         public UserDashboardController(IMediator mediator, IMapper mapper) {
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         [Authorize]
@@ -27,7 +25,7 @@ namespace FixApp.WebAPI.Controllers.Dashboard
             query.UserId = userId;
             var response = await _mediator.Send(query);
             if (response.Item1 == 200)
-                return Ok(_mapper.Map<GetDashboardQueryResponse>(response.Item2));
+                return StatusCode(response.Item1, response.Item2);
             return BadRequest();
         }
 

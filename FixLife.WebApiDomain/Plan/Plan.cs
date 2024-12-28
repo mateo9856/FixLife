@@ -1,17 +1,18 @@
 ﻿using FixLife.WebApiDomain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace FixLife.WebApiDomain.Plan
 {
     public class Plan : BaseBusinessEntity
     {
-        public ICollection<FreeTime> FreeTime { get; set; }
-        public LearnTime LearnTime { get; set; }
-        public WeeklyWork WeeklyWork { get; set; }
-        public Guid UserId { get; set; }
+        [BsonElement("freeTimeId")]
+        public List<ObjectId> FreeTimeId { get; set; }
+        [BsonElement("learnTimeId")]
+        public ObjectId LearnTimeId { get; set; }
+        [BsonElement("weeklyWork")]
+        public ObjectId WeeklyWorkId { get; set; }
+        [BsonElement("userId")]
+        public ObjectId UserId { get; set; }
     }
 }

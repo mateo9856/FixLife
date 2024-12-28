@@ -3,19 +3,16 @@ using FixLife.WebApiQueries.FirstPlan.Commands;
 using FixLife.WebApiQueries.FirstPlan.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Text.Json;
 
-namespace FixApp.WebAPI.Controllers.FirstPlan
+namespace FixApp.WebAPI.Controllers.Plan
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FirstPlanController : ControllerBase
+    public class PlanController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public FirstPlanController(IMediator mediator)
+        public PlanController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -57,7 +54,8 @@ namespace FixApp.WebAPI.Controllers.FirstPlan
                 UserId = userId
             };
             var response = await _mediator.Send(query);
-            return response.Item1 == 200 ? StatusCode(200, response) : (ActionResult)StatusCode(400, response);
+
+            return StatusCode(response.Item1, response.Item2);
         }
     }
 }

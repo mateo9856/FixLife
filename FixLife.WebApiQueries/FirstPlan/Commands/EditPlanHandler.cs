@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FixLife.WebApiDomain.Exceptions;
-using FixLife.WebApiDomain.Plan;
+using FixLife.WebApiDomain.Models;
 using FixLife.WebApiInfra.Abstraction;
 using FluentValidation;
 using MediatR;
@@ -17,28 +17,17 @@ namespace FixLife.WebApiQueries.FirstPlan.Commands
         }
         public async Task<EditPlanResponse> Handle(EditPlanCommand request, CancellationToken cancellationToken)
         {
-            var mapPlan = _mapper.Map<Plan>(request.Request);
+            var mapPlan = _mapper.Map<PlanModel>(request.Request);
 
             if (mapPlan == null)
             {
                 throw new ValidationException("Request after map is null");
             }
 
-            mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
-            {
-                Day = d,
-                CreatedDate = DateTime.Now
-            }).ToList();
+            mapPlan.WeeklyWork.DayOfWeeks = request.Request.WeeklyWork.DayOfWeeks;
+            mapPlan.LearnTime.DayOfWeeks = request.Request.LearnTime.DayOfWeeks;
 
-            mapPlan.LearnTime.DayOfWeeks = request.Request.LearnTime.DayOfWeeks.Select(d => new FixLife.WebApiDomain.Common.DayOfWeek
-            {
-                Day = d,
-                CreatedDate = DateTime.Now
-            }).ToList();
-
-            mapPlan.UpdatedDate = DateTime.Now;
-
-            var GetActualPlan = await _planService.GetPlanAsync(request.UserId);
+            var GetActualPlan = await _planService.GetPlanWithModel(request.UserId);
 
             if (GetActualPlan == null)
                 throw new PlanNotFoundException("Plan was not found!");

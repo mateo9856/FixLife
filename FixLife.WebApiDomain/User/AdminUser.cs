@@ -1,16 +1,15 @@
 ﻿using FixLife.WebApiDomain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace FixLife.WebApiDomain.User
 {
     public class AdminUser : UserEntity
     {
+        [BsonElement("lastPasswordChangeDate")]
         public DateTime? LastPasswordChangeDate { get; set; }
+        [BsonElement("certificateSubject")]
         public string CertificateSubject { get; set; }
+        [BsonElement("validCertificateTo")]
         public DateTime? ValidCertificateTo { get; set; }
     }
 }
