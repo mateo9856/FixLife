@@ -1,43 +1,48 @@
 ﻿using FixLife.WebApiDomain.User;
 using FixLife.WebApiInfra.Abstraction.Identity;
 using FixLife.WebApiInfra.Common;
+using FixLife.WebApiInfra.Common.Constants;
 using FixLife.WebApiInfra.Contexts;
+using FixLife.WebApiInfra.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
+using MongoDB.Bson;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
+using ClaimsIdentity = System.Security.Claims.ClaimsIdentity;
 
 namespace FixLife.WebApiInfra.Services.Identity
 {
     public class ClientIdentityService : IClientIdentityService
     {
-        private readonly IdentityContext _context;
-        private readonly ApplicationContext _applicationContext;
+        private readonly IMongoContextFactory<IdentityContext> _context;
+        private readonly IMongoContextFactory<ApplicationContext> _applicationContext;
         private JwtOptions _jwtOptions;
-        public ClientIdentityService(IdentityContext context, ApplicationContext appContext, IOptions<JwtOptions> options)
+        public ClientIdentityService(IMongoContextFactory<IdentityContext> idContext, IMongoContextFactory<ApplicationContext> appContext, IOptions<JwtOptions> options)
         {
-            _context = context;
+            _context = idContext;
             _applicationContext = appContext;
             _jwtOptions = options.Value;
         }
 
-        public Guid UserId { get; private set; }
+        public string UserId { get; private set; }
 
         public async Task<ClientUser> GetClientUser(string userId)
         {
-            return await _context.ClientUsers.SingleOrDefaultAsync(a => a.Id == Guid.Parse(userId));
+            using var idCtx = _context.CreateDbContext();
+            return await idCtx.ClientUsers.FindAsync(ObjectId.Parse(userId))
+                ?? throw new RecordNotFoundException(userId, "ClientUser");
         }
 
         public async Task<ClientIdentityResponse> LoginAsync(ClientUser clientIdentityRequest)
         {
-            var findUser = await _context.ClientUsers.Where(d => (d.Email == clientIdentityRequest.Email
-            || d.PhoneNumber == clientIdentityRequest.PhoneNumber) && d.Password == clientIdentityRequest.Password).FirstOrDefaultAsync();
+            using var idCtx = _context.CreateDbContext();
+            using var appCtx = _applicationContext.CreateDbContext();
+
+            var findUser = await idCtx.ClientUsers.FirstOrDefaultAsync(d => (d.Email == clientIdentityRequest.Email
+            || d.PhoneNumber == clientIdentityRequest.PhoneNumber) && d.Password == clientIdentityRequest.Password);
             try
             {
                 if (findUser != null)
@@ -46,10 +51,10 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var audience = _jwtOptions.Audience;
                     var key = Encoding.ASCII.GetBytes
                     (_jwtOptions.Secret);
-                    UserId = findUser.Id;
+                    UserId = findUser.Id.ToString();
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        Subject = new System.Security.Claims.ClaimsIdentity(new[]
+                        Subject = new ClaimsIdentity(new[]
                         {
                             new Claim("Id", Guid.NewGuid().ToString()),
                             new Claim("UserId", findUser.Id.ToString()),
@@ -67,11 +72,12 @@ namespace FixLife.WebApiInfra.Services.Identity
                     var token = tokenHandler.CreateToken(tokenDescriptor);
                     var jwtToken = tokenHandler.WriteToken(token);
                     var stringToken = tokenHandler.WriteToken(token);
-                    var hasPlans = _applicationContext.Plans.Any(d => d.UserId == findUser.Id);
+
+                    var hasPlans = appCtx.Plans.Any(d => d.UserId == findUser.Id);
 
                     return new ClientIdentityResponse()
                     {
-                        Status = 200,
+                        Status = HttpCodes.Ok,
                         Details = "User logged!",
                         Token = stringToken,
                         Email = findUser.Email,
@@ -82,15 +88,15 @@ namespace FixLife.WebApiInfra.Services.Identity
 
                 return new ClientIdentityResponse
                 {
-                    Status = 404,
+                    Status = HttpCodes.NotFound,
                     Details = "User not found in database!",
                     Token = null,
                 };
-            } catch(Exception ex)
+            } catch(Exception)
             {
                 return new ClientIdentityResponse
                 {
-                    Status = 500,
+                    Status = HttpCodes.InternalServerError,
                     Details = "There's a something problem with request.",
                     Token = null
                 };
@@ -105,25 +111,27 @@ namespace FixLife.WebApiInfra.Services.Identity
 
         public async Task<ClientIdentityResponse> RegisterAsync(ClientUser request)
         {
+            using var idCtx = _context.CreateDbContext();
+
             var newUser = new ClientUser
             {
-                Id = Guid.NewGuid(),
+                Id = ObjectId.GenerateNewId(),
                 Email = request.Email,
                 Password = request.Password,
                 PhoneNumber = request.PhoneNumber
             };
 
-            await _context.ClientUsers.AddAsync(newUser);
+            await idCtx.ClientUsers.AddAsync(newUser);
 
-            var save = await _context.SaveChangesAsync();
+            var save = await idCtx.SaveChangesAsync();
 
             if(save > 0)
             {
-                return new ClientIdentityResponse { Status = 200, Details = "User created!" };
+                return new ClientIdentityResponse { Status = HttpCodes.Ok, Details = "User created!" };
             }
             else
             {
-                return new ClientIdentityResponse { Status = 400, Details = "User not created" };
+                return new ClientIdentityResponse { Status = HttpCodes.NotFound, Details = "User not created" };
             }
 
         }

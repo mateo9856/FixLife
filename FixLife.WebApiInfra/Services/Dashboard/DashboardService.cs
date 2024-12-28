@@ -1,51 +1,36 @@
-﻿using FixLife.WebApiDomain.Plan;
+﻿using FixLife.WebApiDomain.Models;
+using FixLife.WebApiDomain.Plan;
+using FixLife.WebApiInfra.Abstraction;
 using FixLife.WebApiInfra.Abstraction.Dashboard;
+using FixLife.WebApiInfra.Common;
+using FixLife.WebApiInfra.Common.Constants;
 using FixLife.WebApiInfra.Contexts;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.WebApiInfra.Services.Dashboard
 {
-    public class DashboardService : BaseService<UserPlan>, IDashboardService
+    public class DashboardService : BaseService<Plan>, IDashboardService
     {
-        private readonly IdentityContext _identityContext;
-        public DashboardService(ApplicationContext context, IdentityContext identityContext) : base(context)
+        private readonly IPlanService _planService;
+
+        public DashboardService(IMongoContextFactory<ApplicationContext> dbFactory, IPlanService planService) : base(dbFactory)
         {
-            _identityContext = identityContext;
+            _planService = planService;
         }
 
-        public async Task<(short, Plan)> GetDashboardData(string user)
+        public async Task<(short, PlanModel)> GetDashboardData(string user)
         {
-            var GetPlan = await _context.Plans
-                .Include(d => d.WeeklyWork)
-                .Include(e => e.LearnTime)
-                .Include(f => f.FreeTime)
-                .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
 
-            if (GetPlan != null)
-            {
-                var weeklyWorkDayOfWeeks = await _context.WeeklyWorks.SingleAsync(a => a.Id == GetPlan.WeeklyWork.Id);
+            var plans = await _planService.GetPlanWithModel(user);
 
-                GetPlan.WeeklyWork = weeklyWorkDayOfWeeks;
+            if (plans is null)
+                return (HttpCodes.NotFound, null);
 
-                return (200, GetPlan);
-            }
-
-            return (404, null);
+            return (HttpCodes.Ok, plans);
         }
 
         public async Task<object> HandleDetectPush(string user)
         {
-            var GetPlan = await _context.Plans
-            .Include(d => d.WeeklyWork)
-            .Include(e => e.LearnTime)
-            .Include(f => f.FreeTime)
-            .FirstOrDefaultAsync(d => d.UserId == Guid.Parse(user));
+            var GetPlan = await _planService.GetPlanWithModel(user);
             if (GetPlan == null)
             {
                 return new
@@ -77,9 +62,9 @@ namespace FixLife.WebApiInfra.Services.Dashboard
                 .FirstOrDefault();
             return new
             {
-                Status = 200,
-                TextHeader = planToReturn.Item1,
-                Text = planToReturn.Item2
+                Status = HttpCodes.Ok,
+                TextHeader = planToReturn?.Item1,
+                Text = planToReturn?.Item2
             };
         }
     }

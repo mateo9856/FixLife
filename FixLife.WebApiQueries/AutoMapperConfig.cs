@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
+using FixLife.WebApiDomain.Models;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiQueries.Account;
 using FixLife.WebApiQueries.Dashboard.Queries;
 using FixLife.WebApiQueries.FirstPlan;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.WebApiQueries
 {
@@ -34,11 +30,16 @@ namespace FixLife.WebApiQueries
                 .ForMember(d => d.TimeInterval, opt => opt.MapFrom(e => TimeSpan.Parse(e.TimeInterval)))
                 .ReverseMap();
 
-            CreateMap<CreatePlanRequest, Plan>()
+            CreateMap<CreatePlanRequest, PlanModel>()
+                .ForMember(d => d.UserId, opt => opt.Ignore())
                 .ReverseMap();
-            CreateMap<EditPlanRequest, Plan>()
+
+            CreateMap<EditPlanRequest, PlanModel>()
+                .ForMember(d => d.UserId, opt => opt.Ignore())
                 .ReverseMap();
-            CreateMap<Plan, GetDashboardQueryResponse>()
+
+            CreateMap<GetDashboardQueryResponse, PlanModel>()
+                .ForMember(d => d.UserId, opt => opt.Ignore())
                 .ReverseMap();
         }
     }

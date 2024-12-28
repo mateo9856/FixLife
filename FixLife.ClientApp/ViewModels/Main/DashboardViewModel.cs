@@ -1,15 +1,8 @@
-﻿using FixLife.ClientApp.Common;
-using FixLife.ClientApp.Common.Abstraction;
+﻿using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Common.Extensions;
 using FixLife.ClientApp.Models;
-using FixLife.ClientApp.Models.Dashboard;
 using FixLife.ClientApp.Resources.Helpers;
 using FixLife.ClientApp.Sessions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FixLife.ClientApp.ViewModels

@@ -17,12 +17,13 @@ namespace FixLife.ClientApp.Common
                 cfg.CreateMap<LearnTimeViewModel, LearnTime>()
                     .ForMember(opt => opt.TimeInterval, map => map.MapFrom(d => d.TimeInterval))
                     .ForMember(opt => opt.StartTime, map => map.MapFrom(d => d.SelectedStartTime))
+                    .ForMember(opt => opt.DayOfWeeks, map => map.MapFrom(d => d.DayOfWeeks.Where(d => d.Selected).Select(d => d.Day)))
                     .ReverseMap();
 
                 cfg.CreateMap<WeeklyWorkViewModel, WeeklyWork>()
                     .ForMember(opt => opt.TimeEnd, map => map.MapFrom(d => d.WeeklyWorkEnd))
                     .ForMember(opt => opt.TimeStart, map => map.MapFrom(d => d.WeeklyWorkStart))
-                    .ForMember(opt => opt.DayOfWeeks, map => map.MapFrom(d => d.DayOfWeeks.ToList()))
+                    .ForMember(opt => opt.DayOfWeeks, map => map.MapFrom(d => d.DayOfWeeks.Where(d => d.Selected).Select(d => d.Day)))
                     .ReverseMap();
             });
     }
