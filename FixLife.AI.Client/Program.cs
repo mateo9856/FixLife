@@ -8,11 +8,11 @@ namespace FixLife.AI.Client
         {
             Console.WriteLine("OpenAI process test.");
             var service = new PlanRecommendationService();
-            var result = await service.GetWeeklyWork();
-            foreach(var item in result)
-            {
-                Console.WriteLine(item);
-            }
+            await service.GetWeeklyWorkGemini();
+            //foreach(var item in result)
+            //{
+            //    Console.WriteLine(item);
+            //}
         }
     }
 }

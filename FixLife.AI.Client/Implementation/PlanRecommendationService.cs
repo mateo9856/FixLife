@@ -1,7 +1,8 @@
 ﻿using FixLife.AI.Client.Abstraction;
-using OpenAI;
+using FixLife.AI.Client.Models;
+using Newtonsoft.Json;
 using OpenAI.Chat;
-using System.Diagnostics.Contracts;
+using System.Net;
 using System.Text;
 
 namespace FixLife.AI.Client.Implementation
@@ -9,17 +10,23 @@ namespace FixLife.AI.Client.Implementation
     public class PlanRecommendationService : IPlanRecomendationService
     {
         private ChatClient _chatClient;
-        
+        private HttpClient _client;
+
+        private readonly string GeminiAddress;
+
         public PlanRecommendationService()
         {
-            _chatClient = new("gpt-4o-mini", Environment.GetEnvironmentVariable("OPEN_AI_KEY"));    
+            _client = new HttpClient();
+            _client.Timeout = TimeSpan.FromSeconds(60);
+            GeminiAddress = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={Environment.GetEnvironmentVariable("GEMINI_API_KEY")}";
+            _chatClient = new("gpt-4o-mini", Environment.GetEnvironmentVariable("OPEN_AI_KEY"));
         }
-        
+
         public async Task<List<string>> GetWeeklyWork(int count = 0)
         {
             var messageBuilder = new StringBuilder();
             messageBuilder.Append("Generate me a list of random");
-            if(count > 0)
+            if (count > 0)
             {
                 messageBuilder.Append($" {count}");
             }
@@ -37,5 +44,59 @@ namespace FixLife.AI.Client.Implementation
                 .ToList();
         }
 
+        public async Task GetWeeklyWorkGemini()
+        {
+            var messageBuilder = new StringBuilder();
+            messageBuilder.Append("Generate me a list of random jobs, separated by comma.");
+            Uri uri = new Uri(GeminiAddress);
+
+            var prompt = new PromptContent
+            {
+                Contents = new List<Contents>
+                {
+                    new Contents
+                    {
+                        Role = "user",
+                        Parts = new List<TextParts>
+                        {
+                            new TextParts
+                            {
+                                Text = messageBuilder.ToString()
+                            }
+                        }
+                    }
+                }
+            };
+
+
+            try
+            {
+                var promptToJson = JsonConvert.SerializeObject(prompt, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                });
+
+                var message = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = uri,
+                    Headers =
+                    {
+                        { HttpRequestHeader.ContentType.ToString(), "application/json" },
+                    },
+                    Content = new StringContent(promptToJson)
+                };
+                var response = await _client.SendAsync(message);
+                var result = await response.Content.ReadAsStringAsync();
+
+
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                throw;
+            }
+
+        }
     }
 }
