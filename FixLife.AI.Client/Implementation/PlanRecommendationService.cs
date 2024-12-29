@@ -2,7 +2,7 @@
 using FixLife.AI.Client.Models;
 using Newtonsoft.Json;
 using OpenAI.Chat;
-using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace FixLife.AI.Client.Implementation
@@ -18,6 +18,7 @@ namespace FixLife.AI.Client.Implementation
         {
             _client = new HttpClient();
             _client.Timeout = TimeSpan.FromSeconds(60);
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             GeminiAddress = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={Environment.GetEnvironmentVariable("GEMINI_API_KEY")}";
             _chatClient = new("gpt-4o-mini", Environment.GetEnvironmentVariable("OPEN_AI_KEY"));
         }
@@ -76,19 +77,11 @@ namespace FixLife.AI.Client.Implementation
                     NullValueHandling = NullValueHandling.Ignore,
                 });
 
-                var message = new HttpRequestMessage
-                {
-                    Method = HttpMethod.Post,
-                    RequestUri = uri,
-                    Headers =
-                    {
-                        { HttpRequestHeader.ContentType.ToString(), "application/json" },
-                    },
-                    Content = new StringContent(promptToJson)
-                };
+                var message = new HttpRequestMessage(HttpMethod.Post, uri);
+                message.Content = new StringContent(promptToJson, Encoding.UTF8, "application/json");
+
                 var response = await _client.SendAsync(message);
                 var result = await response.Content.ReadAsStringAsync();
-
 
             }
             catch (Exception ex)
