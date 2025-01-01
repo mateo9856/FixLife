@@ -8,7 +8,7 @@ namespace FixLife.AI.Client
         {
             Console.WriteLine("OpenAI process test.");
             var service = new PlanRecommendationService();
-            await service.GetWeeklyWorkGemini();
+            await service.GetWeeklyWork();
             //foreach(var item in result)
             //{
             //    Console.WriteLine(item);

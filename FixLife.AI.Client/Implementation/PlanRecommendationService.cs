@@ -1,7 +1,6 @@
 ﻿using FixLife.AI.Client.Abstraction;
 using FixLife.AI.Client.Models;
 using Newtonsoft.Json;
-using OpenAI.Chat;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -9,7 +8,6 @@ namespace FixLife.AI.Client.Implementation
 {
     public class PlanRecommendationService : IPlanRecomendationService
     {
-        private ChatClient _chatClient;
         private HttpClient _client;
 
         private readonly string GeminiAddress;
@@ -20,35 +18,19 @@ namespace FixLife.AI.Client.Implementation
             _client.Timeout = TimeSpan.FromSeconds(60);
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             GeminiAddress = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={Environment.GetEnvironmentVariable("GEMINI_API_KEY")}";
-            _chatClient = new("gpt-4o-mini", Environment.GetEnvironmentVariable("OPEN_AI_KEY"));
         }
 
         public async Task<List<string>> GetWeeklyWork(int count = 0)
         {
             var messageBuilder = new StringBuilder();
             messageBuilder.Append("Generate me a list of random");
+            
             if (count > 0)
             {
                 messageBuilder.Append($" {count}");
             }
+
             messageBuilder.Append(" jobs, separated by comma.");
-
-            var chatCompletion = await _chatClient.CompleteChatAsync(messageBuilder.ToString());
-
-            await Task.Delay(500);
-
-            var responseText = chatCompletion.Value.Content[0].Text;
-
-            return responseText
-                .Remove(responseText.Length - 1)
-                .Split(',', StringSplitOptions.TrimEntries)
-                .ToList();
-        }
-
-        public async Task GetWeeklyWorkGemini()
-        {
-            var messageBuilder = new StringBuilder();
-            messageBuilder.Append("Generate me a list of random jobs, separated by comma.");
             Uri uri = new Uri(GeminiAddress);
 
             var prompt = new PromptContent
@@ -82,7 +64,9 @@ namespace FixLife.AI.Client.Implementation
 
                 var response = await _client.SendAsync(message);
                 var result = await response.Content.ReadAsStringAsync();
+                var responseObj = JsonConvert.DeserializeObject<PromptResponse>(result);
 
+                return new List<string>();
             }
             catch (Exception ex)
             {
