@@ -34,6 +34,7 @@ namespace FixApp.WebAPI
             builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
             {
                 builder.RegisterModule(new AutoFacModule());
+                builder.RegisterModule(new AiModule());
             });
 
             builder.Services.AddAuthentication(opts =>

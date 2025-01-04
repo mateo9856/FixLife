@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using FixLife.AI.Client.Abstraction;
+using FixLife.AI.Client.Implementation;
 using FixLife.WebApiInfra.Abstraction;
 using FixLife.WebApiInfra.Abstraction.Dashboard;
 using FixLife.WebApiInfra.Abstraction.Identity;
@@ -16,6 +18,10 @@ namespace FixLife.WebApiInfra
         {
             builder.RegisterType<ClientIdentityService>()
                 .As<IClientIdentityService>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<PlanRecommendationService>()
+                .As<IPlanRecomendationService>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<PlanService>()

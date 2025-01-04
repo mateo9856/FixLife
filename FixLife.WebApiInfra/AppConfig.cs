@@ -1,6 +1,4 @@
-﻿using FixLife.WebApiInfra.Contexts;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FixLife.WebApiInfra

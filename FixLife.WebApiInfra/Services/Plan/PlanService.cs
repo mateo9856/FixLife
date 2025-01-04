@@ -1,4 +1,5 @@
-﻿using FixLife.WebApiDomain.Exceptions;
+﻿using FixLife.AI.Client.Abstraction;
+using FixLife.WebApiDomain.Exceptions;
 using FixLife.WebApiDomain.Models;
 using FixLife.WebApiDomain.Plan;
 using FixLife.WebApiInfra.Abstraction;
@@ -15,11 +16,13 @@ namespace FixLife.WebApiInfra.Services
     {
         private readonly IMongoContextFactory<ApplicationContext> _context;
         private readonly IClientIdentityService _clientIdentityService;
+        private readonly IPlanRecomendationService _recommendationService;
 
-        public PlanService(IMongoContextFactory<ApplicationContext> dbFactory, IClientIdentityService clientIdentityService) : base(dbFactory)
+        public PlanService(IMongoContextFactory<ApplicationContext> dbFactory, IClientIdentityService clientIdentityService, IPlanRecomendationService recomendationService) : base(dbFactory)
         {
             _context = dbFactory;
             _clientIdentityService = clientIdentityService;
+            _recommendationService = recomendationService;
         }
 
         public async Task AssignPlanToUserAsync(string userId, Plan plan)
@@ -150,6 +153,14 @@ namespace FixLife.WebApiInfra.Services
                 LearnTime = learnTime,
                 FreeTime = freeTimes
             };
+        }
+
+        public async Task<(short, List<string>?)> GetWeeklyWorkRecommendation()
+        {
+            var recomendations = await _recommendationService.GetWeeklyWork();
+
+            return recomendations.Count > 0 ? (HttpCodes.Ok, recomendations)
+                : (HttpCodes.NotFound, null);
         }
 
         private void UnassignOldPlan(PlanModel oldPlan, ApplicationContext context)

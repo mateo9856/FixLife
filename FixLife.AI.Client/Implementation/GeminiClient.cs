@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FixLife.AI.Client.Implementation
 {
-    internal class GeminiClient : IGeminiClient
+    public class GeminiClient : IGeminiClient
     {
         private HttpClient _client;
         private readonly string GeminiAddress;
