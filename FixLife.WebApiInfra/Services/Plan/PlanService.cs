@@ -155,9 +155,9 @@ namespace FixLife.WebApiInfra.Services
             };
         }
 
-        public async Task<(short, List<string>?)> GetWeeklyWorkRecommendation()
+        public async Task<(short, List<string>?)> GetFreeTimeRecommendation(int count = 0)
         {
-            var recomendations = await _recommendationService.GetWeeklyWork();
+            var recomendations = await _recommendationService.GetFreeTimes(count);
 
             return recomendations.Count > 0 ? (HttpCodes.Ok, recomendations)
                 : (HttpCodes.NotFound, null);

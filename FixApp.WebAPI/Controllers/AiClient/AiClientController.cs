@@ -15,10 +15,13 @@ namespace FixApp.WebAPI.Controllers.AiClient
         }
 
         [Authorize]
-        [HttpGet("weeklyWorkRecommendations")]
-        public async Task<IActionResult> GetWeeklyWorkRecommendations()
+        [HttpGet("weeklyWorkRecommendations/{count}")]
+        public async Task<IActionResult> GetFreeTimeRecommendations([FromRoute] int count)
         {
-            var query = new GetWeeklyWorkRecomendationQuery();
+            var query = new GetFreeTimeRecomendationQuery
+            {
+                Count = count
+            };
             var result = await _mediator.Send(query);
 
             return result.Item1 == HttpCodes.Ok ? Ok(result.Item2) : NotFound(result.Item2);

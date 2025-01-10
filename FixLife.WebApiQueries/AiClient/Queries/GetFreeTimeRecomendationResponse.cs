@@ -1,6 +1,6 @@
 ﻿namespace FixLife.WebApiQueries.AiClient.Queries
 {
-    public class GetWeeklyWorkRecomendationResponse
+    public class GetFreeTimeRecomendationResponse
     {
         public List<string>? WeeklyWorks { get; set; }
     }

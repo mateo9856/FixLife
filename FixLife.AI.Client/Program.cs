@@ -22,7 +22,7 @@ namespace FixLife.AI.Client
                 Console.WriteLine("Service not found.");
                 return;
             }
-            await recommendationService.GetWeeklyWork();
+            await recommendationService.GetFreeTimes();
 
         }
     }

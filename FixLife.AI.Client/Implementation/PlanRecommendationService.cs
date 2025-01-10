@@ -16,9 +16,9 @@ namespace FixLife.AI.Client.Implementation
             _geminiClient = geminiClient;
         }
 
-        public async Task<List<string>> GetWeeklyWork(int count = 0)
+        public async Task<List<string>> GetFreeTimes(int count = 0)
         {
-            var promptText = ListOfJobsPrompt(count);
+            var promptText = ListOfFreeTimePrompt(count);
             var promptRequest = new PromptRequestSession();
             
             var promptToJson = JsonConvert.SerializeObject(promptRequest.CreatePlanRecommendationPrompt(promptText), new JsonSerializerSettings
@@ -37,7 +37,7 @@ namespace FixLife.AI.Client.Implementation
 
         }
 
-        private string ListOfJobsPrompt(int count)
+        private string ListOfFreeTimePrompt(int count)
         {
             var messageBuilder = new StringBuilder();
             messageBuilder.Append("Generate me a list of random");
@@ -46,7 +46,7 @@ namespace FixLife.AI.Client.Implementation
             {
                 messageBuilder.Append($" {count}");
             }
-            messageBuilder.Append(" jobs, separated by comma.");
+            messageBuilder.Append(" activities, separated by comma.");
             return messageBuilder.ToString();
         }
     }

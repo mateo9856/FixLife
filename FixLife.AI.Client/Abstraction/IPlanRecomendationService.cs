@@ -2,6 +2,6 @@
 {
     public interface IPlanRecomendationService
     {
-        Task<List<string>> GetWeeklyWork(int count = 0);
+        Task<List<string>> GetFreeTimes(int count = 0);
     }
 }

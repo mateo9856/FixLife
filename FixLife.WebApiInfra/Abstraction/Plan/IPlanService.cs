@@ -7,7 +7,7 @@ namespace FixLife.WebApiInfra.Abstraction
     {
         Task<(short, string)> CreatePlanAsync(PlanModel planModel, bool isFirst, string userId);
         Task<(short, string)> GetPlanIdAsync(string userId);
-        Task<(short, List<string>?)> GetWeeklyWorkRecommendation();
+        Task<(short, List<string>?)> GetFreeTimeRecommendation(int count = 0);
         Task<(short, string)> EditPlanAsync(PlanModel planModel, PlanModel oldPlanModel, string userId);
         Task<Plan?> GetPlanAsync(string userId);
         Task<PlanModel?> GetPlanWithModel(string userId);
