@@ -1,10 +1,5 @@
 ﻿using FixLife.ClientApp.Models.FirstPlan;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FixLife.ClientApp.ViewModels.FirstConfig
@@ -51,16 +46,23 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         public ICommand AddToListCommand { get; set; }
 
+        public ICommand SuggestCommand { get; set; }
         public FreeTimeViewModel()
         {
             FreeTimeListItems = new ObservableCollection<FreeTimeListItem>();
             AddToListCommand = new Command(async () => await AddToList());
+            SuggestCommand = new Command(async() => await SuggestByGemini());
             HobbysList = ShowHobbysList;
         }
 
         private void ShowHobbysList(Button btn)
         {
             //TODO: Show List
+        }
+
+        private async Task SuggestByGemini()
+        {
+            //TODO: Add suggest service and return popup screen with this
         }
 
         private async Task AddToList()

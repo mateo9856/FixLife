@@ -47,7 +47,7 @@
             </Border>
         </StackLayout>
         <StackLayout Margin="0,15,0,0" VerticalOptions="End" MaximumHeightRequest="80">
-            <Button StyleClass="ButtonState" MaximumWidthRequest="300" Text="Edit plan" Command="{Binding EditPlanCommand}"/>
+            <Button StyleClass="ButtonState" BackgroundColor="Purple" MaximumWidthRequest="300" Text="Edit plan" Command="{Binding EditPlanCommand}"/>
         </StackLayout>
     </VerticalStackLayout>
     </ScrollView>
