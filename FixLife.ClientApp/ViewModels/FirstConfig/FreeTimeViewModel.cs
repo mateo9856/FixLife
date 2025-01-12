@@ -67,6 +67,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         private async Task SuggestByGemini()
         {
             var result = await _recommenationService.GetFreeTimeRecommendationAsync();
+            //TODO: Prepare Popup page with suggestions to select
         }
 
         private async Task AddToList()
