@@ -1,10 +1,13 @@
+using FixLife.ClientApp.ViewModels.FirstConfig;
+
 namespace FixLife.ClientApp.Views.FirstConfig.PlanViews;
 
 public partial class FreeTime : ContentView
 {
 	public FreeTime()
 	{
-		InitializeComponent();
+        BindingContext = Application.Current.Handler.MauiContext.Services.GetService<FreeTimeViewModel>();
+        InitializeComponent();
 	}
 
 }

@@ -2,6 +2,6 @@
 {
     public class GetFreeTimeRecomendationResponse
     {
-        public List<string>? WeeklyWorks { get; set; }
+        public List<string>? FreeTimes { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FixApp.WebAPI.Controllers.AiClient
 {
+    [Route("api/[controller]")]
     public class AiClientController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -15,7 +16,7 @@ namespace FixApp.WebAPI.Controllers.AiClient
         }
 
         [Authorize]
-        [HttpGet("weeklyWorkRecommendations/{count}")]
+        [HttpGet("freetimeRecommendations/{count}")]
         public async Task<IActionResult> GetFreeTimeRecommendations([FromRoute] int count)
         {
             var query = new GetFreeTimeRecomendationQuery

@@ -1,4 +1,5 @@
-﻿using FixLife.ClientApp.Models.FirstPlan;
+﻿using FixLife.ClientApp.Common.Abstraction;
+using FixLife.ClientApp.Models.FirstPlan;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -6,6 +7,8 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 {
     public class FreeTimeViewModel : BaseViewModel
     {
+        private readonly IPlanRecommendationService _recommenationService;
+
         private TimeSpan _freeTimeStart;
         private TimeSpan _freeTimeEnd;
         public TimeSpan FreeTimeStart
@@ -47,8 +50,9 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         public ICommand AddToListCommand { get; set; }
 
         public ICommand SuggestCommand { get; set; }
-        public FreeTimeViewModel()
+        public FreeTimeViewModel(IPlanRecommendationService recommendationService)
         {
+            _recommenationService = recommendationService;
             FreeTimeListItems = new ObservableCollection<FreeTimeListItem>();
             AddToListCommand = new Command(async () => await AddToList());
             SuggestCommand = new Command(async() => await SuggestByGemini());
@@ -62,7 +66,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         private async Task SuggestByGemini()
         {
-            //TODO: Add suggest service and return popup screen with this
+            var result = await _recommenationService.GetFreeTimeRecommendationAsync();
         }
 
         private async Task AddToList()

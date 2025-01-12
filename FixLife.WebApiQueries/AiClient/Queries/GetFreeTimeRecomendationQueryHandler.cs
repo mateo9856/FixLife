@@ -17,7 +17,7 @@ namespace FixLife.WebApiQueries.AiClient.Queries
             var result = await _planService.GetFreeTimeRecommendation(request.Count);
             return (result.Item1, new GetFreeTimeRecomendationResponse
             {
-                WeeklyWorks = result.Item2
+                FreeTimes = result.Item2
             });
         }
     }
