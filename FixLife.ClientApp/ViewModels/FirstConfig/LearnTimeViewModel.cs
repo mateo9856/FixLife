@@ -1,11 +1,6 @@
 ﻿using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Models.FirstPlan;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FixLife.ClientApp.ViewModels.FirstConfig
 {

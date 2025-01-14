@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:bind="clr-namespace:FixLife.ClientApp.Views.Popups"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="FixLife.ClientApp.Views.Popups.FreeTimeRecommendationPopup">
+    <VerticalStackLayout Padding="15,15,15,15" BackgroundColor="{AppThemeBinding Dark=White, Light=Dark}">
+        <CollectionView HorizontalOptions="Center" Margin="0, 15,0 ,0" ItemsSource="{Binding FreeTimeListItems}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout HorizontalOptions="Center" Padding="5,5,5,5">
+                        <Border Stroke="{AppThemeBinding Dark=Black, Light=White}"
+                        MinimumWidthRequest="250"
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 5,5,5,5"
+                        Padding="16,8"
+                        HorizontalOptions="Center">
+                            <Label Text="{Binding}" HorizontalOptions="Center" TextColor="{AppThemeBinding Dark=Black, Light=White}" />
+                        </Border>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button
+            Text="Close"
+            VerticalOptions="EndAndExpand"
+            BackgroundColor="Purple"
+            MaximumWidthRequest="{OnPlatform Android=120, iOS=120, Default=200}"
+            MaximumHeightRequest="{OnPlatform Android=60, iOS=60, Default=100}"
+            TextColor="White"
+            FontSize="{OnPlatform Android=18, iOS=18, Default=24}"
+            Clicked="Button_Close" />
+    </VerticalStackLayout>
+</toolkit:Popup>

@@ -1,5 +1,6 @@
 ﻿using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Models.FirstPlan;
+using FixLife.ClientApp.Views.Popups;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -47,6 +48,8 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         public ObservableCollection<FreeTimeListItem> FreeTimeListItems { get; set; }
 
+        public FreeTimeRecommendationViewModel RecommendationViewModel { get; set; }
+
         public ICommand AddToListCommand { get; set; }
 
         public ICommand SuggestCommand { get; set; }
@@ -67,7 +70,19 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         private async Task SuggestByGemini()
         {
             var result = await _recommenationService.GetFreeTimeRecommendationAsync();
-            //TODO: Prepare Popup page with suggestions to select
+
+            if (result.FreeTimes.Count > 0 || result is null) {
+                var errorPopup = new ErrorPopup("404", "Call error or Not Found!");
+                await ShowPopup(errorPopup);
+                return;
+            }
+
+            var vm = new FreeTimeRecommendationViewModel();
+            vm.FreeTimes = new ObservableCollection<string>(result.FreeTimes);
+            
+            var popup = new FreeTimeRecommendationPopup(vm);
+            await ShowPopup(popup);
+
         }
 
         private async Task AddToList()
