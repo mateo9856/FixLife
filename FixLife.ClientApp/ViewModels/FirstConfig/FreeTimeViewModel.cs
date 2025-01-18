@@ -71,7 +71,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         {
             var result = await _recommenationService.GetFreeTimeRecommendationAsync();
 
-            if (result.FreeTimes.Count > 0 || result is null) {
+            if (result.FreeTimes.Count <= 0 || result is null) {
                 var errorPopup = new ErrorPopup("404", "Call error or Not Found!");
                 await ShowPopup(errorPopup);
                 return;
@@ -79,7 +79,6 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
             var vm = new FreeTimeRecommendationViewModel();
             vm.FreeTimes = new ObservableCollection<string>(result.FreeTimes);
-            
             var popup = new FreeTimeRecommendationPopup(vm);
             await ShowPopup(popup);
 

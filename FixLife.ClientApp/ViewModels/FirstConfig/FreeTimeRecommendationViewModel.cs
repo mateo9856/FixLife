@@ -6,7 +6,8 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
     {
         public ObservableCollection<string> FreeTimes { get; set; }
         public FreeTimeRecommendationViewModel() { 
-            
+
+            FreeTimes = new ObservableCollection<string>();
         }
     }
 }
