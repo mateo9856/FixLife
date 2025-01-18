@@ -42,7 +42,7 @@
                 <ImageButton x:Name="activeWorkMessage" Source="{Binding ActiveWorkImage.Source}"/>
             </Border>
             <Label x:Name="SetterText" Text="{Binding ActiveWorkImage.Description}" Margin="0, 15, 0, 0" HorizontalTextAlignment="Center" Grid.Column="1" Grid.Row="1" />
-        <Label HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" Text="{Static Member=f:FaFreeSolid.ChevronRight}" FontSize="45" TextColor="{AppThemeBinding Dark=White, Light=Black}">
+            <Label HorizontalOptions="Center" VerticalOptions="Center" Grid.Column="2" Text="{Static Member=f:FaFreeSolid.ChevronRight}" FontSize="45" TextColor="{AppThemeBinding Dark=White, Light=Black}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="SetNextImage" />
                 </Label.GestureRecognizers>
@@ -71,6 +71,6 @@
                 </VerticalStackLayout>
 
             </FlexLayout>
-
+            
         </Grid>
 </ContentView>

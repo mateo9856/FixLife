@@ -1,16 +1,15 @@
-﻿using FixLife.ClientApp.Models.FirstPlan;
-using System;
-using System.Collections.Generic;
+﻿using FixLife.ClientApp.Common.Abstraction;
+using FixLife.ClientApp.Models.FirstPlan;
+using FixLife.ClientApp.Views.Popups;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace FixLife.ClientApp.ViewModels.FirstConfig
 {
     public class FreeTimeViewModel : BaseViewModel
     {
+        private readonly IPlanRecommendationService _recommenationService;
+
         private TimeSpan _freeTimeStart;
         private TimeSpan _freeTimeEnd;
         public TimeSpan FreeTimeStart
@@ -49,18 +48,40 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         public ObservableCollection<FreeTimeListItem> FreeTimeListItems { get; set; }
 
+        public FreeTimeRecommendationViewModel RecommendationViewModel { get; set; }
+
         public ICommand AddToListCommand { get; set; }
 
-        public FreeTimeViewModel()
+        public ICommand SuggestCommand { get; set; }
+        public FreeTimeViewModel(IPlanRecommendationService recommendationService)
         {
+            _recommenationService = recommendationService;
             FreeTimeListItems = new ObservableCollection<FreeTimeListItem>();
             AddToListCommand = new Command(async () => await AddToList());
+            SuggestCommand = new Command(async() => await SuggestByGemini());
             HobbysList = ShowHobbysList;
         }
 
         private void ShowHobbysList(Button btn)
         {
             //TODO: Show List
+        }
+
+        private async Task SuggestByGemini()
+        {
+            var result = await _recommenationService.GetFreeTimeRecommendationAsync();
+
+            if (result.FreeTimes.Count <= 0 || result is null) {
+                var errorPopup = new ErrorPopup("404", "Call error or Not Found!");
+                await ShowPopup(errorPopup);
+                return;
+            }
+
+            var vm = new FreeTimeRecommendationViewModel();
+            vm.FreeTimes = new ObservableCollection<string>(result.FreeTimes);
+            var popup = new FreeTimeRecommendationPopup(vm);
+            await ShowPopup(popup);
+
         }
 
         private async Task AddToList()

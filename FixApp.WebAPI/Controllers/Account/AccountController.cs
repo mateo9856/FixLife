@@ -1,5 +1,4 @@
-﻿using FixLife.WebApiInfra.Abstraction.Identity;
-using FixLife.WebApiQueries.Account;
+﻿using FixLife.WebApiQueries.Account;
 using FixLife.WebApiQueries.Account.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -12,12 +11,9 @@ namespace FixApp.WebAPI.Controllers.Account
     [ApiController]
     public class AccountController : ControllerBase
     {
-
-        private readonly IClientIdentityService _clientIdentityService;
         private readonly IMediator _mediator;
 
-        public AccountController(IClientIdentityService clientIdentityService, IMediator mediator) {
-            _clientIdentityService= clientIdentityService;
+        public AccountController(IMediator mediator) {
             _mediator= mediator;
         }
 

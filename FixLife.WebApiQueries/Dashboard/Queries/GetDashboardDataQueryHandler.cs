@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FixLife.WebApiDomain.Models;
 using FixLife.WebApiInfra.Abstraction.Dashboard;
 using MediatR;
 

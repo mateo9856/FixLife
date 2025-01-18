@@ -1,5 +1,4 @@
-﻿using FixLife.WebApiDomain.Models;
-using MediatR;
+﻿using MediatR;
 
 namespace FixLife.WebApiQueries.Dashboard.Queries
 {

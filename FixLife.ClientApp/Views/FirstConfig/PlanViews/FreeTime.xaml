@@ -3,9 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
              x:Class="FixLife.ClientApp.Views.FirstConfig.PlanViews.FreeTime">
-	<ContentView.BindingContext>
-		<FirstConfig:FreeTimeViewModel/>
-	</ContentView.BindingContext>
     <ContentView.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
     </ContentView.Resources>
@@ -26,10 +23,16 @@
             </VerticalStackLayout>
             <Button Margin="10,0,0,0" Text="Add"
                     Command="{Binding AddToListCommand}"
-                    MaximumHeightRequest="150"
-                    MinimumWidthRequest="100"
-                    TextColor="White"
+                    MaximumHeightRequest="100"
+                    MinimumWidthRequest="75"
+                    StyleClass="ButtonState"
                     BackgroundColor="MediumPurple" />
+            <Button Margin="10,0,0,0" Text="Suggest"
+                    Command="{Binding SuggestCommand}"
+                    MaximumHeightRequest="100"
+                    MinimumWidthRequest="75"
+                    StyleClass="ButtonState"
+                    BackgroundColor="Purple" />
         </HorizontalStackLayout>
         <CollectionView HorizontalOptions="Center" Margin="0, 15,0 ,0" ItemsSource="{Binding FreeTimeListItems}">
             <CollectionView.ItemTemplate>
