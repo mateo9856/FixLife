@@ -27,6 +27,11 @@
                     MinimumWidthRequest="75"
                     StyleClass="ButtonState"
                     BackgroundColor="MediumPurple" />
+            <Entry MaxLength="2"
+                   TextChanged="Entry_TextChanged"
+                   Text="{Binding SuggestCount}"
+                   Keyboard="Numeric"
+                   Margin="10,0,0,0"/>
             <Button Margin="10,0,0,0" Text="Suggest"
                     Command="{Binding SuggestCommand}"
                     MaximumHeightRequest="100"

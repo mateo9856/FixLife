@@ -43,7 +43,17 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             get { return _hobbyText; }
             set { _hobbyText = value; OnPropertyChanged(); }
         }
-        
+
+        private string _suggestCount;
+        public string SuggestCount
+        {
+            get => _suggestCount;
+            set
+            {
+                _suggestCount = value; OnPropertyChanged();
+            }
+        }
+
         public Action<Button> HobbysList { get; set; }
 
         public ObservableCollection<FreeTimeListItem> FreeTimeListItems { get; set; }
@@ -69,7 +79,12 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         private async Task SuggestByGemini()
         {
-            var result = await _recommenationService.GetFreeTimeRecommendationAsync();
+            var suggestCountToInt = int.TryParse(SuggestCount, out int suggCount) ? suggCount : 0;
+
+            if (suggestCountToInt <= 0)
+                return;
+
+            var result = await _recommenationService.GetFreeTimeRecommendationAsync(suggCount);
 
             if (result.FreeTimes.Count <= 0 || result is null) {
                 var errorPopup = new ErrorPopup("404", "Call error or Not Found!");
