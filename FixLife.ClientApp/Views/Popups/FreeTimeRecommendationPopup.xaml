@@ -16,7 +16,7 @@
                                 StrokeShape="RoundRectangle 5,5,5,5"
                                 Padding="16,8"
                                 HorizontalOptions="Center">
-                                <Label Text="{Binding .}" HorizontalOptions="Center" TextColor="{AppThemeBinding Dark=Black, Light=White}" />
+                                <Button Text="{Binding .}" Command="{Binding SelectedRecommendationCommand}" CommandParameter="{Binding .}" HorizontalOptions="Center" TextColor="{AppThemeBinding Dark=Black, Light=White}" />
                             </Border>
                         </StackLayout>
                     </DataTemplate>

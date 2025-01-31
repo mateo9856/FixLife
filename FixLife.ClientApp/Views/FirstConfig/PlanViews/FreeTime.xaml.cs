@@ -10,13 +10,4 @@ public partial class FreeTime : ContentView
         InitializeComponent();
 	}
 
-    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        
-        if(sender is Entry entry && !string.IsNullOrEmpty(e.NewTextValue))
-        {
-            if (!e.NewTextValue.All(char.IsDigit))
-                entry.Text = e.OldTextValue;
-        }
-    }
 }
