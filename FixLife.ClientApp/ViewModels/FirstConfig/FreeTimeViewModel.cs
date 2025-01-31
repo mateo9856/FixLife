@@ -1,4 +1,5 @@
-﻿using FixLife.ClientApp.Common.Abstraction;
+﻿using CommunityToolkit.Maui.Views;
+using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Models.FirstPlan;
 using FixLife.ClientApp.Views.Popups;
 using System.Collections.ObjectModel;
@@ -92,9 +93,18 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 return;
             }
 
+            Popup popup;
+
             var vm = new FreeTimeRecommendationViewModel();
+            
             vm.FreeTimes = new ObservableCollection<string>(result.FreeTimes);
-            var popup = new FreeTimeRecommendationPopup(vm);
+            popup = new FreeTimeRecommendationPopup(vm);
+
+            vm.RecommendationSelected += async (sender, e) =>
+            {
+                await AddToList();
+                vm.ClosePopup(popup);
+            };
             await ShowPopup(popup);
 
         }

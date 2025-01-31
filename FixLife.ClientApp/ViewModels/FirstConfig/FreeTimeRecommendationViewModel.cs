@@ -6,7 +6,8 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
     public class FreeTimeRecommendationViewModel : BasePopupViewModel
     {
         public ObservableCollection<string> FreeTimes { get; set; }
-        
+
+        public EventHandler<string> RecommendationSelected;
         public ICommand SelectedRecommendationCommand { get; set; }
 
         public string SelectedRecommendation { get; set; }
@@ -20,6 +21,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         private void OnSelectedRecommendation(string recommendation)
         {
             SelectedRecommendation = recommendation;
+            RecommendationSelected?.Invoke(this, recommendation);
         }
 
     }
