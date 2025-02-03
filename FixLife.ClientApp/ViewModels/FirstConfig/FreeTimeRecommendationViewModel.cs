@@ -14,8 +14,11 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
         public FreeTimeRecommendationViewModel() { 
 
-            FreeTimes = new ObservableCollection<string>(); 
-            SelectedRecommendationCommand = new Command<string>(OnSelectedRecommendation);
+            FreeTimes = new ObservableCollection<string>();
+            SelectedRecommendationCommand = new Command((cmd) =>
+            {
+                OnSelectedRecommendation(cmd.ToString());
+            });
         }
 
         private void OnSelectedRecommendation(string recommendation)

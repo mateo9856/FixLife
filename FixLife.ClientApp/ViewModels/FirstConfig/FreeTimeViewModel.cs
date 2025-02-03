@@ -95,15 +95,15 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
 
             Popup popup;
 
-            var vm = new FreeTimeRecommendationViewModel();
-            
-            vm.FreeTimes = new ObservableCollection<string>(result.FreeTimes);
-            popup = new FreeTimeRecommendationPopup(vm);
+            RecommendationViewModel = new FreeTimeRecommendationViewModel();
 
-            vm.RecommendationSelected += async (sender, e) =>
+            RecommendationViewModel.FreeTimes = new ObservableCollection<string>(result.FreeTimes);
+            popup = new FreeTimeRecommendationPopup(RecommendationViewModel);
+
+            RecommendationViewModel.RecommendationSelected += async (sender, e) =>
             {
                 await AddToList();
-                vm.ClosePopup(popup);
+                RecommendationViewModel.ClosePopup(popup);
             };
             await ShowPopup(popup);
 

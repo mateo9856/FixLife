@@ -18,9 +18,15 @@ namespace FixLife.ClientApp.Infrastructure.AiServices
         {
             var freeTimeRecommendationUrl = $"AiClient/freetimeRecommendations/{count}";
 
-            var result = await _webApiClient.CallServiceGetAsync($"{freeTimeRecommendationUrl}", token: UserSession.Token);
-
-            return result;
+            try
+            {
+                var result = await _webApiClient.CallServiceGetAsync($"{freeTimeRecommendationUrl}", token: UserSession.Token);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }
