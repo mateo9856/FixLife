@@ -55,8 +55,6 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             }
         }
 
-        public Action<Button> HobbysList { get; set; }
-
         public ObservableCollection<FreeTimeListItem> FreeTimeListItems { get; set; }
 
         public FreeTimeRecommendationViewModel RecommendationViewModel { get; set; }
@@ -68,14 +66,8 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         {
             _recommenationService = recommendationService;
             FreeTimeListItems = new ObservableCollection<FreeTimeListItem>();
-            AddToListCommand = new Command(async () => await AddToList());
+            AddToListCommand = new Command(AddToList);
             SuggestCommand = new Command(async() => await SuggestByGemini());
-            HobbysList = ShowHobbysList;
-        }
-
-        private void ShowHobbysList(Button btn)
-        {
-            //TODO: Show List
         }
 
         private async Task SuggestByGemini()
@@ -100,16 +92,17 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             RecommendationViewModel.FreeTimes = new ObservableCollection<string>(result.FreeTimes);
             popup = new FreeTimeRecommendationPopup(RecommendationViewModel);
 
-            RecommendationViewModel.RecommendationSelected += async (sender, e) =>
+            RecommendationViewModel.RecommendationSelected += (sender, e) =>
             {
-                await AddToList();
+                HobbyText = e;
+                AddToList();
                 RecommendationViewModel.ClosePopup(popup);
             };
             await ShowPopup(popup);
 
         }
 
-        private async Task AddToList()
+        private void AddToList()
         {
             var element = new FreeTimeListItem {Name = HobbyText, TimeEnd = FreeTimeEnd, TimeStart = FreeTimeStart};
             FreeTimeListItems.Add(element);

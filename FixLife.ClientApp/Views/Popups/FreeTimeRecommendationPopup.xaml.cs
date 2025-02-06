@@ -15,4 +15,5 @@ public partial class FreeTimeRecommendationPopup : Popup
 	{
 		((FreeTimeRecommendationViewModel)BindingContext).ClosePopup(this);
 	}
+
 }

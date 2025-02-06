@@ -24,7 +24,7 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         private void OnSelectedRecommendation(string recommendation)
         {
             SelectedRecommendation = recommendation;
-            RecommendationSelected?.Invoke(this, recommendation);
+            RecommendationSelected?.Invoke(this, SelectedRecommendation);
         }
 
     }

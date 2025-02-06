@@ -23,7 +23,7 @@ namespace FixLife.ClientApp.Infrastructure.AiServices
                 var result = await _webApiClient.CallServiceGetAsync($"{freeTimeRecommendationUrl}", token: UserSession.Token);
                 return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
