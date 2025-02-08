@@ -33,7 +33,10 @@ namespace FixLife.AI.Client.Implementation
             if (responseObj is null)
                 return new List<string>();
 
-            return PromptResponseHelper.GetFirstTextPart(responseObj).Split(',', StringSplitOptions.TrimEntries).ToList();
+            return PromptResponseHelper.GetFirstTextPart(responseObj)
+                .Split(',', StringSplitOptions.TrimEntries)
+                .ToFirstLetterUpper()
+                .ToList();
 
         }
 

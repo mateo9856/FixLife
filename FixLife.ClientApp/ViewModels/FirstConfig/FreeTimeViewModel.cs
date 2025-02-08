@@ -1,4 +1,5 @@
-﻿using FixLife.ClientApp.Common.Abstraction;
+﻿using CommunityToolkit.Maui.Views;
+using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Models.FirstPlan;
 using FixLife.ClientApp.Views.Popups;
 using System.Collections.ObjectModel;
@@ -43,8 +44,16 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
             get { return _hobbyText; }
             set { _hobbyText = value; OnPropertyChanged(); }
         }
-        
-        public Action<Button> HobbysList { get; set; }
+
+        private string _suggestCount;
+        public string SuggestCount
+        {
+            get => _suggestCount;
+            set
+            {
+                _suggestCount = value; OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<FreeTimeListItem> FreeTimeListItems { get; set; }
 
@@ -57,19 +66,18 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
         {
             _recommenationService = recommendationService;
             FreeTimeListItems = new ObservableCollection<FreeTimeListItem>();
-            AddToListCommand = new Command(async () => await AddToList());
+            AddToListCommand = new Command(AddToList);
             SuggestCommand = new Command(async() => await SuggestByGemini());
-            HobbysList = ShowHobbysList;
-        }
-
-        private void ShowHobbysList(Button btn)
-        {
-            //TODO: Show List
         }
 
         private async Task SuggestByGemini()
         {
-            var result = await _recommenationService.GetFreeTimeRecommendationAsync();
+            var suggestCountToInt = int.TryParse(SuggestCount, out int suggCount) ? suggCount : 0;
+
+            if (suggestCountToInt <= 0)
+                return;
+
+            var result = await _recommenationService.GetFreeTimeRecommendationAsync(suggCount);
 
             if (result.FreeTimes.Count <= 0 || result is null) {
                 var errorPopup = new ErrorPopup("404", "Call error or Not Found!");
@@ -77,14 +85,24 @@ namespace FixLife.ClientApp.ViewModels.FirstConfig
                 return;
             }
 
-            var vm = new FreeTimeRecommendationViewModel();
-            vm.FreeTimes = new ObservableCollection<string>(result.FreeTimes);
-            var popup = new FreeTimeRecommendationPopup(vm);
+            Popup popup;
+
+            RecommendationViewModel = new FreeTimeRecommendationViewModel();
+
+            RecommendationViewModel.FreeTimes = new ObservableCollection<string>(result.FreeTimes);
+            popup = new FreeTimeRecommendationPopup(RecommendationViewModel);
+
+            RecommendationViewModel.RecommendationSelected += (sender, e) =>
+            {
+                HobbyText = e;
+                AddToList();
+                RecommendationViewModel.ClosePopup(popup);
+            };
             await ShowPopup(popup);
 
         }
 
-        private async Task AddToList()
+        private void AddToList()
         {
             var element = new FreeTimeListItem {Name = HobbyText, TimeEnd = FreeTimeEnd, TimeStart = FreeTimeStart};
             FreeTimeListItems.Add(element);

@@ -2,6 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:FirstConfig="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="FixLife.ClientApp.Views.FirstConfig.PlanViews.FreeTime">
     <ContentView.Resources>
         <ResourceDictionary Source="/Resources/Styles/FixLifeStyles.xaml" />
@@ -27,12 +28,29 @@
                     MinimumWidthRequest="75"
                     StyleClass="ButtonState"
                     BackgroundColor="MediumPurple" />
-            <Button Margin="10,0,0,0" Text="Suggest"
+            <VerticalStackLayout>
+                <Label Text="Type count:"
+                       HorizontalTextAlignment="Center"/>
+                <Entry MaxLength="2"
+                    Text="{Binding SuggestCount}"
+                    Keyboard="Numeric"
+                    MaximumHeightRequest="30"
+                    Margin="0,0,0,0">
+                    <Entry.Behaviors>
+                        <toolkit:NumericValidationBehavior
+                            Flags="ValidateOnValueChanged"
+                            MinimumDecimalPlaces="0"
+                            MinimumValue="0"
+                            MaximumValue="99" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Button Margin="10,10,0,0" Text="Suggest"
                     Command="{Binding SuggestCommand}"
-                    MaximumHeightRequest="100"
+                    MaximumHeightRequest="70"
                     MinimumWidthRequest="75"
                     StyleClass="ButtonState"
                     BackgroundColor="Purple" />
+            </VerticalStackLayout>
         </HorizontalStackLayout>
         <CollectionView HorizontalOptions="Center" Margin="0, 15,0 ,0" ItemsSource="{Binding FreeTimeListItems}">
             <CollectionView.ItemTemplate>

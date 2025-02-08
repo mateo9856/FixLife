@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:context="clr-namespace:FixLife.ClientApp.ViewModels.FirstConfig"
                xmlns:bind="clr-namespace:FixLife.ClientApp.Views.Popups"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="FixLife.ClientApp.Views.Popups.FreeTimeRecommendationPopup">
@@ -10,14 +11,12 @@
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <StackLayout HorizontalOptions="Center" Padding="5,5,5,5">
-                                <Border Stroke="{AppThemeBinding Dark=Black, Light=White}"
-                                MinimumWidthRequest="150"
-                                StrokeThickness="2"
-                                StrokeShape="RoundRectangle 5,5,5,5"
-                                Padding="16,8"
-                                HorizontalOptions="Center">
-                                <Label Text="{Binding .}" HorizontalOptions="Center" TextColor="{AppThemeBinding Dark=Black, Light=White}" />
-                            </Border>
+                            <Button StyleClass="ButtonState"
+                                        Text="{Binding .}"
+                                        Command="{Binding SelectedRecommendationCommand, Source={RelativeSource AncestorType={x:Type context:FreeTimeRecommendationViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="SteelBlue"
+                                        HorizontalOptions="Center" />
                         </StackLayout>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>

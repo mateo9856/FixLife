@@ -11,5 +11,9 @@ public partial class FreeTimeRecommendationPopup : Popup
 		InitializeComponent();
 	}
 
-    private void Button_Close(object sender, EventArgs e) => Close();
+    private void Button_Close(object sender, EventArgs e)
+	{
+		((FreeTimeRecommendationViewModel)BindingContext).ClosePopup(this);
+	}
+
 }
