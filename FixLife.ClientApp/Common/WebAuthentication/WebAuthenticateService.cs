@@ -35,10 +35,7 @@ namespace FixLife.ClientApp.Common.WebAuthentication
             }
             try
             {
-                WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
-                    new Uri(uri),
-                    new Uri("com.mateo9856.fixlife://"));
-                string accessToken = authResult?.AccessToken;
+                string accessToken = await StartTaskAsync(uri, "com.mateo9856.fixlife://");
 
                 _token = accessToken;
             }
@@ -50,6 +47,17 @@ namespace FixLife.ClientApp.Common.WebAuthentication
 
         public string GetToken()
             => _token;
+
+        public async Task<string> StartTaskAsync(string oAuthUri, string callbackUri)
+        {
+#if WINDOWS
+                var result = await WinUIEx.WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
+                return result?.AccessToken;
+#else
+            var result = await WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
+                return result?.AccessToken;
+#endif
+        }
 
         private async Task<OAuthClient> ReadDataFromJson(string client)
         {
