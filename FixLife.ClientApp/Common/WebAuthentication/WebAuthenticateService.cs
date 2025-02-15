@@ -21,7 +21,6 @@ namespace FixLife.ClientApp.Common.WebAuthentication
                     "scope=email%20profile",
                     "&response_type=code",
                     $"&client_id={clientData.ClientId}",
-                    $"&code_challenge={shaHash}",
                     $"&redirect_uri={clientData.RedirectUri}",
                     $"&state={stateParam}");
             }
@@ -35,7 +34,7 @@ namespace FixLife.ClientApp.Common.WebAuthentication
             }
             try
             {
-                string accessToken = await StartTaskAsync(uri, "com.mateo9856.fixlife://");
+                string accessToken = await StartTaskAsync(uri, clientData.RedirectUri);
 
                 _token = accessToken;
             }
@@ -50,13 +49,13 @@ namespace FixLife.ClientApp.Common.WebAuthentication
 
         public async Task<string> StartTaskAsync(string oAuthUri, string callbackUri)
         {
-#if WINDOWS
-                var result = await WinUIEx.WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
+            #if WINDOWS
+                var result = await WinUIEx.WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri), new CancellationTokenSource().Token);
                 return result?.AccessToken;
-#else
+            #else
             var result = await WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
                 return result?.AccessToken;
-#endif
+            #endif
         }
 
         private async Task<OAuthClient> ReadDataFromJson(string client)
@@ -65,10 +64,16 @@ namespace FixLife.ClientApp.Common.WebAuthentication
             using var jsonFile = new StreamReader(jsonStream);
             var jsonText = jsonFile.ReadToEnd();
             var clientsClass = JsonConvert.DeserializeObject<OAuthClientClass>(jsonText);
+            var correctSystem = clientsClass.SystemProvider.Single(name => name.SystemName == DeviceInfo.Current.Platform.ToString());
 
-            return client == "Google" ? clientsClass.Google :
-                   client == "Facebook" ? clientsClass.Facebook :
-                   throw new Exception("Unhandled OAuth Client");
+            return client switch
+            {
+                "Google" => correctSystem.Google,
+                "Facebook" => correctSystem.Facebook,
+                _ => throw new Exception("Client not found")
+            };
+
         }
+
     }
 }

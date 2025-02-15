@@ -1,13 +1,32 @@
 {
-  "Google": {
-    "ClientId": "",
-    "RedirectUri": ""
-  },
-  "Facebook": {
-    "ClientId": "",
-    "ClientSecret": "",
-    "RedirectUri": ""
-  }
+  "SystemProvider": [
+    {
+      "SystemName": "WinUI",
+      "Google": {
+        "ClientId": "",
+        "ClientSecret": "",
+        "RedirectUri": ""
+      },
+      "Facebook": {
+        "ClientId": "",
+        "ClientSecret": "",
+        "RedirectUri": ""
+      }
+    },
+    {
+      "SystemName": "Android",
+      "Google": {
+        "ClientId": "",
+        "ClientSecret": "",
+        "RedirectUri": ""
+      },
+      "Facebook": {
+        "ClientId": "",
+        "ClientSecret": "",
+        "RedirectUri": ""
+      }
+    }
+  ]
 }
 
 //fill your own oauth settings
