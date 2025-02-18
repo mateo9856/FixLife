@@ -8,33 +8,35 @@ namespace FixLife.ClientApp.Common.WebAuthentication
     public class WebAuthenticateService : IWebAuthenticateService
     {
         private string _token = string.Empty;
+        private string _authUri = string.Empty;
 
         public async Task AuthenticateAsync(string client)
         {
-            string uri = string.Empty;
             var stateParam = Guid.NewGuid().ToString();
             var shaHash = Convert.ToBase64String(Encoding.UTF8.GetBytes(stateParam));
             var clientData = await ReadDataFromJson(client);
             if (client == "Google")
             {
-                uri = string.Concat("https://accounts.google.com/o/oauth2/auth?",
+                _authUri = string.Concat("https://accounts.google.com/o/oauth2/auth?",
                     "scope=email%20profile",
                     "&response_type=code",
                     $"&client_id={clientData.ClientId}",
-                    $"&redirect_uri={clientData.RedirectUri}",
-                    $"&state={stateParam}");
+                    $"&state={shaHash}");
+#if ANDROID
+                _authUri += $"&redirect_uri={clientData.RedirectUri}";
+#endif
             }
-            if(client == "Facebook")
+            if (client == "Facebook")
             {
-                uri = string.Concat("https://www.facebook.com/v20.0/dialog/oauth?",
+                _authUri = string.Concat("https://www.facebook.com/v20.0/dialog/oauth?",
                     $"client_id={clientData.ClientId}",
                     $"&redirect_uri={clientData.RedirectUri}",
                     $"&client_secret={clientData.ClientSecret}",
-                    $"&state={stateParam}");
+                    $"&state={shaHash}");
             }
             try
             {
-                string accessToken = await StartTaskAsync(uri, clientData.RedirectUri);
+                string accessToken = await StartTaskAsync(_authUri, clientData.RedirectUri);
 
                 _token = accessToken;
             }
@@ -49,13 +51,16 @@ namespace FixLife.ClientApp.Common.WebAuthentication
 
         public async Task<string> StartTaskAsync(string oAuthUri, string callbackUri)
         {
-            #if WINDOWS
-                var result = await WinUIEx.WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri), new CancellationTokenSource().Token);
-                return result?.AccessToken;
-            #else
+#if WINDOWS
+                var winUIAuthTools = new FixLife.ClientApp.Platforms.Windows.Tools.WinUIAuthTools();
+                winUIAuthTools.StartLoopbackListener();
+                oAuthUri += $"&redirect_uri={winUIAuthTools.LoopbackAddress}";
+                var result = await winUIAuthTools.StartAndReturnOAuthProcess(oAuthUri);
+                return ""; //TODO
+#else
             var result = await WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
                 return result?.AccessToken;
-            #endif
+#endif
         }
 
         private async Task<OAuthClient> ReadDataFromJson(string client)
