@@ -56,7 +56,7 @@ namespace FixLife.ClientApp.Common.WebAuthentication
                 winUIAuthTools.StartLoopbackListener();
                 oAuthUri += $"&redirect_uri={winUIAuthTools.LoopbackAddress}";
                 var result = await winUIAuthTools.StartAndReturnOAuthProcess(oAuthUri);
-                return ""; //TODO
+                return result;
 #else
             var result = await WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
                 return result?.AccessToken;
