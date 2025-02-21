@@ -2,6 +2,7 @@
 {
     public interface IWebAuthenticateService
     {
+        string SelectedClient { get; set; }
         Task AuthenticateAsync(string client);
         string GetToken();
     }

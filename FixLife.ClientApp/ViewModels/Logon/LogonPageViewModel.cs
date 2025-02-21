@@ -100,6 +100,7 @@ namespace FixLife.ClientApp.ViewModels.Logon
 
         private async Task OAuthLogon(string oAuthClient)
         {
+            _webAuthenticationService.SelectedClient = oAuthClient;
             await _webAuthenticationService.AuthenticateAsync(oAuthClient);
         }
 
