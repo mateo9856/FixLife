@@ -1,6 +1,8 @@
 ﻿using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Common.Exceptions;
 using FixLife.ClientApp.Common.WebAuthentication.Clients;
+using FixLife.ClientApp.Common.WebAuthentication.Clients.AuthorizationResult;
+using Newtonsoft.Json;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -52,7 +54,7 @@ namespace FixLife.ClientApp.Platforms.Windows.Tools
 
         public async Task<string> StartAndReturnOAuthProcess(string authReqeust)
         {
-            await Browser.Default.OpenAsync(authReqeust, BrowserLaunchMode.SystemPreferred);
+            await Browser.Default.OpenAsync(authReqeust, BrowserLaunchMode.SystemPreferred);// TODO: Launch by WebView
             var context = await _listener.GetContextAsync();
             var code = context.Request.QueryString["code"];
             var state = context.Request.QueryString["state"];
@@ -61,6 +63,7 @@ namespace FixLife.ClientApp.Platforms.Windows.Tools
                 throw new InvalidAuthorizationException(_clientProvider);
             }
             var token = ExchangeToToken(code, LoopbackAddress);
+
             return token;
         }
 
@@ -86,7 +89,10 @@ namespace FixLife.ClientApp.Platforms.Windows.Tools
 
                     var response = _httpClient.SendAsync(request).Result;
                     if(response.IsSuccessStatusCode)
-                        tokenValue = response.Content.ReadAsStringAsync().Result;
+                    {
+                        var authResult = JsonConvert.DeserializeObject<GoogleAuthorizationResult>(response.Content.ReadAsStringAsync().Result);
+                        tokenValue = authResult.AccessToken;
+                    }
 
                     break;
                 case OAuthClientEnum.Facebook:
