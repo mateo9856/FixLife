@@ -1,5 +1,6 @@
 ﻿using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Common.Exceptions;
+using FixLife.ClientApp.Common.WebAuthentication;
 using FixLife.ClientApp.Common.WebAuthentication.Clients;
 using FixLife.ClientApp.Common.WebAuthentication.Clients.AuthorizationResult;
 using Newtonsoft.Json;
@@ -12,8 +13,8 @@ namespace FixLife.ClientApp.Platforms.Windows.Tools
     public class WinUIAuthTools
     {
         public string LoopbackAddress { get; private set; }
-
         public OAuthClient _authClient { get; set; }
+        public string AuthRequest { get; set; }
 
         private OAuthClientEnum _clientProvider;
         private HttpListener _listener;
@@ -52,9 +53,22 @@ namespace FixLife.ClientApp.Platforms.Windows.Tools
             _listener.Start();
         }
 
-        public async Task<string> StartAndReturnOAuthProcess(string authReqeust)
+        public async Task PrepareWebView()
         {
-            await Browser.Default.OpenAsync(authReqeust, BrowserLaunchMode.SystemPreferred);// TODO: Launch by WebView
+            var webView = new WebViewBuilder(AuthRequest);
+            var grid = new Grid();
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Star });
+            Grid.SetRow(webView.GetWebView(), 0);
+            grid.Children.Add(webView.GetWebView());
+            var page = new ContentPage
+            {
+                Content = grid
+            };
+            await Application.Current.MainPage.Navigation.PushModalAsync(page);
+        }
+
+        public async Task<string> StartAndReturnOAuthProcess()
+        {
             var context = await _listener.GetContextAsync();
             var code = context.Request.QueryString["code"];
             var state = context.Request.QueryString["state"];

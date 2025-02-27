@@ -45,15 +45,15 @@ namespace FixLife.ClientApp.ViewModels.Logon
             RegisterCommand = new Command(Register);
             GoogleLogonCommand = new Command(async () =>
             {
-                await OAuthLogon("Google");
+                OAuthLogon("Google");
             });
             FacebookLogonCommand = new Command(async () =>
             {
-                await OAuthLogon("Facebook");
+                OAuthLogon("Facebook");
             });
             AppleLogonCommand = new Command(async () =>
             {
-                await OAuthLogon("Apple");
+                OAuthLogon("Apple");
             });
         }
 
@@ -98,10 +98,17 @@ namespace FixLife.ClientApp.ViewModels.Logon
             await RedirectToPageAsync("//login/RegisterPage");
         }
 
-        private async Task OAuthLogon(string oAuthClient)
+        private async void OAuthLogon(string oAuthClient)
         {
             _webAuthenticationService.SelectedClient = oAuthClient;
+#if WINDOWS
+            var uri = await _webAuthenticationService.LoadOAuthUri(oAuthClient);
+            _webAuthenticationService.RunWebView(uri);
+#endif
             await _webAuthenticationService.AuthenticateAsync(oAuthClient);
+#if WINDOWS
+            _webAuthenticationService.CloseWebView();
+#endif
         }
 
         private async void LogOff() { 
