@@ -15,15 +15,15 @@ namespace FixLife.ClientApp.Common.WebAuthentication
         private OAuthClient _clientData;
         public string SelectedClient { get; set; }
 
-        public async Task<string> LoadOAuthUri(string client)
+        public string LoadOAuthUri(string client)
         {
             SelectedClient = client;
 
             var stateParam = Guid.NewGuid().ToString();
             var shaHash = Convert.ToBase64String(Encoding.UTF8.GetBytes(stateParam));
-            _clientData = await ReadDataFromJson(client);
+            _clientData = ReadDataFromJson(client);
 
-                        if (client == "Google")
+            if (client == "Google")
             {
                 _authUri = string.Concat("https://accounts.google.com/o/oauth2/auth?",
                     "scope=email%20profile",
@@ -70,24 +70,32 @@ namespace FixLife.ClientApp.Common.WebAuthentication
 #if WINDOWS
                 var winUIAuthTools = new FixLife.ClientApp.Platforms.Windows.Tools.WinUIAuthTools(_clientData, (OAuthClientEnum)Enum.Parse(typeof(OAuthClientEnum), SelectedClient));
                 winUIAuthTools.AuthRequest = oAuthUri;
-                await winUIAuthTools.PrepareWebView();
                 winUIAuthTools.StartLoopbackListener();
+                
                 oAuthUri += $"&redirect_uri={winUIAuthTools.LoopbackAddress}";
+                
+                var webView = GetWebView(oAuthUri);
+                Application.Current.MainPage.Navigation.PushAsync(webView);
+                
                 var result = await winUIAuthTools.StartAndReturnOAuthProcess();
+                
+                Application.Current.MainPage.Navigation.PopAsync(true);
+                
                 return result;
 #else
-            var result = await WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
+                var result = await WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
                 return result?.AccessToken;
 #endif
         }
 
-        private async Task<OAuthClient> ReadDataFromJson(string client)
+        private OAuthClient ReadDataFromJson(string client)
         {
-            using var jsonStream = await FileSystem.OpenAppPackageFileAsync("oauthclients.json");
+            using var jsonStream = FileSystem.OpenAppPackageFileAsync("oauthclients.json").Result;
             using var jsonFile = new StreamReader(jsonStream);
             var jsonText = jsonFile.ReadToEnd();
             var clientsClass = JsonConvert.DeserializeObject<OAuthClientClass>(jsonText);
-            var correctSystem = clientsClass.SystemProvider.Single(name => name.SystemName == DeviceInfo.Current.Platform.ToString());
+            var correctSystem = clientsClass.SystemProvider
+                .Single(name => name.SystemName == DeviceInfo.Current.Platform.ToString());
 
             return client switch
             {
@@ -98,10 +106,10 @@ namespace FixLife.ClientApp.Common.WebAuthentication
 
         }
 
-        public void RunWebView(string uri)
+        private ContentPage GetWebView(string uri)
         {
             _webViewBuilder = new WebViewBuilder(uri);
-            _webViewBuilder.Show();
+            return _webViewBuilder.GetWebView();
         }
 
         public void CloseWebView()
@@ -113,5 +121,6 @@ namespace FixLife.ClientApp.Common.WebAuthentication
 
             _webViewBuilder.GoBack();
         }
+
     }
 }

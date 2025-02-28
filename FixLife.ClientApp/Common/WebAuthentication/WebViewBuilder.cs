@@ -41,9 +41,9 @@
             Application.Current.MainPage.Navigation.PopModalAsync(true);
         }
 
-        public WebView GetWebView()
+        public ContentPage GetWebView()
         {
-            return _webView;
+            return _contentPage;
         }
     }
 }

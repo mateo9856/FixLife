@@ -43,15 +43,15 @@ namespace FixLife.ClientApp.ViewModels.Logon
             LogonCommand = new Command(Logon);
             LogOffCommand = new Command(LogOff);
             RegisterCommand = new Command(Register);
-            GoogleLogonCommand = new Command(async () =>
+            GoogleLogonCommand = new Command(() =>
             {
                 OAuthLogon("Google");
             });
-            FacebookLogonCommand = new Command(async () =>
+            FacebookLogonCommand = new Command(() =>
             {
                 OAuthLogon("Facebook");
             });
-            AppleLogonCommand = new Command(async () =>
+            AppleLogonCommand = new Command(() =>
             {
                 OAuthLogon("Apple");
             });
@@ -101,14 +101,8 @@ namespace FixLife.ClientApp.ViewModels.Logon
         private async void OAuthLogon(string oAuthClient)
         {
             _webAuthenticationService.SelectedClient = oAuthClient;
-#if WINDOWS
-            var uri = await _webAuthenticationService.LoadOAuthUri(oAuthClient);
-            _webAuthenticationService.RunWebView(uri);
-#endif
+            _webAuthenticationService.LoadOAuthUri(oAuthClient);
             await _webAuthenticationService.AuthenticateAsync(oAuthClient);
-#if WINDOWS
-            _webAuthenticationService.CloseWebView();
-#endif
         }
 
         private async void LogOff() { 
