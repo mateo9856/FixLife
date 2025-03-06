@@ -43,7 +43,15 @@ namespace FixApp.WebAPI.Controllers.Account
             return BadRequest(tryRequest);
 
         }
-        
+
+        [Authorize]
+        [HttpPost("LoginByOAuth")]
+        public async Task<IActionResult> LoginByOAuth([FromBody] AddOAuthTokenCommand provider)
+        {
+            //TODO: Implement OAuth User Register
+            return Ok();
+        }
+
         [HttpGet("Logout")]
         public IActionResult Logout()
         {

@@ -1,15 +1,19 @@
 ﻿using FixLife.ClientApp.Common.Abstraction;
 using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Common.WebAuthentication.Clients;
+using FixLife.ClientApp.Common.WebAuthentication.Clients.AuthorizationResult;
+using FixLife.ClientApp.Sessions;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace FixLife.ClientApp.Common.WebAuthentication
 {
-    public class WebAuthenticateService : IWebAuthenticateService
+    public class WebAuthenticateService(WebApiClient<object> webApiClient) : IWebAuthenticateService
     {
         private string _token = string.Empty;
         private string _authUri = string.Empty;
+
+        private readonly WebApiClient<object> _webApiClient = webApiClient;
 
         private WebViewBuilder _webViewBuilder;
         private OAuthClient _clientData;
@@ -53,6 +57,11 @@ namespace FixLife.ClientApp.Common.WebAuthentication
                 string accessToken = await StartTaskAsync(_authUri, _clientData.RedirectUri);
 
                 _token = accessToken;
+
+                var userData = await GetUserData(_token);
+
+                AddTokenToSession(_token, userData.Email);
+
             }
             catch (TaskCanceledException)
             {
@@ -78,13 +87,13 @@ namespace FixLife.ClientApp.Common.WebAuthentication
                 Application.Current.MainPage.Navigation.PushAsync(webView);
                 
                 var result = await winUIAuthTools.StartAndReturnOAuthProcess();
-                
+
                 Application.Current.MainPage.Navigation.PopAsync(true);
                 
                 return result;
 #else
-                var result = await WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
-                return result?.AccessToken;
+            var result = await WebAuthenticator.AuthenticateAsync(new Uri(oAuthUri), new Uri(callbackUri));
+            return result?.AccessToken;
 #endif
         }
 
@@ -120,6 +129,37 @@ namespace FixLife.ClientApp.Common.WebAuthentication
             }
 
             _webViewBuilder.GoBack();
+        }
+
+        public void AddTokenToSession(string token, string email)
+        {
+            UserSession.Token = token;
+            UserSession.Email = email;
+        }
+
+        public async Task LogonByOAuthToken()
+        {
+            var addCommand = new
+            {
+                Token = _token,
+                Email = UserSession.Email
+            };
+
+            await _webApiClient.PostPutAsync(new { Token = _token }, "Account/LoginByOAuth", true);
+            
+        }
+
+        private async Task<OAuthUserData> GetUserData(string token)
+        {
+            var uri = $"https://www.googleapis.com/oauth2/v1/userinfo?access_token={token}";
+
+            using var client = new HttpClient();
+            var response = await client.GetAsync(uri)
+                .Result
+                .Content
+                .ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<OAuthUserData>(response);
         }
 
     }

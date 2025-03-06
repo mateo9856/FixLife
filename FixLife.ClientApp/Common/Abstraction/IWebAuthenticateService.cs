@@ -7,5 +7,7 @@
         string LoadOAuthUri(string client);
         Task AuthenticateAsync(string client);
         string GetToken();
+        Task LogonByOAuthToken();
+        void AddTokenToSession(string token, string email);
     }
 }

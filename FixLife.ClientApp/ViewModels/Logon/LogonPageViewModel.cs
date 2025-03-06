@@ -103,6 +103,7 @@ namespace FixLife.ClientApp.ViewModels.Logon
             _webAuthenticationService.SelectedClient = oAuthClient;
             _webAuthenticationService.LoadOAuthUri(oAuthClient);
             await _webAuthenticationService.AuthenticateAsync(oAuthClient);
+            await _webAuthenticationService.LogonByOAuthToken();
         }
 
         private async void LogOff() { 
