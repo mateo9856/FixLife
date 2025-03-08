@@ -1,6 +1,6 @@
 ﻿namespace FixLife.WebApiDomain.Enums
 {
-    public enum DependAccountsEnum : byte
+    public enum OAuthLoginProvider : byte
     {
         Google = 1,
         FaceBook = 2,

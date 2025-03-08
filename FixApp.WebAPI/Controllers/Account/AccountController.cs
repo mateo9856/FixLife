@@ -1,4 +1,5 @@
-﻿using FixLife.WebApiQueries.Account;
+﻿using Azure.Core;
+using FixLife.WebApiQueries.Account;
 using FixLife.WebApiQueries.Account.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -46,10 +47,16 @@ namespace FixApp.WebAPI.Controllers.Account
 
         [Authorize]
         [HttpPost("LoginByOAuth")]
-        public async Task<IActionResult> LoginByOAuth([FromBody] AddOAuthTokenCommand provider)
+        public async Task<IActionResult> LoginByOAuth([FromBody] AddOAuthTokenCommand request)
         {
-            //TODO: Implement OAuth User Register
-            return Ok();
+            var tryRequest = await _mediator.Send(request);
+
+            if (tryRequest.Status == 200)
+            {
+                return Ok(tryRequest);
+            }
+
+            return BadRequest(tryRequest);
         }
 
         [HttpGet("Logout")]

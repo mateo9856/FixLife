@@ -1,4 +1,5 @@
-﻿using FixLife.WebApiDomain.User;
+﻿using FixLife.WebApiDomain.Enums;
+using FixLife.WebApiDomain.User;
 using FixLife.WebApiInfra.Abstraction.Identity;
 using FixLife.WebApiInfra.Common;
 using FixLife.WebApiInfra.Common.Constants;
@@ -28,6 +29,12 @@ namespace FixLife.WebApiInfra.Services.Identity
         }
 
         public string UserId { get; private set; }
+
+        public Task<ClientIdentityResponse> AddOrLoginOAuthUserAsync(string email, OAuthLoginProvider oauthAccount)
+        {
+            //TODO: Implement this method
+            throw new NotImplementedException();
+        }
 
         public async Task<ClientUser> GetClientUser(string userId)
         {

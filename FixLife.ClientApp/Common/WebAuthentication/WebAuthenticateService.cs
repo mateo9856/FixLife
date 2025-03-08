@@ -142,7 +142,8 @@ namespace FixLife.ClientApp.Common.WebAuthentication
             var addCommand = new
             {
                 Token = _token,
-                Email = UserSession.Email
+                Email = UserSession.Email,
+                OAuthProvider = SelectedClient
             };
 
             await _webApiClient.PostPutAsync(new { Token = _token }, "Account/LoginByOAuth", true);
