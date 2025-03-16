@@ -16,12 +16,12 @@ namespace FixLife.WebApiQueries.Account.Commands
             _mapper = mapper;
         }
 
-        public Task<ClientIdentityResponse> Handle(AddOAuthTokenCommand request, CancellationToken cancellationToken)
+        public async Task<ClientIdentityResponse> Handle(AddOAuthTokenCommand request, CancellationToken cancellationToken)
         {
-            //TODO: Implement AddOAuthTokenHandler
-            var loginUser = _clientIdentityService.AddOrLoginOAuthUserAsync(request.Email, Enum.Parse<OAuthLoginProvider>(request.OAuthProvider));
+            var parsedProvider = Enum.Parse<OAuthLoginProvider>(request.OAuthProvider);
+            var loginUser = await _clientIdentityService.AddOrLoginOAuthUserAsync(request.Email, parsedProvider);
 
-            throw new NotImplementedException();
+            return _mapper.Map<ClientIdentityResponse>(loginUser);
         }
     }
 }

@@ -30,10 +30,44 @@ namespace FixLife.WebApiInfra.Services.Identity
 
         public string UserId { get; private set; }
 
-        public Task<ClientIdentityResponse> AddOrLoginOAuthUserAsync(string email, OAuthLoginProvider oauthAccount)
+        public async Task<ClientIdentityResponse> AddOrLoginOAuthUserAsync(string email, OAuthLoginProvider oauthAccount)
         {
-            //TODO: Implement this method
-            throw new NotImplementedException();
+            using var idCtx = _context.CreateDbContext();
+            using var appCtx = _applicationContext.CreateDbContext();
+
+            ClientUser? clientUser = await idCtx.ClientUsers.FirstOrDefaultAsync(x => x.Email == email);
+
+            if (clientUser == null)
+            {
+                clientUser = CreateNewUser(new ClientUser
+                {
+                    Id = ObjectId.GenerateNewId(),
+                    Password = string.Empty,
+                    Email = email,
+                    PhoneNumber = string.Empty
+                });
+
+                await idCtx.ClientUsers.AddAsync(clientUser);
+
+                var save = await idCtx.SaveChangesAsync();
+
+                if (save <= 0)
+                {
+                    return new ClientIdentityResponse { Status = HttpCodes.NotFound, Details = "User not created" };
+                }
+
+            }
+
+            var token = PrepareToken(clientUser);
+
+            return new ClientIdentityResponse()
+            {
+                Status = HttpCodes.Ok,
+                Details = "User logged!",
+                Token = token,
+                Email = clientUser.Email,
+                HasPlans = appCtx.Plans.Any(d => d.UserId == clientUser.Id)
+            };
         }
 
         public async Task<ClientUser> GetClientUser(string userId)
@@ -54,31 +88,8 @@ namespace FixLife.WebApiInfra.Services.Identity
             {
                 if (findUser != null)
                 {
-                    var issuer = _jwtOptions.Issuer;
-                    var audience = _jwtOptions.Audience;
-                    var key = Encoding.ASCII.GetBytes
-                    (_jwtOptions.Secret);
-                    UserId = findUser.Id.ToString();
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        Subject = new ClaimsIdentity(new[]
-                        {
-                            new Claim("Id", Guid.NewGuid().ToString()),
-                            new Claim("UserId", findUser.Id.ToString()),
-                            new Claim(JwtRegisteredClaimNames.Sub, findUser.PhoneNumber),
-                            new Claim(JwtRegisteredClaimNames.Email, findUser.Email),
-                            new Claim(JwtRegisteredClaimNames.Jti,
-                            Guid.NewGuid().ToString())
-                        }),
-                        Expires = DateTime.UtcNow.AddDays(14),
-                        Issuer = issuer,
-                        Audience = audience,
-                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
-                    };
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var token = tokenHandler.CreateToken(tokenDescriptor);
-                    var jwtToken = tokenHandler.WriteToken(token);
-                    var stringToken = tokenHandler.WriteToken(token);
+
+                    var token = PrepareToken(findUser);
 
                     var hasPlans = appCtx.Plans.Any(d => d.UserId == findUser.Id);
 
@@ -86,7 +97,7 @@ namespace FixLife.WebApiInfra.Services.Identity
                     {
                         Status = HttpCodes.Ok,
                         Details = "User logged!",
-                        Token = stringToken,
+                        Token = token,
                         Email = findUser.Email,
                         HasPlans = hasPlans
                     };
@@ -120,13 +131,7 @@ namespace FixLife.WebApiInfra.Services.Identity
         {
             using var idCtx = _context.CreateDbContext();
 
-            var newUser = new ClientUser
-            {
-                Id = ObjectId.GenerateNewId(),
-                Email = request.Email,
-                Password = request.Password,
-                PhoneNumber = request.PhoneNumber
-            };
+            var newUser = CreateNewUser(request);
 
             await idCtx.ClientUsers.AddAsync(newUser);
 
@@ -141,6 +146,47 @@ namespace FixLife.WebApiInfra.Services.Identity
                 return new ClientIdentityResponse { Status = HttpCodes.NotFound, Details = "User not created" };
             }
 
+        }
+
+        private ClientUser CreateNewUser(ClientUser request) 
+            => new ClientUser
+        {
+            Id = ObjectId.GenerateNewId(),
+            Email = request.Email,
+            Password = request.Password,
+            PhoneNumber = request.PhoneNumber
+        };
+
+        private string PrepareToken(ClientUser user)
+        {
+            var issuer = _jwtOptions.Issuer;
+            var audience = _jwtOptions.Audience;
+            var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret)
+                ?? throw new NullReferenceException("Error from loading JWT Secret, please check server config.");
+
+            UserId = user.Id.ToString();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                            new Claim("Id", Guid.NewGuid().ToString()),
+                            new Claim("UserId", user.Id.ToString()),
+                            new Claim(JwtRegisteredClaimNames.Sub, user.PhoneNumber),
+                            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                            new Claim(JwtRegisteredClaimNames.Jti,
+                            Guid.NewGuid().ToString())
+                        }),
+                Expires = DateTime.UtcNow.AddDays(14),
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwtToken = tokenHandler.WriteToken(token);
+            var stringToken = tokenHandler.WriteToken(token);
+
+            return stringToken;
         }
     }
 }
