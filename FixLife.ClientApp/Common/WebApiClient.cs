@@ -99,6 +99,11 @@ namespace FixLife.ClientApp.Common
             }
         }
 
+        public void SetTimeout(int seconds)
+        {
+            client.Timeout = TimeSpan.FromSeconds(seconds);
+        }
+
         public void Dispose()
         {
             client.Dispose();

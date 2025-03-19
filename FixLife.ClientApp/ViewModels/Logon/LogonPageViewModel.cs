@@ -72,19 +72,8 @@ namespace FixLife.ClientApp.ViewModels.Logon
             {
                 response = await _webApiClient.PostPutAsync(credentials, "Account/Login", true);
                 if (response != null)
-                {
-                    UserSession.Token = response.Token;
-                    UserSession.Email = response.Email;
-                    if (!response.HasPlans.HasValue)
-                        throw new Exception("Value HasPlans is null!");
-                    if(response.HasPlans.HasValue && !response.HasPlans.Value)
-                        await RedirectToPageAsync("//plan/FirstPlanPage");
-                    else
-                    {
-                        NotificationTimer.EnableTiming();
-                        await RedirectToPageAsync("//dash/DashboardPage");
-                    }
-                }
+                    AssignLoginValuesAndRedirect(response);
+
             } catch(Exception ex)
             {
                 var errorPopup = new ErrorPopup("Undefined Error", ex.Message);
@@ -103,7 +92,33 @@ namespace FixLife.ClientApp.ViewModels.Logon
             _webAuthenticationService.SelectedClient = oAuthClient;
             _webAuthenticationService.LoadOAuthUri(oAuthClient);
             await _webAuthenticationService.AuthenticateAsync(oAuthClient);
-            await _webAuthenticationService.LogonByOAuthToken();
+            
+            try
+            {
+                var response = await _webAuthenticationService.LogonByOAuthToken();
+                if (response != null)
+                    AssignLoginValuesAndRedirect(response);
+
+            } catch (Exception ex)
+            {
+                var errorPopup = new ErrorPopup("Undefined Error", ex.Message);
+                await ShowPopup(errorPopup);
+            }
+        }
+
+        private async void AssignLoginValuesAndRedirect(AccountResponseResult loginResponse)
+        {
+            UserSession.Token = loginResponse.Token;
+            UserSession.Email = loginResponse.Email;
+            if (!loginResponse.HasPlans.HasValue)
+                throw new Exception("Value HasPlans is null!");
+            if (loginResponse.HasPlans.HasValue && !loginResponse.HasPlans.Value)
+                await RedirectToPageAsync("//plan/FirstPlanPage");
+            else
+            {
+                NotificationTimer.EnableTiming();
+                await RedirectToPageAsync("//dash/DashboardPage");
+            }
         }
 
         private async void LogOff() { 

@@ -2,18 +2,19 @@
 using FixLife.ClientApp.Common.Enums;
 using FixLife.ClientApp.Common.WebAuthentication.Clients;
 using FixLife.ClientApp.Common.WebAuthentication.Clients.AuthorizationResult;
+using FixLife.ClientApp.Models.Account;
 using FixLife.ClientApp.Sessions;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace FixLife.ClientApp.Common.WebAuthentication
 {
-    public class WebAuthenticateService(WebApiClient<object> webApiClient) : IWebAuthenticateService
+    public class WebAuthenticateService(IServiceProvider serviceProvider) : IWebAuthenticateService
     {
         private string _token = string.Empty;
         private string _authUri = string.Empty;
 
-        private readonly WebApiClient<object> _webApiClient = webApiClient;
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
 
         private WebViewBuilder _webViewBuilder;
         private OAuthClient _clientData;
@@ -137,8 +138,12 @@ namespace FixLife.ClientApp.Common.WebAuthentication
             UserSession.Email = email;
         }
 
-        public async Task LogonByOAuthToken()
+        public async Task<AccountResponseResult> LogonByOAuthToken()
         {
+            using var webApiClient = _serviceProvider.GetService<WebApiClient<AccountResponseResult>>();
+
+            webApiClient.SetTimeout(60);
+            
             var addCommand = new
             {
                 Token = _token,
@@ -146,8 +151,9 @@ namespace FixLife.ClientApp.Common.WebAuthentication
                 OAuthProvider = SelectedClient
             };
 
-            await _webApiClient.PostPutAsync(new { Token = _token }, "Account/LoginByOAuth", true);
-            
+            var loginResult = await webApiClient.PostPutAsync(addCommand, "Account/LoginByOAuth", true);
+            return loginResult;
+
         }
 
         private async Task<OAuthUserData> GetUserData(string token)

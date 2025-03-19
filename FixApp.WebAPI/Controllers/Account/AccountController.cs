@@ -56,7 +56,7 @@ namespace FixApp.WebAPI.Controllers.Account
                 return Ok(tryRequest);
             }
 
-            return BadRequest(tryRequest);
+            return BadRequest();
         }
 
         [HttpGet("Logout")]
