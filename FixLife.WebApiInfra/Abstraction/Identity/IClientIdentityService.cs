@@ -1,4 +1,5 @@
-﻿using FixLife.WebApiDomain.User;
+﻿using FixLife.WebApiDomain.Enums;
+using FixLife.WebApiDomain.User;
 using FixLife.WebApiInfra.Services.Identity;
 
 namespace FixLife.WebApiInfra.Abstraction.Identity
@@ -10,6 +11,7 @@ namespace FixLife.WebApiInfra.Abstraction.Identity
         Task<ClientIdentityResponse> LoginAsync(ClientUser request);
         Task<ClientIdentityResponse> LogoutAsync();
         Task<ClientIdentityResponse> RegisterAsync(ClientUser request);
+        Task<ClientIdentityResponse> AddOrLoginOAuthUserAsync(string email, OAuthLoginProvider oauthAccount);
 
     }
 }
