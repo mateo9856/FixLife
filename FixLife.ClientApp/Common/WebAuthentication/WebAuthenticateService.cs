@@ -41,11 +41,12 @@ namespace FixLife.ClientApp.Common.WebAuthentication
             }
             if (client == "Facebook")
             {
-                _authUri = string.Concat("https://www.facebook.com/v20.0/dialog/oauth?",
+                _authUri = string.Concat("https://www.facebook.com/v22.0/dialog/oauth?",
                     $"client_id={_clientData.ClientId}",
-                    $"&redirect_uri={_clientData.RedirectUri}",
-                    $"&client_secret={_clientData.ClientSecret}",
                     $"&state={shaHash}");
+#if ANDROID
+                _authUri += $"&redirect_uri={_clientData.RedirectUri}";
+#endif
             }
 
             return _authUri;
