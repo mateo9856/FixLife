@@ -1,0 +1,8 @@
+﻿namespace FixLife.Admin.Identity.Abstractions
+{
+    internal interface IAdminIdentityService
+    {
+        Task<(int, string)> LoginAdmin();
+        Task<(int, string)> LogoutAdmin(bool force = false);
+    }
+}
