@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\FixLife.Admin.Identity\FixLife.Admin.Identity.csproj" />
+    <ProjectReference Include="..\..\FixLife.Admin.Plans\FixLife.Admin.Plans.csproj" />
+    <ProjectReference Include="..\..\FixLife.Admin.Users\FixLife.Admin.Users.csproj" />
     <ProjectReference Include="..\..\FixLife.ServiceDefaults\FixLife.ServiceDefaults.csproj" />
     <ProjectReference Include="..\fixlife.admin.client\fixlife.admin.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
