@@ -4,6 +4,8 @@ namespace FixLife.Admin.Identity.Models
 {
     public class AdminUser
     {
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         public string Surname { get; set; }

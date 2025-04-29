@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixLife.Admin.Identity", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixLife.Admin.UnitTests", "FixLife.Admin.UnitTests\FixLife.Admin.UnitTests.csproj", "{930CDC90-5202-4E45-A694-0A8553DA8CFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixLife.Admin.Db", "FixLife.Admin.Db\FixLife.Admin.Db.csproj", "{66FF1CCC-35AD-4EBF-9AAF-716BDA3C747F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{930CDC90-5202-4E45-A694-0A8553DA8CFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{930CDC90-5202-4E45-A694-0A8553DA8CFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{930CDC90-5202-4E45-A694-0A8553DA8CFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FF1CCC-35AD-4EBF-9AAF-716BDA3C747F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FF1CCC-35AD-4EBF-9AAF-716BDA3C747F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FF1CCC-35AD-4EBF-9AAF-716BDA3C747F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66FF1CCC-35AD-4EBF-9AAF-716BDA3C747F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +147,7 @@ Global
 		{76A5E426-41E9-4149-9700-FB015E76A37E} = {5B081CC5-666C-4BB6-AE39-0B9E996D5AC1}
 		{7F517571-6C2A-493C-8F5A-EA2F56A03EEC} = {5B081CC5-666C-4BB6-AE39-0B9E996D5AC1}
 		{930CDC90-5202-4E45-A694-0A8553DA8CFF} = {9998E75F-A92A-4829-BE98-D80D766A6EB1}
+		{66FF1CCC-35AD-4EBF-9AAF-716BDA3C747F} = {5B081CC5-666C-4BB6-AE39-0B9E996D5AC1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE27EC52-CABE-4378-B168-D0C954980B5F}
