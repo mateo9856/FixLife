@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FixLife.Admin.Db\FixLife.Admin.Db.csproj" />
+  </ItemGroup>
+
 </Project>

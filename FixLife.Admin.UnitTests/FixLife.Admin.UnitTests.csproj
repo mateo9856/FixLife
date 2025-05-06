@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FixLife.Admin.Db\FixLife.Admin.Db.csproj" />
+    <ProjectReference Include="..\FixLife.Admin.Identity\FixLife.Admin.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>

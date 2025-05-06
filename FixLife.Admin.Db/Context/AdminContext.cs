@@ -1,5 +1,4 @@
-﻿using FixLife.Admin.Identity.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace FixLife.Admin.Db.Context
 {
@@ -10,9 +9,6 @@ namespace FixLife.Admin.Db.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AdminUser>()
-                .IndexerProperty(typeof(Guid), "Id");
-
             base.OnModelCreating(modelBuilder);
         }
     }

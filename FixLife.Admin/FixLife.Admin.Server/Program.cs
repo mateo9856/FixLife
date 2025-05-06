@@ -1,3 +1,6 @@
+using FixLife.Admin.Db;
+using FixLife.Admin.Db.Exceptions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
@@ -6,6 +9,11 @@ builder.AddServiceDefaults();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var connString = builder.Configuration.GetConnectionString("AdminDB")
+    ?? throw new ConnectionStringException("AdminDB");
+
+builder.Services.AddDatabase(connString);
 
 var app = builder.Build();
 

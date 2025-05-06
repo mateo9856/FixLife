@@ -34,7 +34,7 @@ namespace FixLife.Admin.UnitTests
             for (int i = 0; i < 5; i++)
                 listUsers.Add(_fixture.Create<AdminUser>());
 
-            _contextMock.Setup(d => d.Users).ReturnsDbSet(listUsers);
+            _contextMock.Setup(d => d.Set<AdminUser>()).ReturnsDbSet(listUsers);
         }
 
     }

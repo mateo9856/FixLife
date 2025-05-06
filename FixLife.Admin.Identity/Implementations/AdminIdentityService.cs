@@ -1,10 +1,11 @@
 ﻿using FixLife.Admin.Identity.Abstractions;
+using FixLife.Admin.Identity.Models;
 
 namespace FixLife.Admin.Identity.Implementations
 {
     internal class AdminIdentityService : IAdminIdentityService
     {
-        public Task<(int, string)> LoginAdmin()
+        public Task<(int, string)> LoginAdmin(AdminUser user)
         {
             throw new NotImplementedException();
         }
