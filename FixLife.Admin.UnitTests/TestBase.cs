@@ -1,6 +1,6 @@
 using AutoFixture;
 using FixLife.Admin.Db.Context;
-using FixLife.Admin.Identity.Models;
+using FixLife.Admin.Db.Entities;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Moq.EntityFrameworkCore;
@@ -34,7 +34,7 @@ namespace FixLife.Admin.UnitTests
             for (int i = 0; i < 5; i++)
                 listUsers.Add(_fixture.Create<AdminUser>());
 
-            _contextMock.Setup(d => d.Set<AdminUser>()).ReturnsDbSet(listUsers);
+            _contextMock.Setup(d => d.Users).ReturnsDbSet(listUsers);
         }
 
     }
