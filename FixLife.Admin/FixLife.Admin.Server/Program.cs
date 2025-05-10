@@ -15,6 +15,22 @@ var connString = builder.Configuration.GetConnectionString("AdminDB")
 
 builder.Services.AddDatabase(connString);
 
+builder.Services.AddAuthentication()
+    .AddCookie("AuthCookie", options =>
+    {
+        options.Cookie.Name = "AuthCookie";
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.AccessDeniedPath = "/access-denied";
+        options.SlidingExpiration = true;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    });
+
+builder.Services.AddAuthorization(options =>
+    options.AddPolicy("AdminRole", policy =>
+    policy.RequireRole("Admin")));
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
