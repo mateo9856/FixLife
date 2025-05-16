@@ -1,5 +1,6 @@
 ﻿using FixLife.Admin.Db.Context;
 using FixLife.Admin.Db.Implementations;
+using FixLife.Admin.Db.Tools;
 using FixLife.Admin.Identity.Abstractions;
 using FixLife.Admin.Identity.Exceptions;
 using FixLife.Admin.Identity.Models;
@@ -11,18 +12,33 @@ namespace FixLife.Admin.Identity.Implementations
 {
     public class AdminIdentityService : EntityOperationsBase<EntityUser>, IAdminIdentityService
     {
+        private PasswordHasher PassHasher { get; }
+        
         public AdminIdentityService(AdminContext adminContext) : base(adminContext)
         {
+            PassHasher = new();
         }
 
         public async Task<(int, string)> LoginAdmin(AdminUser user)
         {
-            throw new NotImplementedException();
+            //TODO: email code verification
+            var passHash = PassHasher.Hash(user.Password);
+            if(!PassHasher.Verify(user.Password, passHash))
+                throw new InvalidPasswordException();
+            
+            var dbUser = await GetByNameAndPassword(user.Name, passHash);
+
+            var claims = GenerateClaims(dbUser);
+
+            return (200, dbUser.Name);
         }
 
         public async Task<(int, string)> LogoutAdmin(bool force = false)
         {
-            throw new NotImplementedException();
+            if (force)
+                return (200, "Logout forced!");
+            
+            return (200, "Logout process started! Wait 1 minute to logout");
         }
 
         private async Task<EntityUser> GetByNameAndPassword(string name, string password)

@@ -67,6 +67,8 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
+//TODO: Prepare enpoint classes to identity
+
 app.MapFallbackToFile("/index.html");
 
 app.Run();
