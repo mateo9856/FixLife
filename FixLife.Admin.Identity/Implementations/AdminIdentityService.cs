@@ -12,24 +12,35 @@ namespace FixLife.Admin.Identity.Implementations
 {
     public class AdminIdentityService : EntityOperationsBase<EntityUser>, IAdminIdentityService
     {
+        private const string NoReplyMail = "noreply@fixlife.com";
+
         private PasswordHasher PassHasher { get; }
-        
+        private EmailSender EmailSender { get; }
+
         public AdminIdentityService(AdminContext adminContext) : base(adminContext)
         {
             PassHasher = new();
+            EmailSender = new();
         }
 
-        public async Task<(int, string)> LoginAdmin(AdminUser user)
+        public async Task<(int, string)> LoginAdmin(AdminUser user, bool sendConfirm)
         {
-            //TODO: email code verification
             var passHash = PassHasher.Hash(user.Password);
             if(!PassHasher.Verify(user.Password, passHash))
                 throw new InvalidPasswordException();
             
             var dbUser = await GetByNameAndPassword(user.Name, passHash);
 
-            var claims = GenerateClaims(dbUser);
+            if(dbUser is null)
+                throw new UserNotFoundException(user.Name);
 
+            if(sendConfirm)
+            {
+                EmailSender.SendEmail(NoReplyMail, user.Email);
+                return (200, $"Confirmation email sent!{Environment.NewLine}Please check your inbox to confirm your identity.");
+            }
+                
+            var claims = GenerateClaims(dbUser);
             return (200, dbUser.Name);
         }
 
