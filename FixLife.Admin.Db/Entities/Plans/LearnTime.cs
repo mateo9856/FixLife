@@ -1,4 +1,5 @@
 ﻿using FixLife.Admin.Db.Entities.Base;
+using FixLife.Admin.Db.Enums;
 
 namespace FixLife.Admin.Db.Entities.Plans
 {

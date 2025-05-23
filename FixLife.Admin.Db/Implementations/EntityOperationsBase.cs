@@ -46,8 +46,17 @@ namespace FixLife.Admin.Db.Implementations
             _dbTable.Remove(GetById(id));
         }
 
+        public void Remove(T record)
+        {
+            record.DeletedAt = DateTime.UtcNow;
+            
+            _dbTable.Attach(record);
+        }
+
         public void Update(T record)
         {
+            record.UpdatedAt = DateTime.UtcNow;
+
             _dbTable.Attach(record);
         }
 
