@@ -1,8 +1,10 @@
 ﻿using FixLife.Admin.Db.Context;
 using FixLife.Admin.Db.Entities;
 using FixLife.Admin.Db.Implementations;
+using FixLife.Admin.Db.Tools.Abstraction;
 using FixLife.Admin.Plans.Abstractions;
 using FixLife.Admin.Plans.Exceptions;
+using FixLife.Admin.Plans.Mappers;
 using FixLife.Admin.Plans.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,23 +12,20 @@ namespace FixLife.Admin.Plans.Implementations
 {
     public class PlanService : EntityOperationsBase<ClientPlan>, IPlanService
     {
+        private readonly IModelMapper<Plan, ClientPlan> _planMapper;
 
         public PlanService(AdminContext adminContext) : base(adminContext)
         {
+            _planMapper = new PlanMapper();
         }
 
         public async Task<(short, string)> AssignPlan(Guid userId, Plan plan)
         {
             var user = await GetUserById(userId);
 
-            var clientPlan = new ClientPlan
-            {
-                Id = Guid.NewGuid(),
-                FreeTime = plan.FreeTime,// find automapper alternative
-                LearnTime = plan.LearnTime,
-                WeeklyWork = plan.WeeklyWork,
-                CreatedAt = DateTime.UtcNow,
-            };
+            var clientPlan = _planMapper.Map(plan);
+            clientPlan.Id = Guid.NewGuid();
+            clientPlan.CreatedAt = DateTime.UtcNow;
 
             throw new NotImplementedException();
         }
@@ -52,14 +51,14 @@ namespace FixLife.Admin.Plans.Implementations
         {
             var user = GetUserById(userId);
 
-            var clientPlan = await _dbTable.FirstOrDefaultAsync(d => d.Id == plan.Id)
-                ?? throw new PlanNotFoundException();
+            var clientPlanExist = await _dbTable.AnyAsync(d => d.Id == plan.Id);
 
-            clientPlan.FreeTime = plan.FreeTime;
-            clientPlan.LearnTime = plan.LearnTime;
-            clientPlan.WeeklyWork = plan.WeeklyWork;
+            if(clientPlanExist is not true)
+                throw new PlanNotFoundException();
 
-            Update(clientPlan);
+            var mapperPlan = _planMapper.Map(plan);
+
+            Update(mapperPlan);
 
             throw new NotImplementedException();
         }
