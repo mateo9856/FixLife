@@ -32,7 +32,19 @@ namespace FixLife.Admin.Plans.Implementations
 
         public async Task<(short, string)> ConvertPlansToCsv(List<Guid> planIds)
         {
-            throw new NotImplementedException();
+            if (planIds is null || planIds.Count == 0)
+                throw new ArgumentException("Plan IDs cannot be null or empty.", nameof(planIds));
+
+            int csvConvertedCnt = 0;
+            foreach (var planId in planIds)
+            {
+                var plan = await GetByIdAsync(planId);
+                // Convert To CSV
+            }
+
+            return csvConvertedCnt > 0
+                ? ((short)200, $"{csvConvertedCnt} plans converted to CSV successfully.")
+                : ((short)400, "No plans were converted to CSV.");
         }
 
         public async Task<(short, string)> DeletePlan(Guid userId, Guid planId)
@@ -42,9 +54,28 @@ namespace FixLife.Admin.Plans.Implementations
             var clientPlan = await _dbTable.FirstOrDefaultAsync(d => d.Id == planId)
                 ?? throw new PlanNotFoundException();
 
-            Remove(clientPlan);
+            BeginTransactionWithOperations(async () =>
+            {
+                clientPlan.WeeklyWork.DeletedAt = DateTime.UtcNow;
+                clientPlan.LearnTime.DeletedAt = DateTime.UtcNow;
+                clientPlan.FreeTime.DeletedAt = DateTime.UtcNow;
 
-            throw new NotImplementedException();
+                var weeklyWork = _dbContext.Set<FixLife.Admin.Db.Entities.Plans.WeeklyWork>();
+                weeklyWork.Attach(clientPlan.WeeklyWork);
+
+                var freeTime = _dbContext.Set<FixLife.Admin.Db.Entities.Plans.FreeTime>();
+                freeTime.Attach(clientPlan.FreeTime);
+
+                var learnTime = _dbContext.Set<FixLife.Admin.Db.Entities.Plans.LearnTime>();
+                learnTime.Attach(clientPlan.LearnTime);
+
+                Remove(clientPlan);
+
+                await SaveChangesAsync();
+            });
+
+            return (200, "Deleted successfully.");
+
         }
 
         public async Task<(short, string)> ModifyClientPlan(Guid userId, Plan plan)
@@ -60,7 +91,9 @@ namespace FixLife.Admin.Plans.Implementations
 
             Update(mapperPlan);
 
-            throw new NotImplementedException();
+            await SaveChangesAsync();
+
+            return (200, "Updated succesfully.");
         }
 
         private async Task<ClientUser> GetUserById(Guid userId)
