@@ -1,6 +1,7 @@
 ﻿using FixLife.Admin.Db.Context;
 using FixLife.Admin.Db.Entities;
 using FixLife.Admin.Db.Implementations;
+using FixLife.Admin.Db.Tools;
 using FixLife.Admin.Db.Tools.Abstraction;
 using FixLife.Admin.Plans.Abstractions;
 using FixLife.Admin.Plans.Exceptions;
@@ -13,10 +14,12 @@ namespace FixLife.Admin.Plans.Implementations
     public class PlanService : EntityOperationsBase<ClientPlan>, IPlanService
     {
         private readonly IModelMapper<Plan, ClientPlan> _planMapper;
-
+        private readonly CsvService<ClientPlan> _csvService;
+        
         public PlanService(AdminContext adminContext) : base(adminContext)
         {
             _planMapper = new PlanMapper();
+            _csvService = new();
         }
 
         public async Task<(short, string)> AssignPlan(Guid userId, Plan plan)
@@ -35,16 +38,20 @@ namespace FixLife.Admin.Plans.Implementations
             if (planIds is null || planIds.Count == 0)
                 throw new ArgumentException("Plan IDs cannot be null or empty.", nameof(planIds));
 
-            int csvConvertedCnt = 0;
+            var plansList = new List<ClientPlan>();
+
             foreach (var planId in planIds)
             {
                 var plan = await GetByIdAsync(planId);
-                // Convert To CSV
+                plansList.Add(plan);
             }
 
-            return csvConvertedCnt > 0
-                ? ((short)200, $"{csvConvertedCnt} plans converted to CSV successfully.")
-                : ((short)400, "No plans were converted to CSV.");
+            if(plansList.Count <= 0)
+                return ((short)400, "No plans were converted to CSV.");
+
+            _csvService.SaveMultipleRecords($"DailyPlans_{DateTime.Now:yyyy:MM:dd}.csv", plansList);
+
+            return ((short)200, $"{plansList.Count} plans converted to CSV successfully.");
         }
 
         public async Task<(short, string)> DeletePlan(Guid userId, Guid planId)
