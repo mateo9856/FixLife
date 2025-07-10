@@ -7,5 +7,6 @@ namespace FixLife.Admin.Users.Abstraction
         Task<(short, string)> LogoutForce(Guid userId);
         Task<(short, string)> ModifyUser(Guid userId, ClientUser user);
         Task<(short, string)> ResetUserPassword(Guid userId);
+        Task<(short, string)> ConfirmUserPassword(Guid userId, string password);
     }
 }
