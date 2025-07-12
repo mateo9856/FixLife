@@ -122,9 +122,74 @@ namespace FixLife.WebApiInfra.Services.Identity
 
         }
 
-        public Task<ClientIdentityResponse> LogoutAsync()
+        public async Task<ClientIdentityResponse> LogoutAsync(string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using var idCtx = _context.CreateDbContext();
+                
+                var user = await idCtx.ClientUsers.FindAsync(ObjectId.Parse(userId));
+                if (user == null)
+                {
+                    return new ClientIdentityResponse
+                    {
+                        Status = HttpCodes.NotFound,
+                        Details = "User not found",
+                        Token = null
+                    };
+                }
+                
+                return new ClientIdentityResponse
+                {
+                    Status = HttpCodes.Ok,
+                    Details = "User logged out successfully. Token has been removed.",
+                    Token = null
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ClientIdentityResponse
+                {
+                    Status = HttpCodes.InternalServerError,
+                    Details = $"Error during logout: {ex.Message}",
+                    Token = null
+                };
+            }
+        }
+
+        public async Task<ClientIdentityResponse> LogoutForceAsync(string userId)
+        {
+            try
+            {
+                using var idCtx = _context.CreateDbContext();
+                
+                var user = await idCtx.ClientUsers.FindAsync(ObjectId.Parse(userId));
+                if (user == null)
+                {
+                    return new ClientIdentityResponse
+                    {
+                        Status = HttpCodes.NotFound,
+                        Details = "User not found",
+                        Token = null
+                    };
+                }
+                
+                return new ClientIdentityResponse
+                {
+                    Status = HttpCodes.OkForced,
+                    Details = "User force logged out successfully. Token has been removed.",
+                    Token = null
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ClientIdentityResponse
+                {
+                    Status = HttpCodes.InternalServerError,
+                    Details = $"Error during force logout: {ex.Message}",
+                    Token = null
+                };
+            }
         }
 
         public async Task<ClientIdentityResponse> RegisterAsync(ClientUser request)
@@ -188,5 +253,7 @@ namespace FixLife.WebApiInfra.Services.Identity
 
             return stringToken;
         }
+
+
     }
 }

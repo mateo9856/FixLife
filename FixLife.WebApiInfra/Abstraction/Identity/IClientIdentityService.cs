@@ -9,7 +9,8 @@ namespace FixLife.WebApiInfra.Abstraction.Identity
         string UserId { get; }
         Task<ClientUser> GetClientUser(string userId);
         Task<ClientIdentityResponse> LoginAsync(ClientUser request);
-        Task<ClientIdentityResponse> LogoutAsync();
+        Task<ClientIdentityResponse> LogoutAsync(string userId);
+        Task<ClientIdentityResponse> LogoutForceAsync(string userId);
         Task<ClientIdentityResponse> RegisterAsync(ClientUser request);
         Task<ClientIdentityResponse> AddOrLoginOAuthUserAsync(string email, OAuthLoginProvider oauthAccount);
 

@@ -12,5 +12,7 @@ namespace FixLife.WebApiInfra.Common.Constants
         public static short Created = 201;
         public static short NotFound = 404;
         public static short InternalServerError = 500;
+        //CUSTOM CODES FOR APP
+        public static short OkForced = 600;
     }
 }

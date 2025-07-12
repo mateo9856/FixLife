@@ -1,3 +1,4 @@
+using System.Text;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FixLife.WebApiInfra;
@@ -6,9 +7,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using System.Net;
-using System.Reflection.PortableExecutable;
-using System.Text;
 
 namespace FixApp.WebAPI
 {
@@ -44,7 +42,7 @@ namespace FixApp.WebAPI
                 opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(cfg =>
             {
-                cfg.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                cfg.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidIssuer = config["Jwt:Issuer"],
                     ValidAudience = config["Jwt:Audience"],
@@ -61,7 +59,10 @@ namespace FixApp.WebAPI
 
             builder.Services.AddControllers();
             builder.Services.AddMvc();
-            builder.Services.AddAuthorization();
+            builder.Services.AddAuthorization(options =>
+                options.AddPolicy("AdminRole", policy =>
+                    policy.RequireRole("Admin")));
+            
             builder.Services.AddOptions();
             builder.Services.AddInfrastructureServices(config);
 

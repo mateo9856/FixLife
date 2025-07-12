@@ -59,10 +59,32 @@ namespace FixApp.WebAPI.Controllers.Account
             return BadRequest();
         }
 
-        [HttpGet("Logout")]
-        public IActionResult Logout()
+        [Authorize]
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout([FromBody] string userId)
         {
-            return Ok();
+            var logoutResult = await _mediator.Send(new LogoutCommand(userId));
+            
+            if (logoutResult.Status == 200)
+            {
+                return Ok(logoutResult);
+            }
+            
+            return BadRequest(logoutResult);
+        }
+
+        [Authorize(Policy = "AdminRole")]
+        [HttpPost("LogoutForce")]
+        public async Task<IActionResult> LogoutForce([FromQuery] string userId)
+        {
+            var logoutResult = await _mediator.Send(new LogoutForceCommand(userId));
+            
+            if (logoutResult.Status == 200)
+            {
+                return Ok(logoutResult);
+            }
+            
+            return BadRequest(logoutResult);
         }
     }
 }

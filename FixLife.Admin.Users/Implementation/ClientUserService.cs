@@ -15,20 +15,14 @@ namespace FixLife.Admin.Users.Implementation
 
         public async Task<(short, string)> LogoutForce(Guid userId)
         {
-            // No session/token logic, so just check if user exists
             var user = await GetByIdAsync(userId);
             if (user == null)
                 throw new ClientNotFoundException();
-            // No-op, but could add audit/event here
+            // TODO: Communication to client api and send request
             return (0, "User logged out (forced)");
         }
 
-        public Task<(short, string)> ModifyUser(Guid userId, Models.ClientUser user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<(short, string)> ModifyUser(Guid userId, ClientUser user)
+        public async Task<(short, string)> ModifyUser(Guid userId, Models.ClientUser user)
         {
             var existing = await GetByIdAsync(userId);
             if (existing == null)
@@ -41,13 +35,13 @@ namespace FixLife.Admin.Users.Implementation
             await SaveChangesAsync();
             return (0, "User updated");
         }
-
+        
         public async Task<(short, string)> ResetUserPassword(Guid userId)
         {
             var user = await GetByIdAsync(userId);
             if (user == null)
                 throw new ClientNotFoundException();
-            // Generate a new random password
+            
             return (200, "Redirect to page!");
         }
 
