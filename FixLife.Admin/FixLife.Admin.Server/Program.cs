@@ -1,5 +1,8 @@
 using FixLife.Admin.Db;
 using FixLife.Admin.Db.Exceptions;
+using FixLife.Admin.Users.Abstraction;
+using FixLife.Admin.Users.Implementation;
+using FixLife.Admin.Users.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,13 @@ var connString = builder.Configuration.GetConnectionString("AdminDB")
     ?? throw new ConnectionStringException("AdminDB");
 
 builder.Services.AddDatabase(connString);
+
+// Register HttpClient for API calls
+builder.Services.AddHttpClient();
+
+// Register Admin services
+builder.Services.AddScoped<IClientUserService, ClientUserService>();
+builder.Services.AddScoped<HttpClientService>();
 
 builder.Services.AddAuthentication()
     .AddCookie("AuthCookie", options =>

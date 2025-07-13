@@ -86,5 +86,11 @@ namespace FixApp.WebAPI.Controllers.Account
             
             return BadRequest(logoutResult);
         }
+
+        [HttpPut("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromQuery] string userId)
+        {
+            return Ok("TODO: CREATE THIS");
+        }
     }
 }

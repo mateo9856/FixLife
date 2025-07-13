@@ -4,13 +4,21 @@ using FixLife.Admin.Db.Implementations;
 using FixLife.Admin.Db.Tools;
 using FixLife.Admin.Users.Abstraction;
 using FixLife.Admin.Users.Exceptions;
+using FixLife.Admin.Users.Extensions;
+using Microsoft.Extensions.Configuration;
 
 namespace FixLife.Admin.Users.Implementation
 {
     public class ClientUserService : EntityOperationsBase<ClientUser>, IClientUserService
     {
-        public ClientUserService(AdminContext adminContext) : base(adminContext)
+        private readonly string _clientApiUri;
+        private readonly HttpClientService _httpClientService;
+        
+        public ClientUserService(AdminContext adminContext, IConfiguration config, HttpClientService httpClientService) : base(adminContext)
         {
+            _clientApiUri = config["ClientApiUri"] 
+                ?? throw new ClientUriNotConfigureException();
+            _httpClientService = httpClientService;
         }
 
         public async Task<(short, string)> LogoutForce(Guid userId)
@@ -18,8 +26,8 @@ namespace FixLife.Admin.Users.Implementation
             var user = await GetByIdAsync(userId);
             if (user == null)
                 throw new ClientNotFoundException();
-            // TODO: Communication to client api and send request
-            return (0, "User logged out (forced)");
+            
+            return await _httpClientService.ForceLogoutUserAsync(userId);
         }
 
         public async Task<(short, string)> ModifyUser(Guid userId, Models.ClientUser user)
