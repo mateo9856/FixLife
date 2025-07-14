@@ -13,6 +13,7 @@ namespace FixLife.WebApiInfra.Abstraction.Identity
         Task<ClientIdentityResponse> LogoutForceAsync(string userId);
         Task<ClientIdentityResponse> RegisterAsync(ClientUser request);
         Task<ClientIdentityResponse> AddOrLoginOAuthUserAsync(string email, OAuthLoginProvider oauthAccount);
+        Task<(short, string)> ResetPasswordAsync(string userId);
 
     }
 }

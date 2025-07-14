@@ -90,7 +90,14 @@ namespace FixApp.WebAPI.Controllers.Account
         [HttpPut("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromQuery] string userId)
         {
-            return Ok("TODO: CREATE THIS");
+            var resetResult = await _mediator.Send(new ResetPasswordCommand(userId));
+            
+            if (resetResult.status == 200)
+            {
+                return Ok(resetResult);
+            }
+            
+            return BadRequest(resetResult);
         }
     }
 }

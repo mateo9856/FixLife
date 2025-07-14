@@ -213,6 +213,26 @@ namespace FixLife.WebApiInfra.Services.Identity
 
         }
 
+        public async Task<(short, string)> ResetPasswordAsync(string userId)
+        {
+            try
+            {
+                using var idCtx = _context.CreateDbContext();
+                
+                var user = await idCtx.ClientUsers.FindAsync(ObjectId.Parse(userId));
+                if (user == null)
+                {
+                    return ((short)404, "User not found");
+                }
+
+                return ((short)200, "Password process could be start");
+            }
+            catch (Exception ex)
+            {
+                return ((short)500, $"Error during password reset: {ex.Message}");
+            }
+        }
+
         private ClientUser CreateNewUser(ClientUser request) 
             => new ClientUser
         {
