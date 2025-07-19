@@ -2,7 +2,7 @@
 
 namespace FixLife.Admin.Plans.Abstractions
 {
-    internal interface IPlanService
+    public interface IPlanService
     {
         Task<(short, string)> ModifyClientPlan(Guid userId, Plan plan);
         Task<(short, string)> AssignPlan(Guid userId, Plan plan);
