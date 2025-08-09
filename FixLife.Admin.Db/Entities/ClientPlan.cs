@@ -10,5 +10,7 @@ namespace FixLife.Admin.Db.Entities
         public LearnTime LearnTime { get; set; }
 
         public FreeTime FreeTime { get; set; }
+        
+        public Guid ClientId { get; set; }
     }
 }

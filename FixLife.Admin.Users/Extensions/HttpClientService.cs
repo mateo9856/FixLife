@@ -1,6 +1,4 @@
-using System.Net.Http.Json;
 using FixLife.Admin.Users.Exceptions;
-using FixLife.Admin.Users.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace FixLife.Admin.Users.Extensions

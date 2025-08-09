@@ -2,17 +2,18 @@
 using FixLife.Admin.Db.Entities.Plans;
 using FixLife.Admin.Db.Enums;
 using FixLife.Admin.Plans.Abstractions;
+using FluentAssertions;
 using Moq.EntityFrameworkCore;
 
 namespace FixLife.Admin.UnitTests.Plan
 {
     public class PlanTests : TestBase
     {
-        private readonly IPlanService _planService;
+        private readonly IPlanService _sut;
 
         public PlanTests(IPlanService planService)
         {
-            _planService = planService;
+            _sut = planService;
         }
 
         protected override void SetupEntity()
@@ -103,6 +104,57 @@ namespace FixLife.Admin.UnitTests.Plan
             };
 
             _contextMock.Setup(d => d.ClientPlans).ReturnsDbSet(plans);
+        }
+
+        [Fact]
+        public void ModifyPlan_PlanModified_Success()
+        {
+            // Arrange
+            var existingPlan = _contextMock.Object.ClientPlans.First();
+            var modifyPlanDto = new 
+            {
+                Id = existingPlan.Id,
+                Name = "UpdatedName",
+                Description = "UpdatedDescription"
+            };
+
+            // Act
+            var result = _sut.ModifyClientPlan(modifyPlanDto);
+
+            // Assert
+            result.Should().NotBeNull("because modifying an existing plan should succeed");
+            result!.Id.Should().Be(existingPlan.Id);
+        }
+
+        [Fact]
+        public void ModifyPlan_UserNotExist_Failure()
+        {
+            // Arrange
+            var nonExistentPlanId = Guid.NewGuid();
+            var modifyPlanDto = new Plans.Models.Plan()
+            {
+                Id = nonExistentPlanId,
+                Name = "NonExistentPlan",
+                Description = "NonExistentDescription"
+            };
+
+            // Act
+            var result = _sut.ModifyClientPlan(modifyPlanDto);
+
+            // Assert
+            result.Should().BeNull("because modifying a non-existent plan should return null or indicate failure");
+        }
+
+        [Fact]
+        public void DeletePlan_PlanDeleted_Success()
+        {
+            // Arrange
+            var existingPlan = _contextMock.Object.ClientPlans.First();
+            // Act
+            var result = _sut.DeletePlan(Guid.NewGuid(), existingPlan.Id);
+
+            // Assert
+            result.Should().NotBeNull("because deleting an existing plan should succeed");
         }
     }
 }
